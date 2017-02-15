@@ -1,6 +1,7 @@
 package main.java.dao;
 
 import main.java.dao.impl.CompanyDAO;
+import main.java.dao.impl.ComputerDAO;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,5 +76,10 @@ public class DAOFactory {
     public ICompanyDAO CompanyDAO() {
         return new CompanyDAO( this );
     }
+
+    public IComputerDAO ComputerDAO() {
+        return new ComputerDAO( this );
+    }
+
 
 }

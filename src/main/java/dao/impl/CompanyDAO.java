@@ -1,5 +1,7 @@
 package main.java.dao.impl;
 
+import main.java.dao.DAOException;
+import main.java.dao.utils.DAOHelper;
 import main.java.model.Company;
 import main.java.dao.DAOFactory;
 import main.java.dao.ICompanyDAO;
@@ -20,16 +22,8 @@ public class CompanyDAO implements ICompanyDAO{
         this.daoFactory = daoFactory;
     }
 
-    public static PreparedStatement initPreparedStatement( Connection connection, String sql, boolean returnGeneratedKeys, Object... objects ) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement( sql, returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS );
-        for ( int i = 0; i < objects.length; i++ ) {
-            preparedStatement.setObject( i + 1, objects[i] );
-        }
-        return preparedStatement;
-    }
-
     @Override
-    public List<Company> fetchAll() {
+    public List<Company> fetchAll() throws DAOException {
         List<Company> list = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -37,32 +31,26 @@ public class CompanyDAO implements ICompanyDAO{
 
         try {
             connection= daoFactory.getConnection();
-            preparedStatement = initPreparedStatement( connection, SQL_SELECT, true);
+            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_SELECT, true);
             resultSet = preparedStatement.executeQuery();
             list = handleResultSet(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException( e );
         } finally {
-
+            DAOHelper.closeConnection(resultSet, preparedStatement, connection);
         }
 
         return list;
     }
 
-    private List<Company> handleResultSet(ResultSet resultSet) {
+    private List<Company> handleResultSet(ResultSet resultSet) throws SQLException {
         List<Company> list = new ArrayList<>();
-
-        try {
-            while(resultSet.next()){
-                Company company = new Company();
-                company.setId(resultSet.getInt("id"));
-                company.setName(resultSet.getString("name"));
-                list.add(company);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        while(resultSet.next()){
+            Company company = new Company();
+            company.setId(resultSet.getInt("id"));
+            company.setName(resultSet.getString("name"));
+            list.add(company);
         }
-
         return list;
     }
 }
