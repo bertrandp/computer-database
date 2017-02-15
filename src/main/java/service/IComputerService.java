@@ -1,6 +1,6 @@
-package service;
+package main.java.service;
 
-import model.Computer;
+import main.java.model.Computer;
 
 import java.util.List;
 

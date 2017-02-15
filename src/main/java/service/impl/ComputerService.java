@@ -1,7 +1,7 @@
-package service.impl;
+package main.java.service.impl;
 
-import model.Computer;
-import service.IComputerService;
+import main.java.model.Computer;
+import main.java.service.IComputerService;
 
 import java.util.List;
 

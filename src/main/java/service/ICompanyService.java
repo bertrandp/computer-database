@@ -1,6 +1,6 @@
-package service;
+package main.java.service;
 
-import model.Company;
+import main.java.model.Company;
 
 import java.util.List;
 

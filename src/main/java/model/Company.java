@@ -1,14 +1,14 @@
-package model;
+package main.java.model;
 
 /**
  * Created by ebiz on 14/02/17.
  */
 public class Company {
 
-    private int id;
+    private Integer id;
     private String name;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -22,5 +22,13 @@ public class Company {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

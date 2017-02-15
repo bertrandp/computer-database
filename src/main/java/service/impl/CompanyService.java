@@ -1,7 +1,7 @@
-package service.impl;
+package main.java.service.impl;
 
-import model.Company;
-import service.ICompanyService;
+import main.java.model.Company;
+import main.java.service.ICompanyService;
 
 import java.util.List;
 
