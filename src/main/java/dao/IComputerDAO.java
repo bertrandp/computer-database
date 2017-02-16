@@ -14,5 +14,6 @@ public interface IComputerDAO {
     boolean add(Computer computer);
     boolean update(Computer computer);
     boolean delete(Computer computer);
-
+    List<Computer> fetch(int limit, int offset);
+    int count();
 }

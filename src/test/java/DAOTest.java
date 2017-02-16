@@ -101,4 +101,17 @@ public class DAOTest {
         System.out.println(computer);*/
     }
 
+    @Test
+    public void PageDAOTest(){
+
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        IComputerDAO computerDAO = daoFactory.ComputerDAO();
+
+        // Test : List computers
+        List<Computer> listComputer = computerDAO.fetch(20,20);
+        System.out.println("Test : List computers");
+        System.out.println(listComputer);
+
+    }
+
 }

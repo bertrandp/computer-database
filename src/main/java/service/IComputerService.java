@@ -1,6 +1,7 @@
 package main.java.service;
 
 import main.java.model.Computer;
+import main.java.service.impl.ComputerValidationException;
 
 import java.util.List;
 
@@ -10,8 +11,10 @@ import java.util.List;
 public interface IComputerService {
 
     List<Computer> fetchAll();
-    Computer get(String id);
-    boolean add(Computer computer);
-    boolean update(Computer computer);
+    Computer get(String id) throws ComputerValidationException;
+    boolean add(Computer computer) throws ComputerValidationException;
+    boolean update(Computer computer) throws ComputerValidationException;
     boolean delete(Computer computer);
+    List<Computer> fetch(int limit, int offset);
+    int count();
 }

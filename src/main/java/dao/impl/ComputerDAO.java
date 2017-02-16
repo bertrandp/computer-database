@@ -22,6 +22,8 @@ public class ComputerDAO implements IComputerDAO {
 
     private DAOFactory daoFactory;
     private static final String SQL_SELECT = "SELECT * FROM computer";
+    private static final String SQL_COUNT = "SELECT count(*) AS total FROM computer";
+    private static final String SQL_SELECT_PAGE = "SELECT * FROM computer LIMIT ? OFFSET ?";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id ) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
@@ -153,6 +155,50 @@ public class ComputerDAO implements IComputerDAO {
         }
 
         return true;
+    }
+
+    @Override
+    public List<Computer> fetch(int limit, int offset) {
+        List<Computer> list;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection= daoFactory.getConnection();
+            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_SELECT_PAGE, true, limit, offset);
+            resultSet = preparedStatement.executeQuery();
+            list = getComputerList(resultSet);
+        } catch (SQLException e) {
+            throw new DAOException( e );
+        } finally {
+            DAOHelper.closeConnection(resultSet, preparedStatement, connection);
+        }
+
+        return list;
+    }
+
+    @Override
+    public int count() {
+        int count = 0;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection= daoFactory.getConnection();
+            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_COUNT, true);
+            resultSet = preparedStatement.executeQuery();
+            if( resultSet.next() ) {
+                count = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            throw new DAOException( e );
+        } finally {
+            DAOHelper.closeConnection(resultSet, preparedStatement, connection);
+        }
+
+        return count;
     }
 
 
