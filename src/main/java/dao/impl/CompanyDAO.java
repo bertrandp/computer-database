@@ -17,6 +17,8 @@ public class CompanyDAO implements ICompanyDAO{
 
     private DAOFactory daoFactory;
     private static final String SQL_SELECT = "SELECT * FROM company";
+    private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
+    private static final String SQL_SELECT_BY_NAME = "SELECT * FROM company WHERE name = ?";
 
     public CompanyDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
@@ -43,13 +45,57 @@ public class CompanyDAO implements ICompanyDAO{
         return list;
     }
 
+    @Override
+    public Company fetch(int id) {
+        Company company = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection= daoFactory.getConnection();
+            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_SELECT_BY_ID, true, id);
+            resultSet = preparedStatement.executeQuery();
+            company = getCompany(resultSet);
+        } catch (SQLException e) {
+            throw new DAOException( e );
+        } finally {
+            DAOHelper.closeConnection(resultSet, preparedStatement, connection);
+        }
+        return company;
+    }
+
+    @Override
+    public Company fetch(String name) {
+        Company company = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection= daoFactory.getConnection();
+            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_SELECT_BY_NAME, true, name);
+            resultSet = preparedStatement.executeQuery();
+            company = getCompany(resultSet);
+        } catch (SQLException e) {
+            throw new DAOException( e );
+        } finally {
+            DAOHelper.closeConnection(resultSet, preparedStatement, connection);
+        }
+        return company;
+    }
+
+    private Company getCompany(ResultSet resultSet) throws SQLException {
+        if(resultSet.next()){
+            return new Company(resultSet.getInt("id"), resultSet.getString("name"));
+        }
+        return null;
+    }
+
     private List<Company> handleResultSet(ResultSet resultSet) throws SQLException {
         List<Company> list = new ArrayList<>();
         while(resultSet.next()){
-            Company company = new Company();
-            company.setId(resultSet.getInt("id"));
-            company.setName(resultSet.getString("name"));
-            list.add(company);
+            list.add(new Company(resultSet.getInt("id"), resultSet.getString("name")));
         }
         return list;
     }

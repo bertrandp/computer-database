@@ -2,8 +2,10 @@ package main.java.dao.impl;
 
 import main.java.dao.DAOException;
 import main.java.dao.DAOFactory;
+import main.java.dao.ICompanyDAO;
 import main.java.dao.IComputerDAO;
 import main.java.dao.utils.DAOHelper;
+import main.java.model.Company;
 import main.java.model.Computer;
 
 import java.sql.Connection;
@@ -72,13 +74,24 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public void add(Computer computer) {
+    public boolean add(Computer computer) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        Integer companyId = null ;
+
+        if(computer.getCompany() != null) {
+            ICompanyDAO companyDAO = daoFactory.CompanyDAO();
+            Company company = companyDAO.fetch(computer.getCompany().getName());
+            if(company == null) {
+                throw new DAOException( "Failed to create computer : " + computer.getName() + ". Company name must be an existing company");
+            } else {
+                companyId = company.getId();
+            }
+        }
 
         try {
             connection= daoFactory.getConnection();
-            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompanyId());
+            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), companyId);
             int status = preparedStatement.executeUpdate();
 
             if(status == 0){
@@ -89,16 +102,18 @@ public class ComputerDAO implements IComputerDAO {
         } finally {
             DAOHelper.closeConnection( preparedStatement, connection);
         }
+
+        return true;
     }
 
     @Override
-    public void update(Computer computer) {
+    public boolean update(Computer computer) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             connection= daoFactory.getConnection();
-            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompanyId(), computer.getId());
+            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompany().getId(), computer.getId());
             int status = preparedStatement.executeUpdate();
 
             if(status == 0){
@@ -109,10 +124,12 @@ public class ComputerDAO implements IComputerDAO {
         } finally {
             DAOHelper.closeConnection( preparedStatement, connection);
         }
+
+        return true;
     }
 
     @Override
-    public void delete(Computer computer) {
+    public boolean delete(Computer computer) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -129,6 +146,8 @@ public class ComputerDAO implements IComputerDAO {
         } finally {
             DAOHelper.closeConnection( preparedStatement, connection);
         }
+
+        return true;
     }
 
 
@@ -138,9 +157,6 @@ public class ComputerDAO implements IComputerDAO {
             Computer computer = new Computer();
             computer.setId(resultSet.getInt("id"));
             computer.setName(resultSet.getString("name"));
-            computer.setIntroduced(resultSet.getTimestamp("introduced"));
-            computer.setDiscontinued(resultSet.getTimestamp("discontinued"));
-            computer.setCompanyId(resultSet.getInt("company_id"));
             list.add(computer);
         }
         return list;
@@ -152,9 +168,11 @@ public class ComputerDAO implements IComputerDAO {
         if(resultSet.next()){
             computer.setId(resultSet.getInt("id"));
             computer.setName(resultSet.getString("name"));
-            computer.setIntroduced(resultSet.getTimestamp("introduced"));
-            computer.setDiscontinued(resultSet.getTimestamp("discontinued"));
-            computer.setCompanyId(resultSet.getInt("company_id"));
+            computer.setIntroduced(resultSet.getDate("introduced"));
+            computer.setDiscontinued(resultSet.getDate("discontinued"));
+            ICompanyDAO companyDAO = daoFactory.CompanyDAO();
+            Company company = companyDAO.fetch(resultSet.getInt("company_id"));
+            computer.setCompany(company);
             return computer;
         }
         return null;

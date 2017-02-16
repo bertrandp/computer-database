@@ -10,7 +10,7 @@ import java.util.List;
 public interface IComputerService {
 
     List<Computer> fetchAll();
-    Computer get(int id);
+    Computer get(String id);
     boolean add(Computer computer);
     boolean update(Computer computer);
     boolean delete(Computer computer);

@@ -11,8 +11,8 @@ public interface IComputerDAO {
 
     List<Computer> fetchAll();
     Computer fetchById(int id);
-    void add(Computer computer);
-    void update(Computer computer);
-    void delete(Computer computer);
+    boolean add(Computer computer);
+    boolean update(Computer computer);
+    boolean delete(Computer computer);
 
 }

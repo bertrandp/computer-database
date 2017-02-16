@@ -1,7 +1,6 @@
 package main.java.model;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 /**
  * Created by ebiz on 14/02/17.
@@ -10,18 +9,18 @@ public class Computer {
 
     private int id;
     private String name;
-    private Timestamp introduced;
-    private Timestamp discontinued;
-    private int companyId;
+    private Date introduced;
+    private Date discontinued;
+    private Company company;
 
     public Computer() {
     }
 
-    public Computer(String name, Timestamp introduced, Timestamp discontinued, int companyId) {
+    public Computer(String name, Date introduced, Date discontinued, Company companyId) {
         this.name = name;
         this.introduced = introduced;
         this.discontinued = discontinued;
-        this.companyId = companyId;
+        this.company = companyId;
     }
 
     public int getId() {
@@ -40,28 +39,28 @@ public class Computer {
         this.name = name;
     }
 
-    public Timestamp getIntroduced() {
+    public Date getIntroduced() {
         return introduced;
     }
 
-    public void setIntroduced(Timestamp introduced) {
+    public void setIntroduced(Date introduced) {
         this.introduced = introduced;
     }
 
-    public Timestamp getDiscontinued() {
+    public Date getDiscontinued() {
         return discontinued;
     }
 
-    public void setDiscontinued(Timestamp discontinued) {
+    public void setDiscontinued(Date discontinued) {
         this.discontinued = discontinued;
     }
 
-    public int getCompanyId() {
-        return companyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Override
@@ -71,7 +70,7 @@ public class Computer {
                 ", name='" + name + '\'' +
                 ", introduced=" + introduced +
                 ", discontinued=" + discontinued +
-                ", companyId=" + companyId +
+                ", company=" + company +
                 '}';
     }
 }

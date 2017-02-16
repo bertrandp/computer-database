@@ -9,7 +9,9 @@ import main.java.dao.DAOConfigurationException;
 import main.java.dao.DAOFactory;
 import main.java.dao.ICompanyDAO;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -35,6 +37,22 @@ public class DAOTest {
     }
 
     @Test
+    public void CompanyDAOFetchByName() {
+
+        try {
+            DAOFactory daoFactory = DAOFactory.getInstance();
+            ICompanyDAO companyDAO = daoFactory.CompanyDAO();
+
+            //
+            Company company = companyDAO.fetch("IBM");
+            System.out.println(company);
+
+        } catch (DAOConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void ComputerDAOTest() {
 
         DAOFactory daoFactory = DAOFactory.getInstance();
@@ -51,7 +69,7 @@ public class DAOTest {
         System.out.println(computer);
 
         // Test : Create a computer
-        Computer computerToInsert = new Computer("test", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), 2);
+        Computer computerToInsert = new Computer("test", new Date(Calendar.getInstance().getTimeInMillis()),  new Date(Calendar.getInstance().getTimeInMillis()), null);
         System.out.println("Test : Create a computer");
         listComputer = computerDAO.fetchAll();
         System.out.println("List computers : ");

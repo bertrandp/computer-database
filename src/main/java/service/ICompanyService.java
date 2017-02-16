@@ -11,4 +11,5 @@ public interface ICompanyService {
 
     List<Company>  fetchAll();
 
+    boolean alreadyExists(String input);
 }

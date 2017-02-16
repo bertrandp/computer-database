@@ -10,5 +10,7 @@ import java.util.List;
 public interface ICompanyDAO {
 
     List<Company> fetchAll();
+    Company fetch(int id);
+    Company fetch(String name);
 
 }

@@ -17,9 +17,15 @@ public class DAOHelper {
 
     public static void closeConnection(ResultSet resultSet, PreparedStatement preparedStatement, Connection connection) {
         try {
-            resultSet.close();
-            preparedStatement.close();
-            connection.close();
+            if(resultSet != null) {
+                resultSet.close();
+            }
+            if(preparedStatement != null ) {
+                preparedStatement.close();
+            }
+            if(connection != null) {
+                connection.close();
+            }
         } catch (SQLException e) {
             System.out.println("Failed to close database connection : " + e.getMessage());
         }
@@ -27,8 +33,12 @@ public class DAOHelper {
 
     public static void closeConnection(PreparedStatement preparedStatement, Connection connection) {
         try {
-            preparedStatement.close();
-            connection.close();
+            if(preparedStatement != null ) {
+                preparedStatement.close();
+            }
+            if(connection != null) {
+                connection.close();
+            }
         } catch (SQLException e) {
             System.out.println("Failed to close database connection : " + e.getMessage());
         }
