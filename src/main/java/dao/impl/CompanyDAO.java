@@ -26,7 +26,7 @@ public class CompanyDAO implements ICompanyDAO{
 
     @Override
     public List<Company> fetchAll() throws DAOException {
-        List<Company> list = new ArrayList<>();
+        List<Company> list;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -47,34 +47,23 @@ public class CompanyDAO implements ICompanyDAO{
 
     @Override
     public Company fetch(int id) {
-        Company company = null;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection= daoFactory.getConnection();
-            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_SELECT_BY_ID, true, id);
-            resultSet = preparedStatement.executeQuery();
-            company = getCompany(resultSet);
-        } catch (SQLException e) {
-            throw new DAOException( e );
-        } finally {
-            DAOHelper.closeConnection(resultSet, preparedStatement, connection);
-        }
-        return company;
+        return fetch(SQL_SELECT_BY_ID, id);
     }
 
     @Override
     public Company fetch(String name) {
-        Company company = null;
+        return fetch(SQL_SELECT_BY_NAME, name);
+    }
+
+    private Company fetch(String sql, Object object) {
+        Company company;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             connection= daoFactory.getConnection();
-            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_SELECT_BY_NAME, true, name);
+            preparedStatement = DAOHelper.initPreparedStatement( connection, sql, true, object);
             resultSet = preparedStatement.executeQuery();
             company = getCompany(resultSet);
         } catch (SQLException e) {

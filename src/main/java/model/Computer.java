@@ -73,4 +73,12 @@ public class Computer {
                 ", company=" + company +
                 '}';
     }
+
+    public boolean isGreaterThanIntroduced(Date date) {
+        if( introduced == null || date.after(introduced)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

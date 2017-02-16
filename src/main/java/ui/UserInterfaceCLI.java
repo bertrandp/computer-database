@@ -16,8 +16,6 @@ import java.util.Scanner;
  */
 public class UserInterfaceCLI {
 
-    private static boolean exit = false;
-
     public static void start(){
 
         init();
@@ -39,12 +37,11 @@ public class UserInterfaceCLI {
         System.out.println("* 0 : Exit ");
         System.out.println("* ");
         Scanner sc = new Scanner(System.in);
-        System.out.println("* Enter a number :");
+        System.out.println("* Specify a number :");
         String option = sc.nextLine();
 
         switch (option) {
-            case "0":   exit = true;
-                        break;
+            case "0":   break;
             case "1":   listComputers();
                         break;
             case "2":   listCompanies();
@@ -58,6 +55,7 @@ public class UserInterfaceCLI {
             case "6":   deleteComputer();
                         break;
             default:    System.out.println(" *** Error : Wrong entry (the entry must be a number from 0 to 6)");
+                        menu();
                         break;
         }
 
@@ -153,8 +151,6 @@ public class UserInterfaceCLI {
     private static void createComputer() {
 
         Computer newComputer = new Computer();
-
-        Scanner sc = new Scanner(System.in);
         System.out.println("* Create a computer ");
         writeName(newComputer);
         writeIntroduced(newComputer);
@@ -296,7 +292,12 @@ public class UserInterfaceCLI {
             case "":    break;
             default:    try {
                             Date date = Date.valueOf(input);
-                            computer.setDiscontinued(date);
+                            if(computer.isGreaterThanIntroduced(date)) {
+                                computer.setDiscontinued(date);
+                            } else {
+                                System.out.println("* Error : Date must be greater than " + computer.getIntroduced());
+                                writeDiscontinued(computer);
+                            }
                         } catch (IllegalArgumentException e) {
                             System.out.println("* Error : Date is invalid ");
                             writeDiscontinued(computer);

@@ -10,6 +10,5 @@ import java.util.List;
 public interface ICompanyService {
 
     List<Company>  fetchAll();
-
     boolean alreadyExists(String input);
 }

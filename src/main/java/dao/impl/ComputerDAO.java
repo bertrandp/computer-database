@@ -77,17 +77,7 @@ public class ComputerDAO implements IComputerDAO {
     public boolean add(Computer computer) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        Integer companyId = null ;
-
-        if(computer.getCompany() != null) {
-            ICompanyDAO companyDAO = daoFactory.CompanyDAO();
-            Company company = companyDAO.fetch(computer.getCompany().getName());
-            if(company == null) {
-                throw new DAOException( "Failed to create computer : " + computer.getName() + ". Company name must be an existing company");
-            } else {
-                companyId = company.getId();
-            }
-        }
+        Integer companyId = validateCompany(computer);
 
         try {
             connection= daoFactory.getConnection();
@@ -110,10 +100,11 @@ public class ComputerDAO implements IComputerDAO {
     public boolean update(Computer computer) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        Integer companyId = validateCompany(computer);
 
         try {
             connection= daoFactory.getConnection();
-            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getCompany().getId(), computer.getId());
+            preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), companyId, computer.getId());
             int status = preparedStatement.executeUpdate();
 
             if(status == 0){
@@ -126,6 +117,20 @@ public class ComputerDAO implements IComputerDAO {
         }
 
         return true;
+    }
+
+    private Integer validateCompany(Computer computer) {
+        Integer companyId = null;
+        if(computer.getCompany() != null) {
+            ICompanyDAO companyDAO = daoFactory.CompanyDAO();
+            Company company = companyDAO.fetch(computer.getCompany().getName());
+            if(company == null) {
+                throw new DAOException( "Failed to create computer : " + computer.getName() + ". Company name must be an existing company");
+            } else {
+                companyId = company.getId();
+            }
+        }
+        return companyId;
     }
 
     @Override
