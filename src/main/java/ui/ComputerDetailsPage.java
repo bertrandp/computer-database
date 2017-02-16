@@ -4,6 +4,8 @@ import main.java.model.Computer;
 import main.java.service.IComputerService;
 import main.java.service.impl.ComputerService;
 import main.java.service.impl.ComputerValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
 import java.util.Scanner;
@@ -13,6 +15,8 @@ import java.util.Scanner;
  */
 public class ComputerDetailsPage {
 
+    private static Logger logger = LoggerFactory.getLogger(ComputerDetailsPage.class);
+
     static void display() {
 
         Scanner sc = new Scanner(System.in);
@@ -20,7 +24,7 @@ public class ComputerDetailsPage {
         String id = sc.nextLine();
 
         IComputerService computerService = new ComputerService();
-        Computer computer = null;
+        Computer computer;
         try {
             computer = computerService.get(id);
 
@@ -54,7 +58,7 @@ public class ComputerDetailsPage {
             System.out.println("---------------------------------------------------------------------------------");
 
         } catch (ComputerValidationException e) {
-            System.out.println("*** Error : " + e.getMessage());
+            logger.error("*** Error : " + e.getMessage());
             display();
         }
 

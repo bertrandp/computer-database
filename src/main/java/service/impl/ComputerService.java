@@ -67,17 +67,4 @@ public class ComputerService implements IComputerService {
         return computerDAO.delete(computer);
     }
 
-    @Override
-    public List<Computer> fetch(int limit, int offset) {
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        IComputerDAO computerDAO = daoFactory.ComputerDAO();
-        return computerDAO.fetch(limit, offset);
-    }
-
-    @Override
-    public int count() {
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        IComputerDAO computerDAO = daoFactory.ComputerDAO();
-        return computerDAO.count();
-    }
 }

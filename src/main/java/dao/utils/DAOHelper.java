@@ -1,6 +1,7 @@
 package main.java.dao.utils;
 
-import main.java.dao.DAOConfigurationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +13,8 @@ import java.util.Properties;
  */
 public class DAOHelper {
 
-    private static final String PROPERTIES          = "dao.properties";
+    private static Logger logger = LoggerFactory.getLogger(DAOHelper.class);
+    private static final String PROPERTIES = "dao.properties";
 
     public static PreparedStatement initPreparedStatement(Connection connection, String sql, boolean returnGeneratedKeys, Object... objects ) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement( sql, returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS );
@@ -34,7 +36,7 @@ public class DAOHelper {
                 connection.close();
             }
         } catch (SQLException e) {
-            System.out.println("Failed to close database connection : " + e.getMessage());
+            logger.error("Failed to close database connection : " + e.getMessage());
         }
     }
 
@@ -47,7 +49,7 @@ public class DAOHelper {
                 connection.close();
             }
         } catch (SQLException e) {
-            System.out.println("Failed to close database connection : " + e.getMessage());
+            logger.error("Failed to close database connection : " + e.getMessage());
         }
     }
 

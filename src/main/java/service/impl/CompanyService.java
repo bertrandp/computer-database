@@ -1,12 +1,11 @@
 package main.java.service.impl;
 
-import main.java.dao.DAOConfigurationException;
+import main.java.dao.utils.DAOConfigurationException;
 import main.java.dao.DAOFactory;
 import main.java.dao.ICompanyDAO;
 import main.java.model.Company;
 import main.java.service.ICompanyService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,9 +15,7 @@ public class CompanyService implements ICompanyService {
 
     @Override
     public List<Company> fetchAll() {
-
         List<Company> listCompany = null;
-
         try {
             DAOFactory daoFactory = DAOFactory.getInstance();
             ICompanyDAO companyDAO = daoFactory.CompanyDAO();
@@ -26,7 +23,6 @@ public class CompanyService implements ICompanyService {
         } catch (DAOConfigurationException e) {
             e.printStackTrace();
         }
-
         return listCompany;
     }
 

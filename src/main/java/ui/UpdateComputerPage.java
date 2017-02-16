@@ -4,6 +4,8 @@ import main.java.model.Computer;
 import main.java.service.IComputerService;
 import main.java.service.impl.ComputerService;
 import main.java.service.impl.ComputerValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
@@ -11,6 +13,8 @@ import java.util.Scanner;
  * Created by ebiz on 16/02/17.
  */
 public class UpdateComputerPage {
+
+    private static Logger logger = LoggerFactory.getLogger(UpdateComputerPage.class);
 
     static void display() {
         Scanner sc = new Scanner(System.in);
@@ -34,11 +38,11 @@ public class UpdateComputerPage {
                 MenuPage.display();
 
             } catch (ComputerValidationException e) {
-                System.out.println("*** Error : " + e.getMessage());
+                logger.error("*** Error : " + e.getMessage());
                 MenuPage.display();
             }
         } else {
-            System.out.println(" *** Error : Invalid id");
+            logger.error(" *** Error : Invalid id");
             display();
         }
 

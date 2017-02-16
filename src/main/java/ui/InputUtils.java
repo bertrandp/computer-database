@@ -4,6 +4,8 @@ import main.java.model.Company;
 import main.java.model.Computer;
 import main.java.service.ICompanyService;
 import main.java.service.impl.CompanyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
 import java.util.Scanner;
@@ -12,6 +14,8 @@ import java.util.Scanner;
  * Created by ebiz on 16/02/17.
  */
 public class InputUtils {
+
+    private static Logger logger = LoggerFactory.getLogger(InputUtils.class);
 
     private static boolean companyExists(String input) {
         ICompanyService companyService = new CompanyService();
@@ -26,7 +30,7 @@ public class InputUtils {
             default:    if(companyExists(input)){
                 computer.setCompany(new Company(input));
             } else {
-                System.out.println("* Error : Invalid Company Name ");
+                logger.error("* Error : Invalid Company Name ");
                 CreateComputerPage.writeCompanyName(computer);
             }
                 break;
@@ -44,11 +48,11 @@ public class InputUtils {
                 if(computer.isGreaterThanIntroduced(date)) {
                     computer.setDiscontinued(date);
                 } else {
-                    System.out.println("* Error : Date must be greater than " + computer.getIntroduced());
+                    logger.error("* Error : Date must be greater than " + computer.getIntroduced());
                     CreateComputerPage.writeDiscontinued(computer);
                 }
             } catch (IllegalArgumentException e) {
-                System.out.println("* Error : Date is invalid ");
+                logger.error("* Error : Date is invalid ");
                 CreateComputerPage.writeDiscontinued(computer);
             }
                 break;
@@ -67,7 +71,7 @@ public class InputUtils {
                 Date date = Date.valueOf(input);
                 computer.setIntroduced(date);
             } catch (IllegalArgumentException e) {
-                System.out.println("* Error : Date is invalid ");
+                logger.error("* Error : Date is invalid ");
                 CreateComputerPage.writeIntroduced(computer);
             }
                 break;
@@ -81,7 +85,7 @@ public class InputUtils {
         String input = sc.nextLine();
         switch (input.trim()) {
             case "":    if(computer.getName() == null) {
-                System.out.println("* Error : Name is mandatory ");
+                logger.error("* Error : Name is mandatory ");
                 CreateComputerPage.writeName(computer);
             }
                 break;

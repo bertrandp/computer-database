@@ -4,12 +4,15 @@ import main.java.model.Computer;
 import main.java.service.IComputerService;
 import main.java.service.impl.ComputerService;
 import main.java.service.impl.ComputerValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by ebiz on 16/02/17.
  */
 public class CreateComputerPage {
 
+    private static Logger logger = LoggerFactory.getLogger(CreateComputerPage.class);
 
     static void display() {
 
@@ -24,7 +27,7 @@ public class CreateComputerPage {
         try {
             computerService.add(newComputer);
         } catch (ComputerValidationException e) {
-            System.out.println("*** Error : " + e.getMessage());
+            logger.error("*** Error : " + e.getMessage());
             display();
         }
 

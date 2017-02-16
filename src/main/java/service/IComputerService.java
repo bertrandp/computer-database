@@ -15,6 +15,4 @@ public interface IComputerService {
     boolean add(Computer computer) throws ComputerValidationException;
     boolean update(Computer computer) throws ComputerValidationException;
     boolean delete(Computer computer);
-    List<Computer> fetch(int limit, int offset);
-    int count();
 }

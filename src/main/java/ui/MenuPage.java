@@ -1,11 +1,16 @@
 package main.java.ui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Scanner;
 
 /**
  * Created by ebiz on 16/02/17.
  */
 public class MenuPage {
+
+    private static Logger logger = LoggerFactory.getLogger(MenuPage.class);
 
     static void display() {
         System.out.println("");
@@ -41,7 +46,7 @@ public class MenuPage {
                 break;
             case "7":   PagedListComputerPage.display();
                 break;
-            default:    System.out.println(" *** Error : Wrong entry (the entry must be a number from 0 to 6)");
+            default:    logger.error(" *** Error : Wrong entry (the entry must be a number from 0 to 6)");
                 display();
                 break;
         }

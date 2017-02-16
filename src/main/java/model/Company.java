@@ -1,7 +1,7 @@
 package main.java.model;
 
 /**
- * Created by ebiz on 14/02/17.
+ * Created by bpestre on 14/02/17.
  */
 public class Company {
 

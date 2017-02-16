@@ -1,6 +1,6 @@
 package main.java.dao.impl;
 
-import main.java.dao.DAOException;
+import main.java.dao.utils.DAOException;
 import main.java.dao.utils.DAOHelper;
 import main.java.model.Company;
 import main.java.dao.DAOFactory;
@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ebiz on 14/02/17.
+ * Created by bpestre on 14/02/17.
+ *
+ *
  */
 public class CompanyDAO implements ICompanyDAO{
 
@@ -19,6 +21,8 @@ public class CompanyDAO implements ICompanyDAO{
     private static final String SQL_SELECT = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
     private static final String SQL_SELECT_BY_NAME = "SELECT * FROM company WHERE name = ?";
+    private static final String ID = "id";
+    private static final String NAME = "name";
 
     public CompanyDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
@@ -76,7 +80,7 @@ public class CompanyDAO implements ICompanyDAO{
 
     private Company getCompany(ResultSet resultSet) throws SQLException {
         if(resultSet.next()){
-            return new Company(resultSet.getInt("id"), resultSet.getString("name"));
+            return new Company(resultSet.getInt(ID), resultSet.getString(NAME));
         }
         return null;
     }
@@ -84,7 +88,7 @@ public class CompanyDAO implements ICompanyDAO{
     private List<Company> handleResultSet(ResultSet resultSet) throws SQLException {
         List<Company> list = new ArrayList<>();
         while(resultSet.next()){
-            list.add(new Company(resultSet.getInt("id"), resultSet.getString("name")));
+            list.add(new Company(resultSet.getInt(ID), resultSet.getString(NAME)));
         }
         return list;
     }

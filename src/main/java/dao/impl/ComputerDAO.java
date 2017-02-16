@@ -1,6 +1,6 @@
 package main.java.dao.impl;
 
-import main.java.dao.DAOException;
+import main.java.dao.utils.DAOException;
 import main.java.dao.DAOFactory;
 import main.java.dao.ICompanyDAO;
 import main.java.dao.IComputerDAO;

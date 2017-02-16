@@ -2,17 +2,16 @@ package main.java.dao;
 
 import main.java.dao.impl.CompanyDAO;
 import main.java.dao.impl.ComputerDAO;
+import main.java.dao.utils.DAOConfigurationException;
 import main.java.dao.utils.DAOHelper;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * Created by ebiz on 14/02/17.
+ * Created by bpestre on 14/02/17.
  */
 public class DAOFactory {
 
@@ -25,33 +24,33 @@ public class DAOFactory {
     private String username;
     private String password;
 
-    public DAOFactory( String url, String username, String password ) {
-        this.url = url;
-        this.username = username;
-        this.password = password;
-    }
+    private static DAOFactory factoryInstance = null;
 
-    public static DAOFactory getInstance() throws DAOConfigurationException {
+    private DAOFactory() {
 
-        Properties properties;
-        String url;
-        String driver;
-        String username;
-        String password;
+        Properties properties = DAOHelper.readPropertiesFile();
+        this.url = properties.getProperty( PROPERTY_URL );
+        this.username = properties.getProperty( PROPERTY_USERNAME );
+        this.password = properties.getProperty( PROPERTY_PASSWORD );
 
-        properties = DAOHelper.readPropertiesFile();
-        url = properties.getProperty( PROPERTY_URL );
-        driver = properties.getProperty( PROPERTY_DRIVER );
-        username = properties.getProperty( PROPERTY_USERNAME );
-        password = properties.getProperty( PROPERTY_PASSWORD );
-
+        String driver = properties.getProperty( PROPERTY_DRIVER );
         try {
             Class.forName( driver );
         } catch ( ClassNotFoundException e ) {
             throw new DAOConfigurationException( "Driver not found ", e );
         }
+    }
 
-        return new DAOFactory( url, username, password );
+    public static DAOFactory getInstance() throws DAOConfigurationException {
+
+        if(factoryInstance == null) {
+            synchronized(DAOFactory.class) {
+                if(factoryInstance == null) {
+                    factoryInstance = new DAOFactory();
+                }
+            }
+        }
+        return factoryInstance;
     }
 
 

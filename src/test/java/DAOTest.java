@@ -1,16 +1,14 @@
 package test.java;
 
 import main.java.dao.IComputerDAO;
-import main.java.dao.impl.CompanyDAO;
 import main.java.model.Company;
 import main.java.model.Computer;
 import org.junit.jupiter.api.Test;
-import main.java.dao.DAOConfigurationException;
+import main.java.dao.utils.DAOConfigurationException;
 import main.java.dao.DAOFactory;
 import main.java.dao.ICompanyDAO;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 
