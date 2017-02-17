@@ -8,11 +8,17 @@ import java.util.List;
 public interface Pager<T> {
 
     List<T> getList();
+
     int getIndex();
+
     int countPages();
+
     boolean hasNext();
+
     boolean hasPrevious();
+
     void next();
+
     void previous();
 
 }

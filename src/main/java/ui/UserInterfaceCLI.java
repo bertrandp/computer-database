@@ -5,7 +5,7 @@ package ui;
  */
 public class UserInterfaceCLI {
 
-    public static void start(){
+    public static void start() {
         init();
         MenuPage.display();
     }

@@ -76,11 +76,12 @@ public class Computer {
 
     /**
      * Compare the given LocalDate to introduced Date
-     * @param date  the date to compare
-     * @return  true if the date is greater the introduced date
+     *
+     * @param date the date to compare
+     * @return true if the date is greater the introduced date
      */
     public boolean isGreaterThanIntroduced(LocalDate date) {
-        if( introduced == null || date.isAfter(introduced)) {
+        if (introduced == null || date.isAfter(introduced)) {
             return true;
         } else {
             return false;

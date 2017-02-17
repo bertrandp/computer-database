@@ -6,7 +6,7 @@ package dao.utils;
 public class DAOConfigurationException extends RuntimeException {
 
     public DAOConfigurationException(String s, Throwable e) {
-        super(s,e);
+        super(s, e);
     }
 
     public DAOConfigurationException(String s) {

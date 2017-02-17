@@ -28,9 +28,9 @@ public class PagedListComputerPage {
     private static void displayComputerPage(Pager computerPager) {
 
         System.out.println("---------------------------------------------------------");
-        System.out.println("|\t" + "n°" + "\t\tName" );
+        System.out.println("|\t" + "n°" + "\t\tName");
         System.out.println("---------------------------------------------------------");
-        for(Computer computer : (List<Computer>) computerPager.getList()) {
+        for (Computer computer : (List<Computer>) computerPager.getList()) {
             System.out.println("|\t" + computer.getId() + "\t\t" + computer.getName());
         }
         System.out.println("---------------------------------------------------------");
@@ -38,20 +38,24 @@ public class PagedListComputerPage {
         System.out.println("*** 1 : Previous      2 : Next        0 : Quit  ***");
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
-        switch(input.trim()) {
-            case "0":   MenuPage.display();
+        switch (input.trim()) {
+            case "0":
+                MenuPage.display();
                 break;
-            case "1":   if(computerPager.hasPrevious()) {
-                computerPager.previous();
-            }
+            case "1":
+                if (computerPager.hasPrevious()) {
+                    computerPager.previous();
+                }
                 displayComputerPage(computerPager);
                 break;
-            case "2":   if(computerPager.hasNext()) {
-                computerPager.next();
-            }
+            case "2":
+                if (computerPager.hasNext()) {
+                    computerPager.next();
+                }
                 displayComputerPage(computerPager);
                 break;
-            default:    displayComputerPage(computerPager);
+            default:
+                displayComputerPage(computerPager);
                 break;
         }
     }

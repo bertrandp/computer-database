@@ -33,18 +33,18 @@ public class ComputerDetailsPage {
             String companyName;
 
             LocalDate introducedDate = computer.getIntroduced();
-            if(introducedDate==null) {
+            if (introducedDate == null) {
                 introduced = "unknown\t";
             } else {
                 introduced = String.valueOf(introducedDate);
             }
             LocalDate discontinuedDate = computer.getDiscontinued();
-            if(discontinuedDate==null) {
+            if (discontinuedDate == null) {
                 discontinued = "unknown\t";
             } else {
                 discontinued = String.valueOf(discontinuedDate);
             }
-            if(computer.getCompany() != null) {
+            if (computer.getCompany() != null) {
                 companyName = computer.getCompany().getName();
             } else {
                 companyName = "unknown";

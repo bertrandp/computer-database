@@ -22,7 +22,7 @@ public class DeleteComputerPage {
         System.out.println("* Specify the computer's id :");
         String id = sc.nextLine();
 
-        if(!id.trim().isEmpty()){
+        if (!id.trim().isEmpty()) {
             IComputerService computerService = new ComputerService();
             Computer computer;
             try {
@@ -32,10 +32,12 @@ public class DeleteComputerPage {
                 System.out.println("* yes/no :");
                 String input = sc.nextLine();
                 switch (input) {
-                    case "yes": computerService.delete(computer);
+                    case "yes":
+                        computerService.delete(computer);
                         MenuPage.display();
                         break;
-                    default:    MenuPage.display();
+                    default:
+                        MenuPage.display();
                         break;
                 }
             } catch (ComputerValidationException e) {

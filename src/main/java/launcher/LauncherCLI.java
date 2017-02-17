@@ -7,7 +7,7 @@ import ui.UserInterfaceCLI;
  */
 public class LauncherCLI {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         UserInterfaceCLI.start();
 

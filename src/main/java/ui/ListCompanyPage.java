@@ -13,7 +13,6 @@ import java.util.List;
 public class ListCompanyPage {
 
 
-
     static void display() {
         System.out.println("");
         System.out.println("*********************");
@@ -25,9 +24,9 @@ public class ListCompanyPage {
         List<Company> listCompany = companyService.fetchAll();
 
         System.out.println("---------------------------------------------------------");
-        System.out.println("|\t" + "n°" + "\t\tName" );
+        System.out.println("|\t" + "n°" + "\t\tName");
         System.out.println("---------------------------------------------------------");
-        for(Company company : listCompany) {
+        for (Company company : listCompany) {
             System.out.println("|\t" + company.getId() + "\t\t" + company.getName());
         }
 

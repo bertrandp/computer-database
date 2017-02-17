@@ -10,6 +10,18 @@ import java.util.List;
  */
 public interface ICompanyService {
 
+    /**
+     * Retrieve the list of company.
+     *
+     * @return the list of company
+     */
     List<Company> fetchAll();
-    boolean alreadyExists(String input);
+
+    /**
+     * Check if company already exists for the given id.
+     *
+     * @param name the name of the company
+     * @return true if the company already exists
+     */
+    boolean alreadyExists(String name);
 }

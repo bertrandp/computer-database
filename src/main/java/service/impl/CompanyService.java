@@ -32,10 +32,6 @@ public class CompanyService implements ICompanyService {
         DAOFactory daoFactory = DAOFactory.getInstance();
         ICompanyDAO companyDAO = daoFactory.CompanyDAO();
         Company company = companyDAO.fetch(name);
-        if(company != null){
-            return true;
-        } else {
-            return false;
-        }
+        return company != null;
     }
 }

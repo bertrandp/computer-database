@@ -15,17 +15,15 @@ import java.util.List;
 
 /**
  * Created by bpestre on 14/02/17.
- *
- *
  */
 public class CompanyDAO implements ICompanyDAO {
 
-    private DAOFactory daoFactory;
     private static final String SQL_SELECT = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
     private static final String SQL_SELECT_BY_NAME = "SELECT * FROM company WHERE name = ?";
     private static final String ID = "id";
     private static final String NAME = "name";
+    private DAOFactory daoFactory;
 
     public CompanyDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
@@ -35,13 +33,13 @@ public class CompanyDAO implements ICompanyDAO {
     public List<Company> fetchAll() throws DAOException {
         List<Company> list;
 
-        try (Connection connection= daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement( connection, SQL_SELECT, true);
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT, true);
              ResultSet resultSet = preparedStatement.executeQuery()
-            ) {
+        ) {
             list = handleResultSet(resultSet);
         } catch (SQLException e) {
-            throw new DAOException( e );
+            throw new DAOException(e);
         }
 
         return list;
@@ -60,19 +58,19 @@ public class CompanyDAO implements ICompanyDAO {
     private Company fetch(String sql, Object object) {
         Company company;
 
-        try (   Connection connection= daoFactory.getConnection();
-                PreparedStatement preparedStatement = DAOHelper.initPreparedStatement( connection, sql, true, object);
-                ResultSet resultSet = preparedStatement.executeQuery()
-            ) {
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, sql, true, object);
+             ResultSet resultSet = preparedStatement.executeQuery()
+        ) {
             company = getCompany(resultSet);
         } catch (SQLException e) {
-            throw new DAOException( e );
+            throw new DAOException(e);
         }
         return company;
     }
 
     private Company getCompany(ResultSet resultSet) throws SQLException {
-        if(resultSet.next()){
+        if (resultSet.next()) {
             return new Company(resultSet.getInt(ID), resultSet.getString(NAME));
         }
         return null;
@@ -80,7 +78,7 @@ public class CompanyDAO implements ICompanyDAO {
 
     private List<Company> handleResultSet(ResultSet resultSet) throws SQLException {
         List<Company> list = new ArrayList<>();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             list.add(new Company(resultSet.getInt(ID), resultSet.getString(NAME)));
         }
         return list;

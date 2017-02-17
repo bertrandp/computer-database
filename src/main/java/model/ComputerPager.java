@@ -12,7 +12,7 @@ public class ComputerPager implements Pager {
 
     private List<Computer> list;
     private int rowPerPage = 40;
-    private int limit = rowPerPage ;
+    private int limit = rowPerPage;
     private int offset = 0;
     private int index = 1;
     private int rowTotal;
@@ -36,12 +36,12 @@ public class ComputerPager implements Pager {
 
     @Override
     public int countPages() {
-        return rowTotal/rowPerPage + 1;
+        return rowTotal / rowPerPage + 1;
     }
 
     @Override
     public boolean hasNext() {
-        if(offset < rowTotal - rowPerPage) {
+        if (offset < rowTotal - rowPerPage) {
             return true;
         }
         return false;
@@ -49,7 +49,7 @@ public class ComputerPager implements Pager {
 
     @Override
     public boolean hasPrevious() {
-        if(offset >= rowPerPage ) {
+        if (offset >= rowPerPage) {
             return true;
         }
         return false;
@@ -57,9 +57,9 @@ public class ComputerPager implements Pager {
 
     @Override
     public void next() {
-        if( hasNext() ) {
+        if (hasNext()) {
             offset += rowPerPage;
-            index ++;
+            index++;
             DAOFactory daoFactory = DAOFactory.getInstance();
             IComputerDAO computerDAO = daoFactory.ComputerDAO();
             list = computerDAO.fetch(limit, offset);
@@ -68,9 +68,9 @@ public class ComputerPager implements Pager {
 
     @Override
     public void previous() {
-        if( hasPrevious() ) {
+        if (hasPrevious()) {
             offset -= rowPerPage;
-            index --;
+            index--;
             DAOFactory daoFactory = DAOFactory.getInstance();
             IComputerDAO computerDAO = daoFactory.ComputerDAO();
             list = computerDAO.fetch(limit, offset);

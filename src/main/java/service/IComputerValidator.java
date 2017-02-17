@@ -11,9 +11,16 @@ import java.time.LocalDate;
  */
 public interface IComputerValidator {
 
-    void validateName(String name, Computer computer) throws ComputerValidationException;
-    void validateIntroducedDate(LocalDate introduced, Computer computer);
-    void validateDiscontinuedDate(LocalDate discontinued, Computer computer) throws ComputerValidationException;
-    void validateCompanyName(Company company, Computer computer) throws ComputerValidationException;
-    void validateId(String id) throws ComputerValidationException;
+    /**
+     * Validate the given name and add it to the given computer if the name is valid
+     * @param name the name to valid
+     * @throws ComputerValidationException
+     */
+    boolean validateName(String name) throws ComputerValidationException;
+
+    boolean validateDiscontinuedDate(LocalDate discontinued, Computer computer) throws ComputerValidationException;
+
+    boolean validateCompanyName(Company company) throws ComputerValidationException;
+
+    boolean validateId(String id) throws ComputerValidationException;
 }

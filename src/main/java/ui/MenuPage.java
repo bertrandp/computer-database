@@ -31,26 +31,34 @@ public class MenuPage {
         String option = sc.nextLine();
 
         switch (option) {
-            case "0":   break;
-            case "1":   ListComputerPage.display();
+            case "0":
                 break;
-            case "2":   ListCompanyPage.display();
+            case "1":
+                ListComputerPage.display();
                 break;
-            case "3":   ComputerDetailsPage.display();
+            case "2":
+                ListCompanyPage.display();
                 break;
-            case "4":   CreateComputerPage.display();
+            case "3":
+                ComputerDetailsPage.display();
                 break;
-            case "5":   UpdateComputerPage.display();
+            case "4":
+                CreateComputerPage.display();
                 break;
-            case "6":   DeleteComputerPage.display();
+            case "5":
+                UpdateComputerPage.display();
                 break;
-            case "7":   PagedListComputerPage.display();
+            case "6":
+                DeleteComputerPage.display();
                 break;
-            default:    logger.error(" *** Error : Wrong entry (the entry must be a number from 0 to 6)");
+            case "7":
+                PagedListComputerPage.display();
+                break;
+            default:
+                logger.error(" *** Error : Wrong entry (the entry must be a number from 0 to 6)");
                 display();
                 break;
         }
-
 
 
     }

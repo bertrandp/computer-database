@@ -24,9 +24,9 @@ public class ListComputerPage {
         List<Computer> listComputer = computerService.fetchAll();
 
         System.out.println("---------------------------------------------------------");
-        System.out.println("|\t" + "n°" + "\t\tName" );
+        System.out.println("|\t" + "n°" + "\t\tName");
         System.out.println("---------------------------------------------------------");
-        for(Computer computer : listComputer) {
+        for (Computer computer : listComputer) {
             System.out.println("|\t" + computer.getId() + "\t\t" + computer.getName());
         }
 

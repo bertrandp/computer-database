@@ -64,7 +64,7 @@ public class DAOTest {
         System.out.println(computer);
 
         // Test : Create a computer
-        Computer computerToInsert = new Computer("test", LocalDate.now(),  LocalDate.now(), null);
+        Computer computerToInsert = new Computer("test", LocalDate.now(), LocalDate.now(), null);
         System.out.println("Test : Create a computer");
         listComputer = computerDAO.fetchAll();
         System.out.println("List computers : ");
@@ -97,13 +97,13 @@ public class DAOTest {
     }
 
     @Test
-    public void PageDAOTest(){
+    public void PageDAOTest() {
 
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.ComputerDAO();
 
         // Test : List computers
-        List<Computer> listComputer = computerDAO.fetch(20,20);
+        List<Computer> listComputer = computerDAO.fetch(20, 20);
         System.out.println("Test : List computers");
         System.out.println(listComputer);
 

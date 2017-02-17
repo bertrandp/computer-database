@@ -22,7 +22,7 @@ public class UpdateComputerPage {
         System.out.println("* Specify the computer's id :");
         String id = sc.nextLine();
 
-        if(!id.trim().isEmpty()){
+        if (!id.trim().isEmpty()) {
             IComputerService computerService = new ComputerService();
             Computer computer;
             try {
@@ -50,7 +50,7 @@ public class UpdateComputerPage {
     }
 
     private static void updateCompanyName(Computer computer) {
-        if(computer.getCompany() != null) {
+        if (computer.getCompany() != null) {
             System.out.println("* Company Name : " + computer.getCompany().getName());
         } else {
             System.out.println("* Company Name : undefined");
