@@ -17,6 +17,9 @@ public class ComputerDetailsPage {
 
     private static Logger logger = LoggerFactory.getLogger(ComputerDetailsPage.class);
 
+    /**
+     * Display the details of a computer.
+     */
     static void display() {
 
         Scanner sc = new Scanner(System.in);

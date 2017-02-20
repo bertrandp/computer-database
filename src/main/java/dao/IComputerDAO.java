@@ -11,14 +11,14 @@ import java.util.List;
 public interface IComputerDAO {
 
     /**
-     * Retrieve the list of computer
+     * Retrieve the list of computer.
      *
      * @return the list of computer
      */
     List<Computer> fetchAll();
 
     /**
-     * Retrieve the computer for the given id
+     * Retrieve the computer for the given id.
      *
      * @param id the id of the computer
      * @return the computer for the given id
@@ -26,7 +26,7 @@ public interface IComputerDAO {
     Computer fetchById(int id);
 
     /**
-     * Add a computer
+     * Add a computer.
      *
      * @param computer the computer to add
      * @return <tt>true</tt> if the computer is added
@@ -34,7 +34,7 @@ public interface IComputerDAO {
     boolean add(Computer computer);
 
     /**
-     * Update a computer
+     * Update a computer.
      *
      * @param computer the computer to update
      * @return <tt>true</tt> if the computer is updated
@@ -42,7 +42,7 @@ public interface IComputerDAO {
     boolean update(Computer computer);
 
     /**
-     * Delete a computer
+     * Delete a computer.
      *
      * @param computer the computer to delete
      * @return <tt>true</tt> if the computer is deleted
@@ -50,7 +50,7 @@ public interface IComputerDAO {
     boolean delete(Computer computer);
 
     /**
-     * Retrieve a list of computer with a specific limit and offset
+     * Retrieve a list of computer with a specific limit and offset.
      *
      * @param limit  the number of computer to retrieve
      * @param offset the index of the first computer of the list
@@ -59,7 +59,7 @@ public interface IComputerDAO {
     List<Computer> fetch(int limit, int offset);
 
     /**
-     * Retrieve the number of computers
+     * Retrieve the number of computers.
      *
      * @return the number of computers
      */

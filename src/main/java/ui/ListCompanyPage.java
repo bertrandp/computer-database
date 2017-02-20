@@ -12,7 +12,9 @@ import java.util.List;
  */
 public class ListCompanyPage {
 
-
+    /**
+     * Display the page of the list of company.
+     */
     static void display() {
         System.out.println("");
         System.out.println("*********************");

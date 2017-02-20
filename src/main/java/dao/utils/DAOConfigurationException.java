@@ -5,11 +5,14 @@ package dao.utils;
  */
 public class DAOConfigurationException extends RuntimeException {
 
+    /**
+     * Exception related to database connection.
+     *
+     * @param s the error message
+     * @param e the exception raised
+     */
     public DAOConfigurationException(String s, Throwable e) {
         super(s, e);
     }
 
-    public DAOConfigurationException(String s) {
-        super(s);
-    }
 }

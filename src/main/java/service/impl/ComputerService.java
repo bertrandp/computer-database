@@ -16,16 +16,16 @@ public class ComputerService implements IComputerService {
     @Override
     public List<Computer> fetchAll() {
         DAOFactory daoFactory = DAOFactory.getInstance();
-        IComputerDAO computerDAO = daoFactory.ComputerDAO();
+        IComputerDAO computerDAO = daoFactory.getComputerDAO();
         return computerDAO.fetchAll();
     }
 
     @Override
     public Computer get(String id) throws ComputerValidationException {
         IComputerValidator computerValidator = new ComputerValidator();
-        if(computerValidator.validateId(id)) {
+        if (computerValidator.validateId(id)) {
             DAOFactory daoFactory = DAOFactory.getInstance();
-            IComputerDAO computerDAO = daoFactory.ComputerDAO();
+            IComputerDAO computerDAO = daoFactory.getComputerDAO();
             return computerDAO.fetchById(Integer.valueOf(id));
         }
         return null;
@@ -36,19 +36,19 @@ public class ComputerService implements IComputerService {
 
         Computer computerToAdd = new Computer();
         IComputerValidator computerValidator = new ComputerValidator();
-        if(computerValidator.validateName(computer.getName())) {
+        if (computerValidator.validateName(computer.getName())) {
             computerToAdd.setName(computer.getName());
         }
         computerToAdd.setIntroduced(computer.getIntroduced());
-        if(computerValidator.validateDiscontinuedDate(computer.getDiscontinued(), computerToAdd)) {
+        if (computerValidator.validateDiscontinuedDate(computer.getDiscontinued(), computerToAdd)) {
             computerToAdd.setDiscontinued(computer.getDiscontinued());
         }
-        if(computerValidator.validateCompanyName(computer.getCompany())) {
+        if (computerValidator.validateCompanyName(computer.getCompany())) {
             computerToAdd.setCompany(computer.getCompany());
         }
 
         DAOFactory daoFactory = DAOFactory.getInstance();
-        IComputerDAO computerDAO = daoFactory.ComputerDAO();
+        IComputerDAO computerDAO = daoFactory.getComputerDAO();
         return computerDAO.add(computerToAdd);
     }
 
@@ -58,26 +58,26 @@ public class ComputerService implements IComputerService {
         Computer computerToAdd = new Computer();
         computerToAdd.setId(computer.getId());
         IComputerValidator computerValidator = new ComputerValidator();
-        if(computerValidator.validateName(computer.getName())) {
+        if (computerValidator.validateName(computer.getName())) {
             computerToAdd.setName(computer.getName());
         }
         computerToAdd.setIntroduced(computer.getIntroduced());
-        if(computerValidator.validateDiscontinuedDate(computer.getDiscontinued(), computerToAdd)) {
+        if (computerValidator.validateDiscontinuedDate(computer.getDiscontinued(), computerToAdd)) {
             computerToAdd.setDiscontinued(computer.getDiscontinued());
         }
-        if(computerValidator.validateCompanyName(computer.getCompany())) {
+        if (computerValidator.validateCompanyName(computer.getCompany())) {
             computerToAdd.setCompany(computer.getCompany());
         }
 
         DAOFactory daoFactory = DAOFactory.getInstance();
-        IComputerDAO computerDAO = daoFactory.ComputerDAO();
+        IComputerDAO computerDAO = daoFactory.getComputerDAO();
         return computerDAO.update(computerToAdd);
     }
 
     @Override
     public boolean delete(Computer computer) {
         DAOFactory daoFactory = DAOFactory.getInstance();
-        IComputerDAO computerDAO = daoFactory.ComputerDAO();
+        IComputerDAO computerDAO = daoFactory.getComputerDAO();
         return computerDAO.delete(computer);
     }
 

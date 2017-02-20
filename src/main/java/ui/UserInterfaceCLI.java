@@ -5,11 +5,17 @@ package ui;
  */
 public class UserInterfaceCLI {
 
+    /**
+     * Start the CLI.
+     */
     public static void start() {
         init();
         MenuPage.display();
     }
 
+    /**
+     * Display welcome message.
+     */
     private static void init() {
         System.out.flush();
         System.out.println("******************************************");

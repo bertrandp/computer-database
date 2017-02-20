@@ -25,6 +25,11 @@ public class CompanyDAO implements ICompanyDAO {
     private static final String NAME = "name";
     private DAOFactory daoFactory;
 
+    /**
+     * CompanyDAO constructor.
+     *
+     * @param daoFactory the DAOFactory
+     */
     public CompanyDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
@@ -37,7 +42,7 @@ public class CompanyDAO implements ICompanyDAO {
              PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT, true);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            list = handleResultSet(resultSet);
+            list = mapResultSetToCompanyList(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -55,6 +60,13 @@ public class CompanyDAO implements ICompanyDAO {
         return fetch(SQL_SELECT_BY_NAME, name);
     }
 
+    /**
+     * Retrieve the company.
+     *
+     * @param sql    the sql query
+     * @param object the parameter
+     * @return the company
+     */
     private Company fetch(String sql, Object object) {
         Company company;
 
@@ -62,21 +74,35 @@ public class CompanyDAO implements ICompanyDAO {
              PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, sql, true, object);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            company = getCompany(resultSet);
+            company = mapResultSetToCompany(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
         return company;
     }
 
-    private Company getCompany(ResultSet resultSet) throws SQLException {
+    /**
+     * Map the result set to a company.
+     *
+     * @param resultSet the result set to map
+     * @return the company
+     * @throws SQLException exception raised if the there is an issue with the database
+     */
+    private Company mapResultSetToCompany(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
             return new Company(resultSet.getInt(ID), resultSet.getString(NAME));
         }
         return null;
     }
 
-    private List<Company> handleResultSet(ResultSet resultSet) throws SQLException {
+    /**
+     * Map the result set to a list of company.
+     *
+     * @param resultSet the result set to map
+     * @return the list of company
+     * @throws SQLException exception raised if the there is an issue with the database
+     */
+    private List<Company> mapResultSetToCompanyList(ResultSet resultSet) throws SQLException {
         List<Company> list = new ArrayList<>();
         while (resultSet.next()) {
             list.add(new Company(resultSet.getInt(ID), resultSet.getString(NAME)));

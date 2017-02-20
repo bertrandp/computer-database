@@ -19,7 +19,7 @@ public class DAOTest {
 
         try {
             DAOFactory daoFactory = DAOFactory.getInstance();
-            ICompanyDAO companyDAO = daoFactory.CompanyDAO();
+            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
 
             // Test : List companies
             List<Company> listCompany = companyDAO.fetchAll();
@@ -36,7 +36,7 @@ public class DAOTest {
 
         try {
             DAOFactory daoFactory = DAOFactory.getInstance();
-            ICompanyDAO companyDAO = daoFactory.CompanyDAO();
+            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
 
             //
             Company company = companyDAO.fetch("IBM");
@@ -51,7 +51,7 @@ public class DAOTest {
     public void ComputerDAOTest() {
 
         DAOFactory daoFactory = DAOFactory.getInstance();
-        IComputerDAO computerDAO = daoFactory.ComputerDAO();
+        IComputerDAO computerDAO = daoFactory.getComputerDAO();
 
         // Test : List computers
         List<Computer> listComputer = computerDAO.fetchAll();
@@ -100,7 +100,7 @@ public class DAOTest {
     public void PageDAOTest() {
 
         DAOFactory daoFactory = DAOFactory.getInstance();
-        IComputerDAO computerDAO = daoFactory.ComputerDAO();
+        IComputerDAO computerDAO = daoFactory.getComputerDAO();
 
         // Test : List computers
         List<Computer> listComputer = computerDAO.fetch(20, 20);

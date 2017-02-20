@@ -12,6 +12,9 @@ public class MenuPage {
 
     private static Logger logger = LoggerFactory.getLogger(MenuPage.class);
 
+    /**
+     * Display the menu of the CLI.
+     */
     static void display() {
         System.out.println("");
         System.out.println("*");

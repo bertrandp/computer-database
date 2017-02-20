@@ -43,6 +43,7 @@ public class ComputerValidator implements IComputerValidator {
     public boolean validateCompanyName(Company company) throws ComputerValidationException {
         if (company != null) {
             if (company.getName() == null || company.getName().trim().isEmpty()) {
+                return true;
             } else if (company.getName().length() >= MAX_LENGTH) {
                 throw new ComputerValidationException("Company name is too long");
             } else {
@@ -66,7 +67,7 @@ public class ComputerValidator implements IComputerValidator {
                 throw new ComputerValidationException("Id is not a valid number");
             }
             DAOFactory daoFactory = DAOFactory.getInstance();
-            IComputerDAO computerDAO = daoFactory.ComputerDAO();
+            IComputerDAO computerDAO = daoFactory.getComputerDAO();
 
             if (computerDAO.fetchById(Integer.valueOf(id)) == null) {
                 throw new ComputerValidationException("Id " + id + " does not exist");

@@ -7,11 +7,20 @@ import java.sql.SQLException;
  */
 public class DAOException extends RuntimeException {
 
-
+    /**
+     * Exception related to SQL.
+     *
+     * @param e the exception raised
+     */
     public DAOException(SQLException e) {
         super(e);
     }
 
+    /**
+     * Exception related to the database.
+     *
+     * @param s the error message
+     */
     public DAOException(String s) {
         super(s);
     }

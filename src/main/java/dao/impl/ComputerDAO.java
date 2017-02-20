@@ -8,7 +8,11 @@ import dao.utils.DAOHelper;
 import model.Company;
 import model.Computer;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +31,15 @@ public class ComputerDAO implements IComputerDAO {
     private static final String SQL_DELETE = "DELETE FROM computer WHERE id = ?";
     private DAOFactory daoFactory;
 
+    /**
+     * ComputerDAO constructor.
+     *
+     * @param daoFactory the DAOFactory
+     */
     public ComputerDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Computer> fetchAll() {
         List<Computer> list;
@@ -42,7 +48,7 @@ public class ComputerDAO implements IComputerDAO {
              PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT, true);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            list = getComputerList(resultSet);
+            list = mapResultSetToComputerList(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -50,9 +56,6 @@ public class ComputerDAO implements IComputerDAO {
         return list;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Computer fetchById(int id) {
         Computer computer;
@@ -61,7 +64,7 @@ public class ComputerDAO implements IComputerDAO {
              PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT_BY_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            computer = getComputer(resultSet);
+            computer = mapResultSetToComputer(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -69,9 +72,6 @@ public class ComputerDAO implements IComputerDAO {
         return computer;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean add(Computer computer) {
         Integer companyId = validateCompany(computer);
@@ -90,17 +90,20 @@ public class ComputerDAO implements IComputerDAO {
         return true;
     }
 
+    /**
+     * Convert LocalDate do database date.
+     *
+     * @param date the LocalDate to convert
+     * @return the converted date
+     */
     private Object convertToDatabaseColumn(LocalDate date) {
-        if(date != null) {
+        if (date != null) {
             return Date.valueOf(date);
         } else {
             return null;
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean update(Computer computer) {
         Integer companyId = validateCompany(computer);
@@ -119,10 +122,16 @@ public class ComputerDAO implements IComputerDAO {
         return true;
     }
 
+    /**
+     * Validate the given company of the computer and return the id of the company if it is valid.
+     *
+     * @param computer the computer to valid
+     * @return the id of the company if the id is valid else return null
+     */
     private Integer validateCompany(Computer computer) {
         Integer companyId = null;
         if (computer.getCompany() != null) {
-            ICompanyDAO companyDAO = daoFactory.CompanyDAO();
+            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
             Company company = companyDAO.fetch(computer.getCompany().getName());
             if (company == null) {
                 throw new DAOException("Failed to create computer : " + computer.getName() + ". Company name must be an existing company");
@@ -133,9 +142,6 @@ public class ComputerDAO implements IComputerDAO {
         return companyId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean delete(Computer computer) {
 
@@ -153,9 +159,6 @@ public class ComputerDAO implements IComputerDAO {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Computer> fetch(int limit, int offset) {
         List<Computer> list;
@@ -164,7 +167,7 @@ public class ComputerDAO implements IComputerDAO {
              PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT_PAGE, true, limit, offset);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            list = getComputerList(resultSet);
+            list = mapResultSetToComputerList(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -190,8 +193,14 @@ public class ComputerDAO implements IComputerDAO {
         return count;
     }
 
-
-    private List<Computer> getComputerList(ResultSet resultSet) throws SQLException {
+    /**
+     * Map the result set to list of computer.
+     *
+     * @param resultSet the result set to map
+     * @return the list of computer
+     * @throws SQLException exception raised if the there is an issue with the database
+     */
+    private List<Computer> mapResultSetToComputerList(ResultSet resultSet) throws SQLException {
         List<Computer> list = new ArrayList<>();
         while (resultSet.next()) {
             Computer computer = new Computer();
@@ -202,8 +211,14 @@ public class ComputerDAO implements IComputerDAO {
         return list;
     }
 
-
-    private Computer getComputer(ResultSet resultSet) throws SQLException {
+    /**
+     * Map the result set to a computer.
+     *
+     * @param resultSet the result set to map
+     * @return the computer
+     * @throws SQLException exception raised if the there is an issue with the database
+     */
+    private Computer mapResultSetToComputer(ResultSet resultSet) throws SQLException {
         Computer computer = new Computer();
         if (resultSet.next()) {
             computer.setId(resultSet.getInt("id"));
@@ -220,7 +235,7 @@ public class ComputerDAO implements IComputerDAO {
             } else {
                 computer.setDiscontinued(null);
             }
-            ICompanyDAO companyDAO = daoFactory.CompanyDAO();
+            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
             Company company = companyDAO.fetch(resultSet.getInt("company_id"));
             computer.setCompany(company);
             return computer;

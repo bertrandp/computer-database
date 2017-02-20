@@ -12,6 +12,9 @@ import java.util.List;
  */
 public class ListComputerPage {
 
+    /**
+     * Display the page of the list of computer.
+     */
     static void display() {
 
         System.out.flush();

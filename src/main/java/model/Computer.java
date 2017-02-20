@@ -13,9 +13,20 @@ public class Computer {
     private LocalDate discontinued;
     private Company company;
 
+    /**
+     * Computer empty constructor.
+     */
     public Computer() {
     }
 
+    /**
+     * Computer constructor.
+     *
+     * @param name         the name of the computer
+     * @param introduced   the introduced date of the computer
+     * @param discontinued the discontinued date of the computer
+     * @param companyId    the id of the company of the computer
+     */
     public Computer(String name, LocalDate introduced, LocalDate discontinued, Company companyId) {
         this.name = name;
         this.introduced = introduced;
@@ -75,16 +86,12 @@ public class Computer {
     }
 
     /**
-     * Compare the given LocalDate to introduced Date
+     * Compare the given LocalDate to introduced date.
      *
      * @param date the date to compare
      * @return true if the date is greater the introduced date
      */
     public boolean isGreaterThanIntroduced(LocalDate date) {
-        if (introduced == null || date.isAfter(introduced)) {
-            return true;
-        } else {
-            return false;
-        }
+        return introduced == null || date.isAfter(introduced);
     }
 }

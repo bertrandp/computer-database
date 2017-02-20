@@ -13,6 +13,9 @@ import java.util.Scanner;
  */
 public class PagedListComputerPage {
 
+    /**
+     * Display page title.
+     */
     static void display() {
 
         System.out.flush();
@@ -25,6 +28,11 @@ public class PagedListComputerPage {
         displayComputerPage(computerPager);
     }
 
+    /**
+     * Display paged list of computer.
+     *
+     * @param computerPager computer page to display
+     */
     private static void displayComputerPage(Pager computerPager) {
 
         System.out.println("---------------------------------------------------------");

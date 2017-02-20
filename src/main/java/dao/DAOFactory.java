@@ -27,6 +27,9 @@ public class DAOFactory {
     private String username;
     private String password;
 
+    /**
+     * DAOFactory constructor. Fetch the database connection properties and instantiate the driver.
+     */
     private DAOFactory() {
 
         Properties properties = DAOHelper.readPropertiesFile();
@@ -43,10 +46,10 @@ public class DAOFactory {
     }
 
     /**
-     * Retrieve DAOFactory instance
+     * Retrieve DAOFactory instance.
      *
      * @return instance of DAOFactory
-     * @throws DAOConfigurationException
+     * @throws DAOConfigurationException exception raised if the configuration is incorrect
      */
     public static DAOFactory getInstance() throws DAOConfigurationException {
 
@@ -61,30 +64,30 @@ public class DAOFactory {
     }
 
     /**
-     * Retrieve driver connection
+     * Retrieve driver connection.
      *
      * @return Connection
-     * @throws SQLException
+     * @throws SQLException exception raised if the database connection fails
      */
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
 
     /**
-     * Retrieve implementation of ICompanyDAO
+     * Retrieve implementation of ICompanyDAO.
      *
-     * @return ICompanyDAO
+     * @return the implementation of ICompanyDAO
      */
-    public ICompanyDAO CompanyDAO() {
+    public ICompanyDAO getCompanyDAO() {
         return new CompanyDAO(this);
     }
 
     /**
-     * Retrieve implementation of IComputerDAO
+     * Retrieve implementation of IComputerDAO.
      *
-     * @return IComputerDAO
+     * @return implementation of IComputerDAO
      */
-    public IComputerDAO ComputerDAO() {
+    public IComputerDAO getComputerDAO() {
         return new ComputerDAO(this);
     }
 

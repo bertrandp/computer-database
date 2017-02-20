@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import service.ICompanyService;
 import service.impl.CompanyService;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -21,11 +20,22 @@ public class InputUtils {
 
     private static Logger logger = LoggerFactory.getLogger(InputUtils.class);
 
-    private static boolean companyExists(String input) {
+    /**
+     * Check if the company with the given name exist.
+     *
+     * @param name the name of the company
+     * @return true if the company exist
+     */
+    private static boolean companyExists(String name) {
         ICompanyService companyService = new CompanyService();
-        return companyService.alreadyExists(input);
+        return companyService.alreadyExists(name);
     }
 
+    /**
+     * Validate the input company name.
+     *
+     * @param computer the computer to update
+     */
     static void inputCompanyName(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
@@ -43,7 +53,11 @@ public class InputUtils {
         }
     }
 
-
+    /**
+     * Validate the input discontinued date.
+     *
+     * @param computer the computer to update
+     */
     static void inputDiscontinuedDate(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
@@ -68,7 +82,11 @@ public class InputUtils {
         }
     }
 
-
+    /**
+     * Validate the input introduced date.
+     *
+     * @param computer the computer to update
+     */
     static void inputIntroducedDate(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
@@ -89,7 +107,11 @@ public class InputUtils {
         }
     }
 
-
+    /**
+     * Validate the input name.
+     *
+     * @param computer the computer to update
+     */
     static void inputName(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();

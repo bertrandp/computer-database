@@ -17,6 +17,9 @@ public class DeleteComputerPage {
 
     private static Logger logger = LoggerFactory.getLogger(DeleteComputerPage.class);
 
+    /**
+     * Display the page to delete a computer.
+     */
     static void display() {
         Scanner sc = new Scanner(System.in);
         System.out.println("* Specify the computer's id :");
