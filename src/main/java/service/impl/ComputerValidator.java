@@ -31,7 +31,7 @@ public class ComputerValidator implements IComputerValidator {
 
     @Override
     public boolean validateDiscontinuedDate(LocalDate discontinued, Computer computer) throws ComputerValidationException {
-        if (discontinued != null) {
+        if (discontinued != null && computer.getIntroduced() != null) {
             if (discontinued.isBefore(computer.getIntroduced())) {
                 throw new ComputerValidationException("Discontinued date is before introduced date");
             }

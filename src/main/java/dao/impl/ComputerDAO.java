@@ -9,6 +9,7 @@ import model.Company;
 import model.Computer;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class ComputerDAO implements IComputerDAO {
         Integer companyId = validateCompany(computer);
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_INSERT, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), companyId);
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_INSERT, true, computer.getName(), convertToDatabaseColumn(computer.getIntroduced()), convertToDatabaseColumn(computer.getDiscontinued()), companyId);
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
@@ -89,6 +90,14 @@ public class ComputerDAO implements IComputerDAO {
         return true;
     }
 
+    private Object convertToDatabaseColumn(LocalDate date) {
+        if(date != null) {
+            return Date.valueOf(date);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -97,7 +106,7 @@ public class ComputerDAO implements IComputerDAO {
         Integer companyId = validateCompany(computer);
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_UPDATE, true, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), companyId, computer.getId());
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_UPDATE, true, computer.getName(), convertToDatabaseColumn(computer.getIntroduced()), convertToDatabaseColumn(computer.getDiscontinued()), companyId, computer.getId());
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {

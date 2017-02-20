@@ -8,8 +8,10 @@ import org.slf4j.LoggerFactory;
 import service.ICompanyService;
 import service.impl.CompanyService;
 
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 /**
@@ -50,14 +52,15 @@ public class InputUtils {
                 break;
             default:
                 try {
-                    LocalDate date = LocalDate.parse(input);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // TODO date validation
+                    LocalDate date = LocalDate.parse(input, formatter);
                     if (computer.isGreaterThanIntroduced(date)) {
                         computer.setDiscontinued(date);
                     } else {
                         logger.error("* Error : Date must be greater than " + computer.getIntroduced());
                         CreateComputerPage.writeDiscontinued(computer);
                     }
-                } catch (IllegalArgumentException e) {
+                } catch (DateTimeParseException e) {
                     logger.error("* Error : Date is invalid ");
                     CreateComputerPage.writeDiscontinued(computer);
                 }
@@ -75,11 +78,10 @@ public class InputUtils {
                 break;
             default:
                 try {
-                    LocalDate date = LocalDate.parse(input);
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // TODO date validation
-                    //date = formatter.parse(input);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // TODO date validation
+                    LocalDate date = LocalDate.parse(input, formatter);
                     computer.setIntroduced(date);
-                } catch (IllegalArgumentException e) {
+                } catch (DateTimeParseException e) {
                     logger.error("* Error : Date is invalid ");
                     CreateComputerPage.writeIntroduced(computer);
                 }
