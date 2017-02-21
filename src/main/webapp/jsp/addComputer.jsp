@@ -56,6 +56,11 @@
                         Error: ${errorMessage}
                     </div>
                 </c:if>
+                <c:if test="${not empty successMessage}">
+                    <div id="success" class="alert alert-success">
+                        The computer is added.
+                    </div>
+                </c:if>
             </div>
         </div>
     </div>
