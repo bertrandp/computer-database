@@ -1,6 +1,5 @@
 package servlet;
 
-import model.Pager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.IComputerService;
@@ -22,10 +21,7 @@ public class DashboardServlet extends HttpServlet {
 
     private static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         logger.debug("DashboardServlet.doGet()");
@@ -36,6 +32,11 @@ public class DashboardServlet extends HttpServlet {
         view.forward(request, response);
     }
 
+    /**
+     * Set request attributes related to pagination.
+     *
+     * @param request the http request
+     */
     private void setAttributes(HttpServletRequest request) {
         IComputerService computerService = new ComputerService();
         int count = computerService.count();
@@ -44,15 +45,15 @@ public class DashboardServlet extends HttpServlet {
 
         String limitParam = request.getParameter("limit");
         int limit = 50;
-        if(limitParam != null) {
+        if (limitParam != null) {
             limit = Integer.valueOf(limitParam);
         }
         request.setAttribute("limit", limit);
-        request.setAttribute("lastPage", count/limit +1);
+        request.setAttribute("lastPage", count / limit + 1);
 
         int page = 1;
         String pageParam = request.getParameter("page");
-        if(pageParam != null) {
+        if (pageParam != null) {
             page = Integer.valueOf(pageParam);
         }
 

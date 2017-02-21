@@ -17,7 +17,7 @@ public class ComputerPager implements Pager {
     private int rowTotal;
 
     /**
-     * ComputerPager constructor. Fill the list with the first 40 computers.
+     * ComputerPager constructor. Fill the list with the default limit and offset.
      */
     public ComputerPager() {
         DAOFactory daoFactory = DAOFactory.getInstance();
@@ -26,11 +26,17 @@ public class ComputerPager implements Pager {
         this.rowTotal = computerDAO.count();
     }
 
-    public ComputerPager(int page, int itemPerPage) {
+    /**
+     * ComputerPager constructor with the page index and limit.
+     *
+     * @param page the page index
+     * @param limit the limit
+     */
+    public ComputerPager(int page, int limit) {
 
         this.index = page;
-        this.limit = itemPerPage;
-        this.offset = (page - 1) * itemPerPage;
+        this.limit = limit;
+        this.offset = (page - 1) * limit;
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
         this.list = computerDAO.fetch(limit, offset);

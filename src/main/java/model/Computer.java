@@ -6,7 +6,7 @@ import java.time.LocalDate;
 /**
  * Created by ebiz on 14/02/17.
  */
-public class Computer implements Serializable{
+public class Computer implements Serializable {
 
     private int id;
     private String name;

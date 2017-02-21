@@ -56,6 +56,7 @@ public interface IComputerService {
 
     /**
      * Retrieve the total number of computers.
+     *
      * @return the total number of computers
      */
     int count();
@@ -69,9 +70,11 @@ public interface IComputerService {
 
     /**
      * Retrieve the paged computer list for the given page and the number of item per page.
-     * @param page
-     * @param limit
-     * @return
+     *
+     * @param page  the page index
+     * @param limit the number of computer to display per page
+     * @return the pager containing the computer page
+     * @throws ComputerValidationException exception raised if parameters are not valid
      */
     Pager getPagedComputerList(int page, int limit) throws ComputerValidationException;
 }

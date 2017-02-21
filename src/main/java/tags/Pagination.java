@@ -16,8 +16,13 @@ public class Pagination extends BodyTagSupport {
     int limit = 40;
     int page = 1;
 
+    /**
+     * Set the limit.
+     *
+     * @param limit the number of item to display
+     */
     public void setLimit(int limit) {
-        if(limit < 1) {
+        if (limit < 1) {
             this.limit = 1;
         } else if (limit > 100) {
             this.limit = 100;
@@ -26,19 +31,29 @@ public class Pagination extends BodyTagSupport {
         }
     }
 
+    /**
+     * Set the page index.
+     *
+     * @param page the page index
+     */
     public void setPage(int page) {
         IComputerService computerService = new ComputerService();
         int count = computerService.count();
-        if(page < 1) {
+        if (page < 1) {
             this.page = 1;
-        } else if (page > count/limit + 1) {
-            this.page = count/limit + 1;
+        } else if (page > count / limit + 1) {
+            this.page = count / limit + 1;
         } else {
             this.page = page;
         }
     }
 
-    public int doEndTag(){
+    /**
+     * Fetch the page of computer.
+     *
+     * @return status
+     */
+    public int doEndTag() {
 
         IComputerService computerService = new ComputerService();
         Pager pager = null;

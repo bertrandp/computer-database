@@ -49,9 +49,11 @@ public interface IComputerValidator {
     boolean validateId(String id) throws ComputerValidationException;
 
     /**
+     * Validate the parameters for pagination.
      *
-     * @param page
-     * @param limit
+     * @param page the page index to validate
+     * @param limit the number of item to validate
+     * @throws ComputerValidationException exception raised if the parameters are invalid
      */
     void validatePageParam(int page, int limit) throws ComputerValidationException;
 }
