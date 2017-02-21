@@ -206,6 +206,21 @@ public class ComputerDAO implements IComputerDAO {
             Computer computer = new Computer();
             computer.setId(resultSet.getInt("id"));
             computer.setName(resultSet.getString("name"));
+            Date inputIntroduced = resultSet.getDate("introduced");
+            if (inputIntroduced != null) {
+                computer.setIntroduced(inputIntroduced.toLocalDate());
+            } else {
+                computer.setIntroduced(null);
+            }
+            Date inputDiscontinued = resultSet.getDate("discontinued");
+            if (inputDiscontinued != null) {
+                computer.setDiscontinued(inputDiscontinued.toLocalDate());
+            } else {
+                computer.setDiscontinued(null);
+            }
+            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
+            Company company = companyDAO.fetch(resultSet.getInt("company_id"));
+            computer.setCompany(company);
             list.add(computer);
         }
         return list;

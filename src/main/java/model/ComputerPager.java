@@ -11,8 +11,7 @@ import java.util.List;
 public class ComputerPager implements Pager {
 
     private List<Computer> list;
-    private int rowPerPage = 40;
-    private int limit = rowPerPage;
+    private int limit = 40;
     private int offset = 0;
     private int index = 1;
     private int rowTotal;
@@ -21,6 +20,17 @@ public class ComputerPager implements Pager {
      * ComputerPager constructor. Fill the list with the first 40 computers.
      */
     public ComputerPager() {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        IComputerDAO computerDAO = daoFactory.getComputerDAO();
+        this.list = computerDAO.fetch(limit, offset);
+        this.rowTotal = computerDAO.count();
+    }
+
+    public ComputerPager(int page, int itemPerPage) {
+
+        this.index = page;
+        this.limit = itemPerPage;
+        this.offset = (page - 1) * itemPerPage;
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
         this.list = computerDAO.fetch(limit, offset);
@@ -39,12 +49,12 @@ public class ComputerPager implements Pager {
 
     @Override
     public int countPages() {
-        return rowTotal / rowPerPage + 1;
+        return rowTotal / limit + 1;
     }
 
     @Override
     public boolean hasNext() {
-        if (offset < rowTotal - rowPerPage) {
+        if (offset < rowTotal - limit) {
             return true;
         }
         return false;
@@ -52,7 +62,7 @@ public class ComputerPager implements Pager {
 
     @Override
     public boolean hasPrevious() {
-        if (offset >= rowPerPage) {
+        if (offset >= limit) {
             return true;
         }
         return false;
@@ -61,7 +71,7 @@ public class ComputerPager implements Pager {
     @Override
     public void next() {
         if (hasNext()) {
-            offset += rowPerPage;
+            offset += limit;
             index++;
             DAOFactory daoFactory = DAOFactory.getInstance();
             IComputerDAO computerDAO = daoFactory.getComputerDAO();
@@ -72,7 +82,7 @@ public class ComputerPager implements Pager {
     @Override
     public void previous() {
         if (hasPrevious()) {
-            offset -= rowPerPage;
+            offset -= limit;
             index--;
             DAOFactory daoFactory = DAOFactory.getInstance();
             IComputerDAO computerDAO = daoFactory.getComputerDAO();

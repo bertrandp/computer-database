@@ -76,5 +76,25 @@ public class ComputerValidator implements IComputerValidator {
         return true;
     }
 
+    @Override
+    public void validatePageParam(int page, int limit) throws ComputerValidationException {
+
+        if (limit < 1) {
+            throw new ComputerValidationException("Page size is below 1");
+        } else if (limit >100) {
+            throw new ComputerValidationException("Page size is too large (above 100)");
+        }
+
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        IComputerDAO computerDAO = daoFactory.getComputerDAO();
+
+        if(page < 1) {
+            throw new ComputerValidationException("Page number is below 1");
+        } else if (page > computerDAO.count()/limit +1 ) {
+            throw new ComputerValidationException("Page number is too large");
+        }
+
+    }
+
 
 }

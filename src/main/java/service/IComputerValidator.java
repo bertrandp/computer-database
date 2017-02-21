@@ -47,4 +47,11 @@ public interface IComputerValidator {
      * @throws ComputerValidationException exception raised if the id is invalid or no computer exists with this id
      */
     boolean validateId(String id) throws ComputerValidationException;
+
+    /**
+     *
+     * @param page
+     * @param limit
+     */
+    void validatePageParam(int page, int limit) throws ComputerValidationException;
 }

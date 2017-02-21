@@ -1,11 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * Created by ebiz on 14/02/17.
  */
-public class Computer {
+public class Computer implements Serializable{
 
     private int id;
     private String name;

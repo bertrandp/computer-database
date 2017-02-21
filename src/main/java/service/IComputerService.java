@@ -2,6 +2,7 @@ package service;
 
 
 import model.Computer;
+import model.Pager;
 import service.impl.ComputerValidationException;
 
 import java.util.List;
@@ -52,4 +53,25 @@ public interface IComputerService {
      * @return true if the computer is deleted
      */
     boolean delete(Computer computer);
+
+    /**
+     * Retrieve the total number of computers.
+     * @return the total number of computers
+     */
+    int count();
+
+    /**
+     * Retrieve the paged computer list.
+     *
+     * @return the paged computer list
+     */
+    Pager getPagedComputerList();
+
+    /**
+     * Retrieve the paged computer list for the given page and the number of item per page.
+     * @param page
+     * @param limit
+     * @return
+     */
+    Pager getPagedComputerList(int page, int limit) throws ComputerValidationException;
 }

@@ -3,6 +3,8 @@ package service.impl;
 import dao.DAOFactory;
 import dao.IComputerDAO;
 import model.Computer;
+import model.ComputerPager;
+import model.Pager;
 import service.IComputerService;
 import service.IComputerValidator;
 
@@ -79,6 +81,25 @@ public class ComputerService implements IComputerService {
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
         return computerDAO.delete(computer);
+    }
+
+    @Override
+    public int count() {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        IComputerDAO computerDAO = daoFactory.getComputerDAO();
+        return computerDAO.count();
+    }
+
+    @Override
+    public Pager getPagedComputerList() {
+        return new ComputerPager();
+    }
+
+    @Override
+    public Pager getPagedComputerList(int page, int limit) throws ComputerValidationException {
+        IComputerValidator computerValidator = new ComputerValidator();
+        computerValidator.validatePageParam(page, limit);
+        return new ComputerPager(page, limit);
     }
 
 }
