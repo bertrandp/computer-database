@@ -3,7 +3,7 @@ package service;
 
 import model.Computer;
 import model.Pager;
-import service.impl.ComputerValidationException;
+import service.utils.ComputerValidationException;
 
 import java.util.List;
 
@@ -36,6 +36,19 @@ public interface IComputerService {
      * @throws ComputerValidationException exception raised if computer is not valid
      */
     boolean add(Computer computer) throws ComputerValidationException;
+
+
+    /**
+     * Add the computer with the given parameters.
+     *
+     * @param name         the name of the computer
+     * @param introduced   the introduced date of the computer
+     * @param discontinued the discontinued date of the computer
+     * @param companyId    the id of the company
+     * @return true if the computer is added
+     * @throws ComputerValidationException exception raised if parameters are not valid
+     */
+    boolean add(String name, String introduced, String discontinued, String companyId) throws ComputerValidationException;
 
     /**
      * Update the given computer.
@@ -77,4 +90,5 @@ public interface IComputerService {
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
     Pager getPagedComputerList(int page, int limit) throws ComputerValidationException;
+
 }

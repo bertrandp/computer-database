@@ -1,8 +1,13 @@
 package servlet;
 
 import model.Company;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import service.ICompanyService;
+import service.IComputerService;
 import service.impl.CompanyService;
+import service.impl.ComputerService;
+import service.utils.ComputerValidationException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,14 +24,25 @@ import java.util.List;
 @WebServlet("/add-computer")
 public class AddComputerServlet extends HttpServlet {
 
+    Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
 
         String name = req.getParameter("computerName");
         String introduced = req.getParameter("introduced");
         String discontinued = req.getParameter("discontinued");
-        String companyName = req.getParameter("introduced");
+        String companyId = req.getParameter("companyId");
+
+        logger.debug("AddComputerServlet.doPost() : name:" + name + ", introduced:" + introduced + ", discontinued:" + discontinued + ", companyId:" + companyId);
+
+        IComputerService computerService = new ComputerService();
+        try {
+            computerService.add(name, introduced, discontinued, companyId);
+        } catch (ComputerValidationException e) {
+            logger.error(e.getMessage()); // TODO
+            req.setAttribute("errorMessage", e.getMessage());
+        }
 
         doGet(req, resp);
     }
@@ -34,13 +50,11 @@ public class AddComputerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //logger.debug("DashboardServlet.doGet()");
-
         ICompanyService companyService = new CompanyService();
         List<Company> companyList = companyService.fetchAll();
 
-
         request.setAttribute("companyList", companyList);
+
         RequestDispatcher view = request.getRequestDispatcher("jsp/addComputer.jsp");
         view.forward(request, response);
     }

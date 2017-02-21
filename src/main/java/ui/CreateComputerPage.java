@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.IComputerService;
 import service.impl.ComputerService;
-import service.impl.ComputerValidationException;
+import service.utils.ComputerValidationException;
 
 /**
  * Created by ebiz on 16/02/17.

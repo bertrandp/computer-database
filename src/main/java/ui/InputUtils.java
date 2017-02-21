@@ -28,7 +28,7 @@ public class InputUtils {
      */
     private static boolean companyExists(String name) {
         ICompanyService companyService = new CompanyService();
-        return companyService.alreadyExists(name);
+        return companyService.nameAlreadyExists(name);
     }
 
     /**

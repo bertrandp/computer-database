@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.IComputerService;
 import service.impl.ComputerService;
-import service.impl.ComputerValidationException;
+import service.utils.ComputerValidationException;
 
 import java.time.LocalDate;
 import java.util.Scanner;

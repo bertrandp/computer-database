@@ -29,7 +29,7 @@ public class ComputerPager implements Pager {
     /**
      * ComputerPager constructor with the page index and limit.
      *
-     * @param page the page index
+     * @param page  the page index
      * @param limit the limit
      */
     public ComputerPager(int page, int limit) {

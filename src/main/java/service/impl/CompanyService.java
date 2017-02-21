@@ -14,12 +14,21 @@ import java.util.List;
  */
 public class CompanyService implements ICompanyService {
 
+    private DAOFactory daoFactory;
+    private ICompanyDAO companyDAO;
+
+    /**
+     * Company service constructor. Fetch the instance of DAOFactory.
+     */
+    public CompanyService() {
+        this.daoFactory = DAOFactory.getInstance();
+        this.companyDAO = daoFactory.getCompanyDAO();
+    }
+
     @Override
     public List<Company> fetchAll() {
         List<Company> listCompany = null;
         try {
-            DAOFactory daoFactory = DAOFactory.getInstance();
-            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
             listCompany = companyDAO.fetchAll();
         } catch (DAOConfigurationException e) {
             e.printStackTrace(); // TODO remove printstacktrace
@@ -28,10 +37,14 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
-    public boolean alreadyExists(String name) {
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
+    public boolean nameAlreadyExists(String name) {
         Company company = companyDAO.fetch(name);
+        return company != null;
+    }
+
+    @Override
+    public boolean idAlreadyExists(int id) {
+        Company company = companyDAO.fetch(id);
         return company != null;
     }
 }

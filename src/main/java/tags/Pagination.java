@@ -3,7 +3,7 @@ package tags;
 import model.Pager;
 import service.IComputerService;
 import service.impl.ComputerService;
-import service.impl.ComputerValidationException;
+import service.utils.ComputerValidationException;
 
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
@@ -60,13 +60,12 @@ public class Pagination extends BodyTagSupport {
 
         try {
             pager = computerService.getPagedComputerList(page, limit);
+            pageContext.setAttribute("computerList", pager.getList());
+            pageContext.setAttribute("page", page);
+            pageContext.setAttribute("limit", limit);
         } catch (ComputerValidationException e) {
             pageContext.setAttribute("errorMessage", e.getMessage());
         }
-
-        pageContext.setAttribute("computerList", pager.getList());
-        pageContext.setAttribute("page", page);
-        pageContext.setAttribute("limit", limit);
 
         return EVAL_PAGE;
     }
