@@ -1,6 +1,7 @@
 package dao;
 
 
+import dto.ComputerDTO;
 import model.Computer;
 
 import java.util.List;
@@ -16,6 +17,13 @@ public interface IComputerDAO {
      * @return the list of computer
      */
     List<Computer> fetchAll();
+
+    /**
+     * Retrieve the list of computerDTO.
+     *
+     * @return the list of computerDTO
+     */
+    List<ComputerDTO> fetchAllDTO();
 
     /**
      * Retrieve the computer for the given id.
@@ -59,9 +67,28 @@ public interface IComputerDAO {
     List<Computer> fetch(int limit, int offset);
 
     /**
+     * Retrieve a list of computerDTO with a specific limit and offset.
+     *
+     * @param limit  the number of computer to retrieve
+     * @param offset the index of the first computer of the list
+     * @return the list of computerDTO with the given limit and offset
+     */
+    List<ComputerDTO> fetchDTO(int limit, int offset);
+
+    /**
      * Retrieve the number of computers.
      *
      * @return the number of computers
      */
     int count();
+
+    /**
+     * Retrieve the ComputerDTO created from the given Computer.
+     *
+     * @param computer the computer to convert
+     * @return the computerDTO created
+     */
+    ComputerDTO createDTO(Computer computer);
+
+
 }

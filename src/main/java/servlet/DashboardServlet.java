@@ -41,7 +41,7 @@ public class DashboardServlet extends HttpServlet {
         IComputerService computerService = new ComputerService();
         int count = computerService.count();
         logger.debug("Count computers : " + count);
-        request.setAttribute("countComputer", count);
+        request.setAttribute("count", count);
 
         String limitParam = request.getParameter("limit");
         int limit = 50;
@@ -49,7 +49,6 @@ public class DashboardServlet extends HttpServlet {
             limit = Integer.valueOf(limitParam);
         }
         request.setAttribute("limit", limit);
-        request.setAttribute("lastPage", count / limit + 1);
 
         int page = 1;
         String pageParam = request.getParameter("page");

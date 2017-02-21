@@ -5,6 +5,7 @@ import dao.ICompanyDAO;
 import dao.IComputerDAO;
 import dao.utils.DAOException;
 import dao.utils.DAOHelper;
+import dto.ComputerDTO;
 import model.Company;
 import model.Computer;
 
@@ -55,6 +56,23 @@ public class ComputerDAO implements IComputerDAO {
 
         return list;
     }
+
+    @Override
+    public List<ComputerDTO> fetchAllDTO() {
+        List<ComputerDTO> list;
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT, true);
+             ResultSet resultSet = preparedStatement.executeQuery()
+        ) {
+            list = mapResultSetToComputerDTOList(resultSet);
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+
+        return list;
+    }
+
 
     @Override
     public Computer fetchById(int id) {
@@ -176,6 +194,22 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
+    public List<ComputerDTO> fetchDTO(int limit, int offset) {
+        List<ComputerDTO> list;
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT_PAGE, true, limit, offset);
+             ResultSet resultSet = preparedStatement.executeQuery()
+        ) {
+            list = mapResultSetToComputerDTOList(resultSet);
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+
+        return list;
+    }
+
+    @Override
     public int count() {
         int count = 0;
 
@@ -191,6 +225,11 @@ public class ComputerDAO implements IComputerDAO {
         }
 
         return count;
+    }
+
+    @Override
+    public ComputerDTO createDTO(Computer computer) {
+        return new ComputerDTO(computer.getId(), computer.getName(), computer.getIntroduced().toString(), computer.getDiscontinued().toString(), computer.getCompany().getName());
     }
 
     /**
@@ -225,6 +264,31 @@ public class ComputerDAO implements IComputerDAO {
         }
         return list;
     }
+
+    /**
+     * Map the result set to list of computerDTO.
+     *
+     * @param resultSet the result set to map
+     * @return the list of computer
+     * @throws SQLException exception raised if the there is an issue with the database
+     */
+    private List<ComputerDTO> mapResultSetToComputerDTOList(ResultSet resultSet) throws SQLException {
+        List<ComputerDTO> list = new ArrayList<>();
+        while (resultSet.next()) {
+            ComputerDTO computer = new ComputerDTO();
+            computer.setName(resultSet.getString("name"));
+            computer.setIntroduced(resultSet.getString("introduced"));
+            computer.setDiscontinued(resultSet.getString("discontinued"));
+            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
+            Company company = companyDAO.fetch(resultSet.getInt("company_id"));
+            if (company != null) {
+                computer.setCompanyName(company.getName());
+            }
+            list.add(computer);
+        }
+        return list;
+    }
+
 
     /**
      * Map the result set to a computer.

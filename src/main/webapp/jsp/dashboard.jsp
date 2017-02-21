@@ -25,7 +25,7 @@
 <section id="main">
     <div class="container">
         <h1 id="homeTitle">
-            ${countComputer} Computers found
+            ${count} Computers found
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
@@ -48,6 +48,7 @@
     </form>
 
     <custom:pagination page="${page}" limit="${limit}"/>
+    <c:set var="lastPage" value="${count / limit + 1}"/>
 
     <div class="container" style="margin-top: 10px;">
         <table class="table table-striped table-bordered">
@@ -94,7 +95,7 @@
                     </td>
                     <td>${computer.introduced}</td>
                     <td>${computer.discontinued}</td>
-                    <td>${computer.company.name}</td>
+                    <td>${computer.companyName}</td>
                 </tr>
             </c:forEach>
 

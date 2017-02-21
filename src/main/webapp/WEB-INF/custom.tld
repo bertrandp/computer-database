@@ -4,7 +4,7 @@
     <short-name>Custom TLD</short-name>
     <tag>
         <name>pagination</name>
-        <tag-class>tags.Pagination</tag-class>
+        <tag-class>servlet.tags.Pagination</tag-class>
         <body-content>scriptless</body-content>
         <attribute>
             <name>page</name>

@@ -2,6 +2,8 @@ package service.impl;
 
 import dao.DAOFactory;
 import dao.IComputerDAO;
+import dto.ComputerDTO;
+import dto.ComputerPagerDTO;
 import model.Company;
 import model.Computer;
 import model.ComputerPager;
@@ -32,6 +34,11 @@ public class ComputerService implements IComputerService {
     @Override
     public List<Computer> fetchAll() {
         return computerDAO.fetchAll();
+    }
+
+    @Override
+    public List<ComputerDTO> fetchAllDTO() {
+        return computerDAO.fetchAllDTO();
     }
 
     @Override
@@ -146,6 +153,12 @@ public class ComputerService implements IComputerService {
     public Pager getPagedComputerList(int page, int limit) throws ComputerValidationException {
         ComputerValidator.validatePageParam(page, limit);
         return new ComputerPager(page, limit);
+    }
+
+    @Override
+    public ComputerPagerDTO getPagedComputerDTOList(int page, int limit) throws ComputerValidationException {
+        ComputerValidator.validatePageParam(page, limit);
+        return new ComputerPagerDTO(page, limit);
     }
 
 }

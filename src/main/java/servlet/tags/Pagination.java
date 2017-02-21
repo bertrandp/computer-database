@@ -1,6 +1,6 @@
-package tags;
+package servlet.tags;
 
-import model.Pager;
+import dto.ComputerPagerDTO;
 import service.IComputerService;
 import service.impl.ComputerService;
 import service.utils.ComputerValidationException;
@@ -56,10 +56,10 @@ public class Pagination extends BodyTagSupport {
     public int doEndTag() {
 
         IComputerService computerService = new ComputerService();
-        Pager pager = null;
+        ComputerPagerDTO pager = null;
 
         try {
-            pager = computerService.getPagedComputerList(page, limit);
+            pager = computerService.getPagedComputerDTOList(page, limit);
             pageContext.setAttribute("computerList", pager.getList());
             pageContext.setAttribute("page", page);
             pageContext.setAttribute("limit", limit);

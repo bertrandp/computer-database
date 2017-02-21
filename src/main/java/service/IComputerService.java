@@ -1,6 +1,8 @@
 package service;
 
 
+import dto.ComputerDTO;
+import dto.ComputerPagerDTO;
 import model.Computer;
 import model.Pager;
 import service.utils.ComputerValidationException;
@@ -18,6 +20,13 @@ public interface IComputerService {
      * @return the list of computer
      */
     List<Computer> fetchAll();
+
+    /**
+     * Retrieve the list of computerDTO.
+     *
+     * @return the list of computerDTO
+     */
+    List<ComputerDTO> fetchAllDTO();
 
     /**
      * Retrieve the computer for the given id.
@@ -90,5 +99,15 @@ public interface IComputerService {
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
     Pager getPagedComputerList(int page, int limit) throws ComputerValidationException;
+
+    /**
+     * Retrieve the paged computer list for the given page and the number of item per page.
+     *
+     * @param page  the page index
+     * @param limit the number of computer to display per page
+     * @return the pager containing the computer page
+     * @throws ComputerValidationException exception raised if parameters are not valid
+     */
+    ComputerPagerDTO getPagedComputerDTOList(int page, int limit) throws ComputerValidationException;
 
 }
