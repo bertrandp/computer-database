@@ -38,14 +38,16 @@ public interface IComputerService {
     Computer get(String id) throws ComputerValidationException;
 
     /**
-     * Add the given computer.
+     * Add the computer with the given parameters.
      *
-     * @param computer the computer to add
+     * @param name         the name of the computer
+     * @param introduced   the introduced date of the computer
+     * @param discontinued the discontinued date of the computer
+     * @param companyName  the name of the company
      * @return true if the computer is added
-     * @throws ComputerValidationException exception raised if computer is not valid
+     * @throws ComputerValidationException exception raised if parameters are not valid
      */
-    boolean add(Computer computer) throws ComputerValidationException;
-
+    boolean addWithCompanyName(String name, String introduced, String discontinued, String companyName) throws ComputerValidationException;
 
     /**
      * Add the computer with the given parameters.
@@ -53,20 +55,37 @@ public interface IComputerService {
      * @param name         the name of the computer
      * @param introduced   the introduced date of the computer
      * @param discontinued the discontinued date of the computer
-     * @param companyId    the id of the company
+     * @param companyId  the id of the company
      * @return true if the computer is added
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
-    boolean add(String name, String introduced, String discontinued, String companyId) throws ComputerValidationException;
+    boolean addWithCompanyId(String name, String introduced, String discontinued, String companyId) throws ComputerValidationException;
 
     /**
-     * Update the given computer.
+     * Update the computer with the given parameters.
      *
-     * @param computer the computer to update
-     * @return true if the computer is updated
-     * @throws ComputerValidationException exception raised if computer is not valid
+     * @param id           the id of the computer
+     * @param name         the name of the computer
+     * @param introduced   the introduced date of the computer
+     * @param discontinued the discontinued date of the computer
+     * @param companyId  the id of the company
+     * @return true if the computer is added
+     * @throws ComputerValidationException exception raised if parameters are not valid
      */
-    boolean update(Computer computer) throws ComputerValidationException;
+    boolean updateWithCompanyId(String id, String name, String introduced, String discontinued, String companyId) throws ComputerValidationException;
+
+    /**
+     * Update the computer with the given parameters.
+     *
+     * @param id           the id of the computer
+     * @param name         the name of the computer
+     * @param introduced   the introduced date of the computer
+     * @param discontinued the discontinued date of the computer
+     * @param companyName  the name of the company
+     * @return true if the computer is added
+     * @throws ComputerValidationException exception raised if parameters are not valid
+     */
+    boolean updateWithCompanyName(String id, String name, String introduced, String discontinued, String companyName) throws ComputerValidationException;
 
     /**
      * Delete the given computer.
@@ -109,5 +128,6 @@ public interface IComputerService {
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
     ComputerPagerDTO getPagedComputerDTOList(int page, int limit) throws ComputerValidationException;
+
 
 }

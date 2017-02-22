@@ -8,6 +8,8 @@ import service.IComputerService;
 import service.impl.ComputerService;
 import service.utils.ComputerValidationException;
 
+import static service.utils.ComputerValidator.DATE_FORMAT;
+
 /**
  * Created by ebiz on 16/02/17.
  */
@@ -22,14 +24,14 @@ public class CreateComputerPage {
 
         Computer newComputer = new Computer();
         System.out.println("* Create a computer ");
-        writeName(newComputer);
-        writeIntroduced(newComputer);
-        writeDiscontinued(newComputer);
-        writeCompanyName(newComputer);
+        String name = writeName(newComputer);
+        String introduced = writeIntroduced(newComputer);
+        String discontinued = writeDiscontinued(newComputer);
+        String companyName = writeCompanyName(newComputer);
 
         IComputerService computerService = new ComputerService();
         try {
-            computerService.add(newComputer);
+            computerService.addWithCompanyName(name, introduced, discontinued, companyName);
         } catch (ComputerValidationException e) {
             logger.error("*** Error : " + e.getMessage());
             display();
@@ -42,42 +44,46 @@ public class CreateComputerPage {
      * Create the name of the computer.
      *
      * @param newComputer computer to create
+     * @return the input
      */
-    static void writeName(Computer newComputer) {
+    static String writeName(Computer newComputer) {
         System.out.println("* Name : ");
-        InputUtils.inputName(newComputer);
+        return InputUtils.inputName(newComputer);
     }
 
     /**
      * Create the introduced date of the computer.
      *
      * @param newComputer computer to create
+     * @return the input
      */
-    static void writeIntroduced(Computer newComputer) {
-        System.out.println("* Introduced Date (yyyy-mm-dd) : ");
+    static String writeIntroduced(Computer newComputer) {
+        System.out.println("* Introduced Date (" + DATE_FORMAT + ") : ");
         System.out.println("* (optional) ");
-        InputUtils.inputIntroducedDate(newComputer);
+        return InputUtils.inputIntroducedDate(newComputer);
     }
 
     /**
      * Create the discontinued date of the computer.
      *
      * @param newComputer computer to create
+     * @return the input
      */
-    static void writeDiscontinued(Computer newComputer) {
-        System.out.println("* Discontinued Date (yyyy-mm-dd) : ");
+    static String writeDiscontinued(Computer newComputer) {
+        System.out.println("* Discontinued Date (" + DATE_FORMAT + ") : ");
         System.out.println("* (optional) ");
-        InputUtils.inputDiscontinuedDate(newComputer);
+        return InputUtils.inputDiscontinuedDate(newComputer);
     }
 
     /**
      * Create the company name of the computer.
      *
      * @param newComputer computer to create
+     * @return the input
      */
-    static void writeCompanyName(Computer newComputer) {
+    static String writeCompanyName(Computer newComputer) {
         System.out.println("* Company Name : ");
         System.out.println("* (optional) ");
-        InputUtils.inputCompanyName(newComputer);
+        return InputUtils.inputCompanyName(newComputer);
     }
 }

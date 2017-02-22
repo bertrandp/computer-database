@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+import static service.utils.ComputerValidator.DATE_FORMAT;
+
 /**
  * Created by ebiz on 16/02/17.
  */
@@ -26,39 +28,42 @@ public class InputUtils {
      * @param name the name of the company
      * @return true if the company exist
      */
-    private static boolean companyExists(String name) {
+    private static Company companyExists(String name) {
         ICompanyService companyService = new CompanyService();
-        return companyService.nameAlreadyExists(name);
+        return companyService.fetch(name);
     }
 
     /**
      * Validate the input company name.
      *
      * @param computer the computer to update
+     * @return the input
      */
-    static void inputCompanyName(Computer computer) {
+    static String inputCompanyName(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {
             case "":
                 break;
             default:
-                if (companyExists(input)) {
-                    computer.setCompany(new Company(input));
+                if (companyExists(input) != null) {
+                    return input;
                 } else {
                     logger.error("* Error : Invalid Company Name ");
                     CreateComputerPage.writeCompanyName(computer);
                 }
                 break;
         }
+        return null;
     }
 
     /**
      * Validate the input discontinued date.
      *
      * @param computer the computer to update
+     * @return the input
      */
-    static void inputDiscontinuedDate(Computer computer) {
+    static String inputDiscontinuedDate(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {
@@ -66,10 +71,10 @@ public class InputUtils {
                 break;
             default:
                 try {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // TODO date validation
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT); // TODO date validation
                     LocalDate date = LocalDate.parse(input, formatter);
                     if (computer.isGreaterThanIntroduced(date)) {
-                        computer.setDiscontinued(date);
+                        return input;
                     } else {
                         logger.error("* Error : Date must be greater than " + computer.getIntroduced());
                         CreateComputerPage.writeDiscontinued(computer);
@@ -80,14 +85,16 @@ public class InputUtils {
                 }
                 break;
         }
+        return null;
     }
 
     /**
      * Validate the input introduced date.
      *
      * @param computer the computer to update
+     * @return the input
      */
-    static void inputIntroducedDate(Computer computer) {
+    static String inputIntroducedDate(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
 
@@ -96,23 +103,25 @@ public class InputUtils {
                 break;
             default:
                 try {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // TODO date validation
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT); // TODO date validation
                     LocalDate date = LocalDate.parse(input, formatter);
-                    computer.setIntroduced(date);
+                    return input;
                 } catch (DateTimeParseException e) {
                     logger.error("* Error : Date is invalid ");
                     CreateComputerPage.writeIntroduced(computer);
                 }
                 break;
         }
+        return null;
     }
 
     /**
      * Validate the input name.
      *
      * @param computer the computer to update
+     * @return the input
      */
-    static void inputName(Computer computer) {
+    static String inputName(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {
@@ -123,8 +132,8 @@ public class InputUtils {
                 }
                 break;
             default:
-                computer.setName(input);
-                break;
+                return input;
         }
+        return null;
     }
 }

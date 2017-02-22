@@ -38,7 +38,7 @@ public class AddComputerServlet extends HttpServlet {
 
         IComputerService computerService = new ComputerService();
         try {
-            computerService.add(name, introduced, discontinued, companyId);
+            computerService.addWithCompanyId(name, introduced, discontinued, companyId);
         } catch (ComputerValidationException e) {
             logger.error(e.getMessage()); // TODO
             req.setAttribute("errorMessage", e.getMessage());

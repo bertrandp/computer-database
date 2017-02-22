@@ -35,6 +35,7 @@ public class ComputerValidator {
     public static final String COMPANY_ID_IS_NOT_A_VALID_NUMBER = "Company Id is not a valid number";
     public static final String DATE_IS_NULL = "Date is null";
     public static final String ID_IS_NULL = "Id is null";
+    public static final String DATE_FORMAT = "dd/MM/yyyy";
     private static final int MAX_LENGTH = 255;
 
     /**
@@ -75,25 +76,24 @@ public class ComputerValidator {
     /**
      * Validate the name of the given company and return true if the name is valid and already exists.
      *
-     * @param company the company to validate
+     * @param companyName the company to validate
      * @return true if the company name is valid
      * @throws ComputerValidationException exception raised if the company name is invalid or the company does not exist
      */
-    @Deprecated
-    public static boolean validateCompanyName(Company company) throws ComputerValidationException {
-        if (company != null) {
-            if (company.getName() == null || company.getName().trim().isEmpty()) {
-                return true;
-            } else if (company.getName().length() >= MAX_LENGTH) {
-                throw new ComputerValidationException(COMPANY_NAME_IS_TOO_LONG);
+    public static Company validateCompanyName(String companyName) throws ComputerValidationException {
+        if (companyName == null || companyName.trim().isEmpty()) {
+            return null;
+        } else if (companyName.length() >= MAX_LENGTH) {
+            throw new ComputerValidationException(COMPANY_NAME_IS_TOO_LONG);
+        } else {
+            ICompanyService companyService = new CompanyService();
+            Company company = companyService.fetch(companyName);
+            if (company == null) {
+                throw new ComputerValidationException(COMPANY_NAME_DOES_NOT_EXISTS);
             } else {
-                ICompanyService companyService = new CompanyService();
-                if (!companyService.nameAlreadyExists(company.getName())) {
-                    throw new ComputerValidationException(COMPANY_NAME_DOES_NOT_EXISTS);
-                }
+                return company;
             }
         }
-        return true;
     }
 
     /**
@@ -103,7 +103,6 @@ public class ComputerValidator {
      * @return true if the id is valid and a computer with this id exists
      * @throws ComputerValidationException exception raised if the id is invalid or no computer exists with this id
      */
-    @Deprecated
     public static boolean validateId(String id) throws ComputerValidationException {
         if (id == null || id.trim().isEmpty()) {
             throw new ComputerValidationException(ID_IS_EMPTY);
@@ -161,7 +160,7 @@ public class ComputerValidator {
             throw new ComputerValidationException(DATE_IS_NULL);
         } else {
             try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
                 return LocalDate.parse(date, formatter);
             } catch (DateTimeParseException e) {
                 throw new ComputerValidationException(DATE_FORMAT_IS_INVALID);

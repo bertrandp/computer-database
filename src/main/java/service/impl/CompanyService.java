@@ -37,14 +37,12 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
-    public boolean nameAlreadyExists(String name) {
-        Company company = companyDAO.fetch(name);
-        return company != null;
+    public Company fetch(String name) {
+        return companyDAO.fetch(name);
     }
 
     @Override
-    public boolean idAlreadyExists(int id) {
-        Company company = companyDAO.fetch(id);
-        return company != null;
+    public Company fetch(int id) {
+        return companyDAO.fetch(id);
     }
 }

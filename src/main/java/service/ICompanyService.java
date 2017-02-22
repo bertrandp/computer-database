@@ -23,7 +23,7 @@ public interface ICompanyService {
      * @param name the name of the company
      * @return true if the company already exists
      */
-    boolean nameAlreadyExists(String name);
+    Company fetch(String name);
 
     /**
      * Check if company already exists for the given id.
@@ -31,5 +31,5 @@ public interface ICompanyService {
      * @param id the name of the company
      * @return true if the company already exists
      */
-    boolean idAlreadyExists(int id);
+    Company fetch(int id);
 }

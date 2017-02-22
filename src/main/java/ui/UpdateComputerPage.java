@@ -32,12 +32,12 @@ public class UpdateComputerPage {
                 computer = computerService.get(id);
 
                 System.out.println("* Update computer : " + computer.getName());
-                updateName(computer);
-                updateIntroducedDate(computer);
-                updateDiscontinuedDate(computer);
-                updateCompanyName(computer);
+                String name = updateName(computer);
+                String introduced = updateIntroducedDate(computer);
+                String discontinued = updateDiscontinuedDate(computer);
+                String companyName = updateCompanyName(computer);
                 computerService = new ComputerService();
-                computerService.update(computer);
+                computerService.updateWithCompanyName(id, name, introduced, discontinued, companyName);
 
                 MenuPage.display();
 
@@ -56,48 +56,52 @@ public class UpdateComputerPage {
      * Display the current company name of the given computer and ask for an update.
      *
      * @param computer the computer to update
+     * @return the input
      */
-    private static void updateCompanyName(Computer computer) {
+    private static String updateCompanyName(Computer computer) {
         if (computer.getCompany() != null) {
             System.out.println("* Company Name : " + computer.getCompany().getName());
         } else {
             System.out.println("* Company Name : undefined");
         }
         System.out.println("* Specify the new company name or press Enter ");
-        InputUtils.inputCompanyName(computer);
+        return InputUtils.inputCompanyName(computer);
     }
 
     /**
      * Display the current discontinued date of the given computer and ask for an update.
      *
      * @param computer the computer to update
+     * @return the input
      */
-    private static void updateDiscontinuedDate(Computer computer) {
+    private static String updateDiscontinuedDate(Computer computer) {
         System.out.println("* Discontinued Date : " + computer.getDiscontinued());
         System.out.println("* Specify the new discontinued date or press Enter ");
-        InputUtils.inputDiscontinuedDate(computer);
+        return InputUtils.inputDiscontinuedDate(computer);
     }
 
     /**
      * Display the current introduced date of the given computer and ask for an update.
      *
      * @param computer the computer to update
+     * @return the input
      */
-    private static void updateIntroducedDate(Computer computer) {
+    private static String updateIntroducedDate(Computer computer) {
         System.out.println("* Introduced Date : " + computer.getIntroduced());
         System.out.println("* Specify the new introduced date or press Enter ");
-        InputUtils.inputIntroducedDate(computer);
+        return InputUtils.inputIntroducedDate(computer);
     }
 
     /**
      * Display the current name of the given computer and ask for an update.
      *
      * @param computer the computer to update
+     * @return the input
      */
-    private static void updateName(Computer computer) {
+    private static String updateName(Computer computer) {
         System.out.println("* Name : " + computer.getName());
         System.out.println("* Specify the new name or press Enter to keep this name ");
-        InputUtils.inputName(computer);
+        return InputUtils.inputName(computer);
     }
 
 }

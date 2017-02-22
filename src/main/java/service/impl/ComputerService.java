@@ -43,45 +43,52 @@ public class ComputerService implements IComputerService {
 
     @Override
     public Computer get(String id) throws ComputerValidationException {
-        ComputerValidator computerValidator = new ComputerValidator();
         if (ComputerValidator.validateId(id)) {
             return computerDAO.fetchById(Integer.valueOf(id));
         }
         return null;
     }
 
-    @Deprecated
-    @Override
-    public boolean add(Computer computer) throws ComputerValidationException {
+    /**
+     * Add the computer with the given parameters.
+     *
+     * @param name         the name of the computer
+     * @param introduced   the introduced date of the computer
+     * @param discontinued the discontinued date of the computer
+     * @param company       the company of the computer
+     * @return true if the computer is added
+     * @throws ComputerValidationException exception raised if parameters are not valid
+     */
+    private boolean add(String name, String introduced, String discontinued, Company company) throws ComputerValidationException {
 
-        Computer computerToAdd = new Computer();
-        if (ComputerValidator.validateName(computer.getName())) {
-            computerToAdd.setName(computer.getName());
-        }
-        computerToAdd.setIntroduced(computer.getIntroduced());
-        if (ComputerValidator.validateDiscontinuedDate(computer.getDiscontinued(), computerToAdd.getIntroduced())) {
-            computerToAdd.setDiscontinued(computer.getDiscontinued());
-        }
-        if (ComputerValidator.validateCompanyName(computer.getCompany())) {
-            computerToAdd.setCompany(computer.getCompany());
-        }
+        Computer computerToAdd = setParameters(name, introduced, discontinued);
 
+        computerToAdd.setCompany(company);
         return computerDAO.add(computerToAdd);
+
     }
 
-    @Override
-    public boolean add(String name, String introduced, String discontinued, String companyId) throws ComputerValidationException {
+    /**
+     * Retrieve a computer set with the given parameters.
+     *
+     * @param name          the name of the computer
+     * @param introduced   the introduced date of the computer
+     * @param discontinued the discontinued date of the computer
+     * @return the computer set with the given parameters
+     * @throws ComputerValidationException exception raised if parameters are not valid
+     */
+    private Computer setParameters(String name, String introduced, String discontinued) throws ComputerValidationException {
 
-        Computer computerToAdd = new Computer();
+        Computer computer = new Computer();
         if (ComputerValidator.validateName(name)) {
-            computerToAdd.setName(name);
+            computer.setName(name);
         }
 
         if (introduced != null && !introduced.trim().isEmpty()) {
             try {
                 LocalDate introducedLD = ComputerValidator.validateDate(introduced);
                 if (introducedLD != null) {
-                    computerToAdd.setIntroduced(introducedLD);
+                    computer.setIntroduced(introducedLD);
                 }
             } catch (ComputerValidationException e) {
                 e.addSuppressed(new ComputerValidationException("Error validating introduced date : " + introduced + "."));
@@ -93,45 +100,86 @@ public class ComputerService implements IComputerService {
             try {
                 LocalDate discontinuedLD = ComputerValidator.validateDate(discontinued);
                 if (discontinuedLD != null) {
-                    if (computerToAdd.getIntroduced() != null) {
-                        ComputerValidator.validateDiscontinuedDate(discontinuedLD, computerToAdd.getIntroduced());
+                    if (computer.getIntroduced() != null) {
+                        ComputerValidator.validateDiscontinuedDate(discontinuedLD, computer.getIntroduced());
                     }
-                    computerToAdd.setDiscontinued(discontinuedLD);
+                    computer.setDiscontinued(discontinuedLD);
                 }
             } catch (ComputerValidationException e) {
                 e.addSuppressed(new ComputerValidationException("Error validating discontinued date : " + discontinued + "."));
                 throw e;
             }
         }
-
-        if (companyId != null && !companyId.trim().isEmpty()) {
-            Company company = ComputerValidator.validateCompanyId(companyId);
-            if (company != null) {
-                computerToAdd.setCompany(company);
-            }
-        }
-
-        return computerDAO.add(computerToAdd);
-
+        return computer;
     }
 
     @Override
-    public boolean update(Computer computer) throws ComputerValidationException {
+    public boolean addWithCompanyName(String name, String introduced, String discontinued, String companyName) throws ComputerValidationException {
+        if (companyName != null && !companyName.trim().isEmpty()) {
+            Company company = ComputerValidator.validateCompanyName(companyName);
+            if (company != null) {
+                return add(name, introduced, discontinued, company);
+            }
+        }
+        return add(name, introduced, discontinued, null);
+    }
 
-        Computer computerToAdd = new Computer();
-        computerToAdd.setId(computer.getId());
-        if (ComputerValidator.validateName(computer.getName())) {
-            computerToAdd.setName(computer.getName());
+    @Override
+    public boolean addWithCompanyId(String name, String introduced, String discontinued, String companyId) throws ComputerValidationException {
+        if (companyId != null && !companyId.trim().isEmpty()) {
+            Company company = ComputerValidator.validateCompanyId(companyId);
+            if (company != null) {
+                return add(name, introduced, discontinued, company);
+            }
         }
-        computerToAdd.setIntroduced(computer.getIntroduced());
-        if (ComputerValidator.validateDiscontinuedDate(computer.getDiscontinued(), computerToAdd.getIntroduced())) {
-            computerToAdd.setDiscontinued(computer.getDiscontinued());
+        return add(name, introduced, discontinued, null);
+    }
+
+
+    /**
+     * Update the computer with the given parameters.
+     *
+     * @param id           the id of the computer
+     * @param name         the name of the computer
+     * @param introduced   the introduced date of the computer
+     * @param discontinued the discontinued date of the computer
+     * @param company  the company of the computer
+     * @return true if the computer is added
+     * @throws ComputerValidationException exception raised if parameters are not valid
+     */
+    private boolean update(String id, String name, String introduced, String discontinued, Company company) throws ComputerValidationException {
+
+        Computer computerToAdd = setParameters(name, introduced, discontinued);
+
+        if (ComputerValidator.validateId(id)) {
+            computerToAdd.setId(Integer.valueOf(id));
         }
-        if (ComputerValidator.validateCompanyName(computer.getCompany())) {
-            computerToAdd.setCompany(computer.getCompany());
-        }
+
+        computerToAdd.setCompany(company);
 
         return computerDAO.update(computerToAdd);
+    }
+
+    @Override
+    public boolean updateWithCompanyId(String id, String name, String introduced, String discontinued, String companyId) throws ComputerValidationException {
+        if (companyId != null && !companyId.trim().isEmpty()) {
+            Company company = ComputerValidator.validateCompanyId(companyId);
+            if (company != null) {
+                return update(id, name, introduced, discontinued, company);
+            }
+        }
+        return update(id, name, introduced, discontinued, null);
+    }
+
+    @Override
+    public boolean updateWithCompanyName(String id, String name, String introduced, String discontinued, String companyName) throws ComputerValidationException {
+        if (companyName != null && !companyName.trim().isEmpty()) {
+            Company company = ComputerValidator.validateCompanyName(companyName);
+            if (company != null) {
+                return update(id, name, introduced, discontinued, company);
+            }
+        }
+        return update(id, name, introduced, discontinued, null);
     }
 
     @Override
