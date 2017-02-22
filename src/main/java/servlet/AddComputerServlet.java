@@ -44,7 +44,7 @@ public class AddComputerServlet extends HttpServlet {
             req.setAttribute("errorMessage", e.getMessage());
         }
 
-        if(req.getAttribute("errorMessage") == null) {
+        if (req.getAttribute("errorMessage") == null) {
             req.setAttribute("successMessage", "Success");
         }
 

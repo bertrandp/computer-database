@@ -20,11 +20,11 @@ public class ComputerDTO {
     /**
      * ComputerDTO constructor.
      *
-     * @param id the id of the computer
-     * @param name the name of the computer
-     * @param introduced the introduced date of the computer
+     * @param id           the id of the computer
+     * @param name         the name of the computer
+     * @param introduced   the introduced date of the computer
      * @param discontinued the discontinued date of the computer
-     * @param companyName the company name of the computer
+     * @param companyName  the company name of the computer
      */
     public ComputerDTO(int id, String name, String introduced, String discontinued, String companyName) {
         this.id = id;

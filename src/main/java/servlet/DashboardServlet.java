@@ -1,9 +1,11 @@
 package servlet;
 
+import dto.ComputerPagerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.IComputerService;
 import service.impl.ComputerService;
+import service.utils.ComputerValidationException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,6 +49,11 @@ public class DashboardServlet extends HttpServlet {
         int limit = 50;
         if (limitParam != null) {
             limit = Integer.valueOf(limitParam);
+            if (limit < 1) {
+                limit = 1;
+            } else if (limit > 100) {
+                limit = 100;
+            }
         }
         request.setAttribute("limit", limit);
 
@@ -54,9 +61,22 @@ public class DashboardServlet extends HttpServlet {
         String pageParam = request.getParameter("page");
         if (pageParam != null) {
             page = Integer.valueOf(pageParam);
+            if (page < 1) {
+                page = 1;
+            } else if (page > count / limit + 1) {
+                page = count / limit + 1;
+            }
+        }
+        request.setAttribute("page", page);
+
+        try {
+            ComputerPagerDTO pager = computerService.getPagedComputerDTOList(page, limit);
+            request.setAttribute("computerList", pager.getList());
+        } catch (ComputerValidationException e) {
+            request.setAttribute("errorMessage", e.getMessage());
         }
 
-        request.setAttribute("page", page);
+
     }
 
 }

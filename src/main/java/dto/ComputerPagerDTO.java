@@ -14,7 +14,8 @@ public class ComputerPagerDTO {
 
     /**
      * ComputerPagerDTO constructor. Fetch list of computerDTO.
-     * @param page the page index
+     *
+     * @param page  the page index
      * @param limit the limit
      */
     public ComputerPagerDTO(int page, int limit) {
