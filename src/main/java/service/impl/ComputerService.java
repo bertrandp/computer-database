@@ -104,7 +104,7 @@ public class ComputerService implements IComputerService {
             }
         }
 
-        if (companyId != null || !companyId.trim().isEmpty()) {
+        if (companyId != null && !companyId.trim().isEmpty()) {
             Company company = ComputerValidator.validateCompanyId(companyId);
             if (company != null) {
                 computerToAdd.setCompany(company);

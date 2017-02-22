@@ -11,6 +11,7 @@ import service.impl.CompanyService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,22 @@ import java.util.regex.Pattern;
 public class ComputerValidator {
 
     private static final int MAX_LENGTH = 255;
+    public static final String NAME_IS_EMPTY = "Name is empty";
+    public static final String NAME_IS_TOO_LONG = "Name is too long";
+    public static final String DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE = "Discontinued date is before introduced date";
+    public static final String DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE = "Discontinued date is same as introduced date";
+    public static final String COMPANY_NAME_IS_TOO_LONG = "Company name is too long";
+    public static final String COMPANY_NAME_DOES_NOT_EXISTS = "Company name does not exists";
+    public static final String ID_IS_EMPTY = "Id is empty";
+    public static final String ID_IS_NOT_A_VALID_NUMBER = "Id is not a valid number";
+    public static final String PAGE_SIZE_IS_BELOW_1 = "Page size is below 1";
+    public static final String PAGE_SIZE_IS_TOO_LARGE = "Page size is too large";
+    public static final String PAGE_NUMBER_IS_BELOW_1 = "Page number is below 1";
+    public static final String PAGE_NUMBER_IS_TOO_LARGE = "Page number is too large";
+    public static final String DATE_FORMAT_IS_INVALID = "Date format is invalid. Must be DD/MM/YYYY";
+    public static final String COMPANY_ID_IS_NOT_A_VALID_NUMBER = "Company Id is not a valid number";
+    public static final String DATE_IS_NULL = "Date is null";
+    public static final String ID_IS_NULL = "Id is null";
 
     /**
      * Validate the given name and return true if the name is valid.
@@ -30,9 +47,9 @@ public class ComputerValidator {
      */
     public static boolean validateName(String name) throws ComputerValidationException {
         if (name == null || name.trim().isEmpty()) {
-            throw new ComputerValidationException("Name is empty");
+            throw new ComputerValidationException(NAME_IS_EMPTY);
         } else if (name.length() >= MAX_LENGTH) {
-            throw new ComputerValidationException("Name is too long");
+            throw new ComputerValidationException(NAME_IS_TOO_LONG);
         }
         return true;
     }
@@ -47,8 +64,10 @@ public class ComputerValidator {
      */
     public static boolean validateDiscontinuedDate(LocalDate discontinued, LocalDate introduced) throws ComputerValidationException {
         if (discontinued != null && introduced != null) {
-            if (discontinued.isBefore(introduced)) {
-                throw new ComputerValidationException("Discontinued date is before introduced date");
+            if (discontinued.isEqual(introduced)) {
+                throw new ComputerValidationException(DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE);
+            } else if (discontinued.isBefore(introduced)) {
+                throw new ComputerValidationException(DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE);
             }
         }
         return true;
@@ -67,11 +86,11 @@ public class ComputerValidator {
             if (company.getName() == null || company.getName().trim().isEmpty()) {
                 return true;
             } else if (company.getName().length() >= MAX_LENGTH) {
-                throw new ComputerValidationException("Company name is too long");
+                throw new ComputerValidationException(COMPANY_NAME_IS_TOO_LONG);
             } else {
                 ICompanyService companyService = new CompanyService();
                 if (!companyService.nameAlreadyExists(company.getName())) {
-                    throw new ComputerValidationException("Company name doesn't exists");
+                    throw new ComputerValidationException(COMPANY_NAME_DOES_NOT_EXISTS);
                 }
             }
         }
@@ -88,12 +107,12 @@ public class ComputerValidator {
     @Deprecated
     public static boolean validateId(String id) throws ComputerValidationException {
         if (id == null || id.trim().isEmpty()) {
-            throw new ComputerValidationException("Id is empty");
+            throw new ComputerValidationException(ID_IS_EMPTY);
         } else {
             Pattern p = Pattern.compile("[^0-9]");
             Matcher m = p.matcher(id);
             if (m.find()) {
-                throw new ComputerValidationException("Id is not a valid number");
+                throw new ComputerValidationException(ID_IS_NOT_A_VALID_NUMBER);
             }
             DAOFactory daoFactory = DAOFactory.getInstance();
             IComputerDAO computerDAO = daoFactory.getComputerDAO();
@@ -115,18 +134,18 @@ public class ComputerValidator {
     public static void validatePageParam(int page, int limit) throws ComputerValidationException {
 
         if (limit < 1) {
-            throw new ComputerValidationException("Page size is below 1");
+            throw new ComputerValidationException(PAGE_SIZE_IS_BELOW_1);
         } else if (limit > 100) {
-            throw new ComputerValidationException("Page size is too large (above 100)");
+            throw new ComputerValidationException(PAGE_SIZE_IS_TOO_LARGE);
         }
 
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
 
         if (page < 1) {
-            throw new ComputerValidationException("Page number is below 1");
+            throw new ComputerValidationException(PAGE_NUMBER_IS_BELOW_1);
         } else if (page > computerDAO.count() / limit + 1) {
-            throw new ComputerValidationException("Page number is too large");
+            throw new ComputerValidationException(PAGE_NUMBER_IS_TOO_LARGE);
         }
 
     }
@@ -139,11 +158,15 @@ public class ComputerValidator {
      * @throws ComputerValidationException exception raised if the date is invalid
      */
     public static LocalDate validateDate(String date) throws ComputerValidationException {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return LocalDate.parse(date, formatter);
-        } catch (DateTimeParseException e) {
-            throw new ComputerValidationException("Date format is invalid. Must be DD/MM/YYYY");
+        if(date == null) {
+            throw new ComputerValidationException(DATE_IS_NULL);
+        } else {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                return LocalDate.parse(date, formatter);
+            } catch (DateTimeParseException e) {
+                throw new ComputerValidationException(DATE_FORMAT_IS_INVALID);
+            }
         }
     }
 
@@ -155,18 +178,22 @@ public class ComputerValidator {
      * @throws ComputerValidationException exception raised if the company name is invalid or the company does not exist
      */
     public static Company validateCompanyId(String companyId) throws ComputerValidationException {
-        Pattern p = Pattern.compile("[^0-9]");
-        Matcher m = p.matcher(companyId);
-        if (m.find()) {
-            throw new ComputerValidationException("Company Id is not a valid number");
+        if(companyId == null) {
+            throw new ComputerValidationException(ID_IS_NULL);
         } else {
-            DAOFactory daoFactory = DAOFactory.getInstance();
-            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
-            Company company = companyDAO.fetch(Integer.valueOf(companyId));
-            if (company != null) {
-                return company;
+            Pattern p = Pattern.compile("[^0-9]");
+            Matcher m = p.matcher(companyId);
+            if (m.find()) {
+                throw new ComputerValidationException(COMPANY_ID_IS_NOT_A_VALID_NUMBER);
+            } else {
+                DAOFactory daoFactory = DAOFactory.getInstance();
+                ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
+                Company company = companyDAO.fetch(Integer.valueOf(companyId));
+                if (company != null) {
+                    return company;
+                }
             }
+            return null;
         }
-        return null;
     }
 }

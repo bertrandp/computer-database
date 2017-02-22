@@ -1,9 +1,12 @@
+package dao;
+
 import dao.DAOFactory;
 import dao.ICompanyDAO;
 import dao.IComputerDAO;
 import dao.utils.DAOConfigurationException;
 import model.Company;
 import model.Computer;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -14,6 +17,7 @@ import java.util.List;
  */
 public class DAOTest {
 
+    @Ignore
     @Test
     public void CompanyDAOTest() {
 
@@ -31,6 +35,7 @@ public class DAOTest {
         }
     }
 
+    @Ignore
     @Test
     public void CompanyDAOFetchByName() {
 
@@ -47,6 +52,7 @@ public class DAOTest {
         }
     }
 
+    @Ignore
     @Test
     public void ComputerDAOTest() {
 
@@ -96,6 +102,7 @@ public class DAOTest {
         System.out.println(computer);*/
     }
 
+    @Ignore
     @Test
     public void PageDAOTest() {
 
