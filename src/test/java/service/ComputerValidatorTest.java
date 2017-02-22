@@ -50,19 +50,19 @@ public class ComputerValidatorTest {
     public void throwExceptionWhenValidateDiscontinuedDateWithSameDates() throws ComputerValidationException {
         thrown.expect(ComputerValidationException.class);
         thrown.expectMessage(DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE);
-        ComputerValidator.validateDiscontinuedDate(LocalDate.now(),LocalDate.now());
+        ComputerValidator.validateDiscontinuedDate(LocalDate.now(), LocalDate.now());
     }
 
     @Test
     public void throwExceptionWhenValidateDiscontinuedDateWithInvalidDate() throws ComputerValidationException {
         thrown.expect(ComputerValidationException.class);
         thrown.expectMessage(DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE);
-        ComputerValidator.validateDiscontinuedDate(LocalDate.now(),LocalDate.MAX);
+        ComputerValidator.validateDiscontinuedDate(LocalDate.now(), LocalDate.MAX);
     }
 
     @Test
     public void validateDiscontinuedDateWithValidDate() throws ComputerValidationException {
-        assertTrue(ComputerValidator.validateDiscontinuedDate(LocalDate.now(),LocalDate.MIN));
+        assertTrue(ComputerValidator.validateDiscontinuedDate(LocalDate.now(), LocalDate.MIN));
     }
 
     @Test

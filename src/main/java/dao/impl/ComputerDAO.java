@@ -23,10 +23,10 @@ import java.util.List;
  */
 public class ComputerDAO implements IComputerDAO {
 
-    private static final String SQL_SELECT = "SELECT * FROM computer";
+    private static final String SQL_SELECT = "SELECT c1.id, c1.name, c1.introduced, c1.discontinued, c1.company_id, c2.name as company_name FROM computer c1 LEFT OUTER JOIN company c2 ON c1.company_id = c2.id";
     private static final String SQL_COUNT = "SELECT count(*) AS total FROM computer";
-    private static final String SQL_SELECT_PAGE = "SELECT * FROM computer LIMIT ? OFFSET ?";
-    private static final String SQL_SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
+    private static final String LIMIT_OFFSET = " LIMIT ? OFFSET ?";
+    private static final String WHERE_ID = " WHERE c1.id = ?";
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id ) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
     private static final String SQL_DELETE = "DELETE FROM computer WHERE id = ?";
@@ -79,7 +79,7 @@ public class ComputerDAO implements IComputerDAO {
         Computer computer;
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT_BY_ID, true, id);
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + WHERE_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             computer = mapResultSetToComputer(resultSet);
@@ -182,7 +182,7 @@ public class ComputerDAO implements IComputerDAO {
         List<Computer> list;
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT_PAGE, true, limit, offset);
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIMIT_OFFSET, true, limit, offset);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             list = mapResultSetToComputerList(resultSet);
@@ -198,7 +198,7 @@ public class ComputerDAO implements IComputerDAO {
         List<ComputerDTO> list;
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT_PAGE, true, limit, offset);
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIMIT_OFFSET, true, limit, offset);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             list = mapResultSetToComputerDTOList(resultSet);
@@ -257,9 +257,8 @@ public class ComputerDAO implements IComputerDAO {
             } else {
                 computer.setDiscontinued(null);
             }
-            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
-            Company company = companyDAO.fetch(resultSet.getInt("company_id"));
-            computer.setCompany(company);
+
+            computer.setCompany(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name")));
             list.add(computer);
         }
         return list;
@@ -279,11 +278,7 @@ public class ComputerDAO implements IComputerDAO {
             computer.setName(resultSet.getString("name"));
             computer.setIntroduced(resultSet.getString("introduced"));
             computer.setDiscontinued(resultSet.getString("discontinued"));
-            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
-            Company company = companyDAO.fetch(resultSet.getInt("company_id"));
-            if (company != null) {
-                computer.setCompanyName(company.getName());
-            }
+            computer.setCompanyName(resultSet.getString("company_name"));
             list.add(computer);
         }
         return list;
@@ -314,9 +309,7 @@ public class ComputerDAO implements IComputerDAO {
             } else {
                 computer.setDiscontinued(null);
             }
-            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
-            Company company = companyDAO.fetch(resultSet.getInt("company_id"));
-            computer.setCompany(company);
+            computer.setCompany(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name")));
             return computer;
         }
         return null;

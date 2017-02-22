@@ -1,8 +1,5 @@
 package dao;
 
-import dao.DAOFactory;
-import dao.ICompanyDAO;
-import dao.IComputerDAO;
 import dao.utils.DAOConfigurationException;
 import model.Company;
 import model.Computer;

@@ -11,7 +11,6 @@ import service.impl.CompanyService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +19,6 @@ import java.util.regex.Pattern;
  */
 public class ComputerValidator {
 
-    private static final int MAX_LENGTH = 255;
     public static final String NAME_IS_EMPTY = "Name is empty";
     public static final String NAME_IS_TOO_LONG = "Name is too long";
     public static final String DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE = "Discontinued date is before introduced date";
@@ -37,6 +35,7 @@ public class ComputerValidator {
     public static final String COMPANY_ID_IS_NOT_A_VALID_NUMBER = "Company Id is not a valid number";
     public static final String DATE_IS_NULL = "Date is null";
     public static final String ID_IS_NULL = "Id is null";
+    private static final int MAX_LENGTH = 255;
 
     /**
      * Validate the given name and return true if the name is valid.
@@ -158,7 +157,7 @@ public class ComputerValidator {
      * @throws ComputerValidationException exception raised if the date is invalid
      */
     public static LocalDate validateDate(String date) throws ComputerValidationException {
-        if(date == null) {
+        if (date == null) {
             throw new ComputerValidationException(DATE_IS_NULL);
         } else {
             try {
@@ -178,7 +177,7 @@ public class ComputerValidator {
      * @throws ComputerValidationException exception raised if the company name is invalid or the company does not exist
      */
     public static Company validateCompanyId(String companyId) throws ComputerValidationException {
-        if(companyId == null) {
+        if (companyId == null) {
             throw new ComputerValidationException(ID_IS_NULL);
         } else {
             Pattern p = Pattern.compile("[^0-9]");
