@@ -2,3 +2,5 @@
 computerdatabase.iml
 /target/
 logFile.log
+checkstyle.xml
+suppressions.xml
