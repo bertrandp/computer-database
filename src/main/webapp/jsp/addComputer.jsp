@@ -8,6 +8,7 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="../css/font-awesome.css" rel="stylesheet" media="screen">
     <link href="../css/main.css" rel="stylesheet" media="screen">
+    <link href="../css/bootstrapValidator.min.css" rel="stylesheet" media="screen">
 </head>
 <body>
 <header class="navbar navbar-inverse navbar-fixed-top">
@@ -21,7 +22,7 @@
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2 box">
                 <h1>Add Computer</h1>
-                <form action="" method="POST">
+                <form action="" method="POST" id="addForm">
                     <fieldset>
                         <div class="form-group">
                             <label for="computerName">Computer name</label>
@@ -48,8 +49,13 @@
                             </select>
                         </div>
                     </fieldset>
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <div id="messages"></div>
+                        </div>
+                    </div>
                     <div class="actions pull-right">
-                        <input type="submit" value="Add" class="btn btn-primary">
+                        <input type="submit" id="submit" value="Add" class="btn btn-primary">
                         or
                         <a href="dashboard" class="btn btn-default">Cancel</a>
                     </div>
@@ -68,5 +74,10 @@
         </div>
     </div>
 </section>
+
+<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/input_validation.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrapValidator.min.js"></script>
 </body>
 </html>

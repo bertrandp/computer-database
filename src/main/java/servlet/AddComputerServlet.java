@@ -42,6 +42,9 @@ public class AddComputerServlet extends HttpServlet {
         } catch (ComputerValidationException e) {
             logger.error(e.getMessage()); // TODO
             req.setAttribute("errorMessage", e.getMessage());
+            resp.setStatus(400);
+            RequestDispatcher view = req.getRequestDispatcher("jsp/403.jsp");
+            view.forward(req, resp);
         }
 
         if (req.getAttribute("errorMessage") == null) {
