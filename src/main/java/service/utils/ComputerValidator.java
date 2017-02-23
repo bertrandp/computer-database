@@ -187,7 +187,7 @@ public class ComputerValidator {
         int defaultLimit = 50;
         int minimumLimit = 10;
         int maximumLimit = 100;
-        if(limit != null) {
+        if (limit != null) {
             if (limit < minimumLimit) {
                 limit = defaultLimit;
             } else if (limit > maximumLimit) {
@@ -204,14 +204,14 @@ public class ComputerValidator {
      *
      * @param count the total number of entries
      * @param limit the limit value
-     * @param page the page number to validate
+     * @param page  the page number to validate
      * @return the page number
      */
     public static int validateInputPage(int count, int limit, Integer page) {
         int defaultPage = 1;
         int minimumPage = 1;
         int maximumPage = count / limit + 1;
-        if(page != null) {
+        if (page != null) {
             if (page < minimumPage) {
                 page = defaultPage;
             } else if (page > maximumPage) {

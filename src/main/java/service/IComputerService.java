@@ -4,7 +4,6 @@ package service;
 import dto.ComputerDTO;
 import dto.ComputerPagerDTO;
 import model.Computer;
-import model.Pager;
 import service.utils.ComputerValidationException;
 
 import java.util.List;
@@ -113,7 +112,6 @@ public interface IComputerService {
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
     ComputerPagerDTO getPagedComputerDTOList(String page, String limit) throws ComputerValidationException;
-
 
 
 }

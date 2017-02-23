@@ -6,8 +6,6 @@ import dto.ComputerDTO;
 import dto.ComputerPagerDTO;
 import model.Company;
 import model.Computer;
-import model.ComputerPager;
-import model.Pager;
 import service.IComputerService;
 import service.utils.ComputerValidationException;
 import service.utils.ComputerValidator;
@@ -192,10 +190,10 @@ public class ComputerService implements IComputerService {
         int count = computerDAO.count();
         Integer pageToValidate = null;
         Integer limitToValidate = null;
-        if(inputPage != null) {
+        if (inputPage != null) {
             pageToValidate = ComputerValidator.validateInputInteger(inputPage);
         }
-        if(inputLimit != null) {
+        if (inputLimit != null) {
             limitToValidate = ComputerValidator.validateInputInteger(inputLimit);
         }
         int limit = ComputerValidator.validateInputLimit(limitToValidate);

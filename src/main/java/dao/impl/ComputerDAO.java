@@ -3,6 +3,7 @@ package dao.impl;
 import dao.DAOFactory;
 import dao.ICompanyDAO;
 import dao.IComputerDAO;
+import dao.mapper.ComputerMapper;
 import dao.utils.DAOException;
 import dao.utils.DAOHelper;
 import dto.ComputerDTO;
@@ -15,7 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +49,7 @@ public class ComputerDAO implements IComputerDAO {
              PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT, true);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            list = mapResultSetToComputerDTOList(resultSet);
+            list = ComputerMapper.mapToComputerDTOList(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -66,7 +66,7 @@ public class ComputerDAO implements IComputerDAO {
              PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + WHERE_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            computer = mapResultSetToComputer(resultSet);
+            computer = ComputerMapper.mapToComputer(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -82,7 +82,7 @@ public class ComputerDAO implements IComputerDAO {
              PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + WHERE_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            computer = mapResultSetToComputerDTO(resultSet);
+            computer = ComputerMapper.mapToComputerDTO(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -185,7 +185,7 @@ public class ComputerDAO implements IComputerDAO {
              PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIMIT_OFFSET, true, limit, offset);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            list = mapResultSetToComputerList(resultSet);
+            list = ComputerMapper.mapToComputerList(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -201,7 +201,7 @@ public class ComputerDAO implements IComputerDAO {
              PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIMIT_OFFSET, true, limit, offset);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            list = mapResultSetToComputerDTOList(resultSet);
+            list = ComputerMapper.mapToComputerDTOList(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -225,104 +225,6 @@ public class ComputerDAO implements IComputerDAO {
         }
 
         return count;
-    }
-
-    /**
-     * Map the result set to list of computer.
-     *
-     * @param resultSet the result set to map
-     * @return the list of computer
-     * @throws SQLException exception raised if the there is an issue with the database
-     */
-    private List<Computer> mapResultSetToComputerList(ResultSet resultSet) throws SQLException {
-        List<Computer> list = new ArrayList<>();
-        while (resultSet.next()) {
-            Computer computer = new Computer();
-            computer.setId(resultSet.getInt("id"));
-            computer.setName(resultSet.getString("name"));
-            Date inputIntroduced = resultSet.getDate("introduced");
-            if (inputIntroduced != null) {
-                computer.setIntroduced(inputIntroduced.toLocalDate());
-            } else {
-                computer.setIntroduced(null);
-            }
-            Date inputDiscontinued = resultSet.getDate("discontinued");
-            if (inputDiscontinued != null) {
-                computer.setDiscontinued(inputDiscontinued.toLocalDate());
-            } else {
-                computer.setDiscontinued(null);
-            }
-
-            computer.setCompany(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name")));
-            list.add(computer);
-        }
-        return list;
-    }
-
-    /**
-     * Map the result set to list of computerDTO.
-     *
-     * @param resultSet the result set to map
-     * @return the list of computer
-     * @throws SQLException exception raised if the there is an issue with the database
-     */
-    private List<ComputerDTO> mapResultSetToComputerDTOList(ResultSet resultSet) throws SQLException {
-        List<ComputerDTO> list = new ArrayList<>();
-        while (resultSet.next()) {
-            ComputerDTO computer = new ComputerDTO();
-            computer.setId(resultSet.getInt("id"));
-            computer.setName(resultSet.getString("name"));
-            computer.setIntroduced(resultSet.getString("introduced"));
-            computer.setDiscontinued(resultSet.getString("discontinued"));
-            computer.setCompanyName(resultSet.getString("company_name"));
-            list.add(computer);
-        }
-        return list;
-    }
-
-
-    /**
-     * Map the result set to a computer.
-     *
-     * @param resultSet the result set to map
-     * @return the computer
-     * @throws SQLException exception raised if the there is an issue with the database
-     */
-    private Computer mapResultSetToComputer(ResultSet resultSet) throws SQLException {
-        Computer computer = new Computer();
-        if (resultSet.next()) {
-            computer.setId(resultSet.getInt("id"));
-            computer.setName(resultSet.getString("name"));
-            Date inputIntroduced = resultSet.getDate("introduced");
-            if (inputIntroduced != null) {
-                computer.setIntroduced(inputIntroduced.toLocalDate());
-            } else {
-                computer.setIntroduced(null);
-            }
-            Date inputDiscontinued = resultSet.getDate("discontinued");
-            if (inputDiscontinued != null) {
-                computer.setDiscontinued(inputDiscontinued.toLocalDate());
-            } else {
-                computer.setDiscontinued(null);
-            }
-            computer.setCompany(new Company(resultSet.getInt("company_id"), resultSet.getString("company_name")));
-            return computer;
-        }
-        return null;
-    }
-
-
-    private ComputerDTO mapResultSetToComputerDTO(ResultSet resultSet) throws SQLException {
-        ComputerDTO computer = new ComputerDTO();
-        if (resultSet.next()) {
-            computer.setId(resultSet.getInt("id"));
-            computer.setName(resultSet.getString("name"));
-            computer.setIntroduced(resultSet.getString("introduced"));
-            computer.setDiscontinued(resultSet.getString("discontinued"));
-            computer.setCompanyName(resultSet.getString("company_name"));
-            return computer;
-        }
-        return null;
     }
 
 }
