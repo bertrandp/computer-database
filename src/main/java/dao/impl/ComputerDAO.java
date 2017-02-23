@@ -42,22 +42,6 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public List<Computer> fetchAll() {
-        List<Computer> list;
-
-        try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT, true);
-             ResultSet resultSet = preparedStatement.executeQuery()
-        ) {
-            list = mapResultSetToComputerList(resultSet);
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
-
-        return list;
-    }
-
-    @Override
     public List<ComputerDTO> fetchAllDTO() {
         List<ComputerDTO> list;
 
@@ -83,6 +67,22 @@ public class ComputerDAO implements IComputerDAO {
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             computer = mapResultSetToComputer(resultSet);
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+
+        return computer;
+    }
+
+    @Override
+    public ComputerDTO fetchDTOById(Integer id) {
+        ComputerDTO computer;
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + WHERE_ID, true, id);
+             ResultSet resultSet = preparedStatement.executeQuery()
+        ) {
+            computer = mapResultSetToComputerDTO(resultSet);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -161,14 +161,14 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public boolean delete(Computer computer) {
+    public boolean delete(int computerId) {
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, computer.getId());
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, computerId);
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
-                throw new DAOException("Failed to delete computer : " + computer);
+                throw new DAOException("Failed to delete computer : " + computerId);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -178,7 +178,7 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public List<Computer> fetch(int limit, int offset) {
+    public List<Computer> fetchPage(int limit, int offset) {
         List<Computer> list;
 
         try (Connection connection = daoFactory.getConnection();
@@ -194,7 +194,7 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public List<ComputerDTO> fetchDTO(int limit, int offset) {
+    public List<ComputerDTO> fetchPageDTO(int limit, int offset) {
         List<ComputerDTO> list;
 
         try (Connection connection = daoFactory.getConnection();
@@ -225,11 +225,6 @@ public class ComputerDAO implements IComputerDAO {
         }
 
         return count;
-    }
-
-    @Override
-    public ComputerDTO createDTO(Computer computer) {
-        return new ComputerDTO(computer.getId(), computer.getName(), computer.getIntroduced().toString(), computer.getDiscontinued().toString(), computer.getCompany().getName());
     }
 
     /**
@@ -275,6 +270,7 @@ public class ComputerDAO implements IComputerDAO {
         List<ComputerDTO> list = new ArrayList<>();
         while (resultSet.next()) {
             ComputerDTO computer = new ComputerDTO();
+            computer.setId(resultSet.getInt("id"));
             computer.setName(resultSet.getString("name"));
             computer.setIntroduced(resultSet.getString("introduced"));
             computer.setDiscontinued(resultSet.getString("discontinued"));
@@ -314,4 +310,19 @@ public class ComputerDAO implements IComputerDAO {
         }
         return null;
     }
+
+
+    private ComputerDTO mapResultSetToComputerDTO(ResultSet resultSet) throws SQLException {
+        ComputerDTO computer = new ComputerDTO();
+        if (resultSet.next()) {
+            computer.setId(resultSet.getInt("id"));
+            computer.setName(resultSet.getString("name"));
+            computer.setIntroduced(resultSet.getString("introduced"));
+            computer.setDiscontinued(resultSet.getString("discontinued"));
+            computer.setCompanyName(resultSet.getString("company_name"));
+            return computer;
+        }
+        return null;
+    }
+
 }

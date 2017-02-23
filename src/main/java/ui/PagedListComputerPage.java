@@ -1,9 +1,14 @@
 package ui;
 
 
+import dto.ComputerDTO;
+import dto.ComputerPagerDTO;
 import model.Computer;
 import model.ComputerPager;
 import model.Pager;
+import service.IComputerService;
+import service.impl.ComputerService;
+import service.utils.ComputerValidationException;
 
 import java.util.List;
 import java.util.Scanner;
@@ -24,8 +29,46 @@ public class PagedListComputerPage {
         System.out.println("*********************");
         System.out.println("");
 
-        Pager computerPager = new ComputerPager();
-        displayComputerPage(computerPager);
+        displayComputerPage(1,40);
+    }
+
+    private static void displayComputerPage(int page, int limit) {
+        System.out.println("---------------------------------------------------------");
+        System.out.println("|\t" + "n°" + "\t\tName");
+        System.out.println("---------------------------------------------------------");
+
+        IComputerService computerService = new ComputerService();
+        try {
+            ComputerPagerDTO pager = computerService.getPagedComputerDTOList(String.valueOf(page), String.valueOf(limit));
+
+            for (ComputerDTO computer : (List<ComputerDTO>) pager.getList()) {
+                System.out.println("|\t" + computer.getId() + "\t\t" + computer.getName());
+            }
+            System.out.println("---------------------------------------------------------");
+            System.out.println("*********** Pager " + pager.getPage() + "\t/ " + (pager.getCount() / limit + 1) + " ***************");
+            System.out.println("*** 1 : Previous      2 : Next        0 : Quit  ***");
+            Scanner sc = new Scanner(System.in);
+            String input = sc.nextLine();
+            switch (input.trim()) {
+                case "0":
+                    MenuPage.display();
+                    break;
+                case "1":
+                    displayComputerPage(pager.getPage()-1, pager.getLimit());
+                    break;
+                case "2":
+                    displayComputerPage(pager.getPage()+1, pager.getLimit());
+                    break;
+                default:
+                    displayComputerPage(pager.getPage(), pager.getLimit());
+                    break;
+            }
+
+
+        } catch (ComputerValidationException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**

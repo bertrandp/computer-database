@@ -24,30 +24,40 @@ import java.util.List;
 @WebServlet("/add-computer")
 public class AddComputerServlet extends HttpServlet {
 
-    Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+    public static final String COMPUTER_NAME = "computerName";
+    public static final String INTRODUCED = "introduced";
+    public static final String DISCONTINUED = "discontinued";
+    public static final String COMPANY_ID = "companyId";
+    public static final String ERROR_MESSAGE = "errorMessage";
+    public static final String DASHBOARD = "/dashboard";
+    public static final String JSP_403 = "jsp/403.jsp";
+    public static final String ADD_COMPUTER_JSP = "jsp/addComputer.jsp";
+    public static final String COMPANY_LIST = "companyList";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String name = req.getParameter("computerName");
-        String introduced = req.getParameter("introduced");
-        String discontinued = req.getParameter("discontinued");
-        String companyId = req.getParameter("companyId");
+        String name = req.getParameter(COMPUTER_NAME);
+        String introduced = req.getParameter(INTRODUCED);
+        String discontinued = req.getParameter(DISCONTINUED);
+        String companyId = req.getParameter(COMPANY_ID);
 
-        logger.debug("AddComputerServlet.doPost() : name:" + name + ", introduced:" + introduced + ", discontinued:" + discontinued + ", companyId:" + companyId);
+        LOGGER.debug("AddComputerServlet.doPost() : name:" + name + ", introduced:" + introduced + ", discontinued:" + discontinued + ", companyId:" + companyId);
 
         IComputerService computerService = new ComputerService();
         try {
             computerService.addWithCompanyId(name, introduced, discontinued, companyId);
         } catch (ComputerValidationException e) {
-            logger.error(e.getMessage()); // TODO
-            req.setAttribute("errorMessage", e.getMessage());
-            resp.setStatus(400);
-            RequestDispatcher view = req.getRequestDispatcher("jsp/403.jsp");
+            LOGGER.error(e.getMessage());
+            req.setAttribute(ERROR_MESSAGE, e.getMessage());
+            resp.setStatus(403);
+            RequestDispatcher view = req.getRequestDispatcher(JSP_403);
             view.forward(req, resp);
         }
 
-        resp.sendRedirect("/dashboard");
+        resp.sendRedirect(DASHBOARD);
 
     }
 
@@ -57,9 +67,9 @@ public class AddComputerServlet extends HttpServlet {
         ICompanyService companyService = new CompanyService();
         List<Company> companyList = companyService.fetchAll();
 
-        request.setAttribute("companyList", companyList);
+        request.setAttribute(COMPANY_LIST, companyList);
 
-        RequestDispatcher view = request.getRequestDispatcher("jsp/addComputer.jsp");
+        RequestDispatcher view = request.getRequestDispatcher(ADD_COMPUTER_JSP);
         view.forward(request, response);
     }
 }

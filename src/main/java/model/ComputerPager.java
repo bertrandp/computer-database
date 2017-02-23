@@ -22,7 +22,7 @@ public class ComputerPager implements Pager {
     public ComputerPager() {
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
-        this.list = computerDAO.fetch(limit, offset);
+        this.list = computerDAO.fetchPage(limit, offset);
         this.rowTotal = computerDAO.count();
     }
 
@@ -39,7 +39,7 @@ public class ComputerPager implements Pager {
         this.offset = (page - 1) * limit;
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
-        this.list = computerDAO.fetch(limit, offset);
+        this.list = computerDAO.fetchPage(limit, offset);
         this.rowTotal = computerDAO.count();
     }
 
@@ -81,7 +81,7 @@ public class ComputerPager implements Pager {
             index++;
             DAOFactory daoFactory = DAOFactory.getInstance();
             IComputerDAO computerDAO = daoFactory.getComputerDAO();
-            list = computerDAO.fetch(limit, offset);
+            list = computerDAO.fetchPage(limit, offset);
         }
     }
 
@@ -92,7 +92,7 @@ public class ComputerPager implements Pager {
             index--;
             DAOFactory daoFactory = DAOFactory.getInstance();
             IComputerDAO computerDAO = daoFactory.getComputerDAO();
-            list = computerDAO.fetch(limit, offset);
+            list = computerDAO.fetchPage(limit, offset);
         }
     }
 }

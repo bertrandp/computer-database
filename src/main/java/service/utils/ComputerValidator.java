@@ -102,25 +102,16 @@ public class ComputerValidator {
     /**
      * Validate the given id and return true if the id is valid and a computer exists with this id.
      *
-     * @param id the id of the computer
+     * @param inputId the id of the computer
      * @return true if the id is valid and a computer with this id exists
      * @throws ComputerValidationException exception raised if the id is invalid or no computer exists with this id
      */
-    public static boolean validateId(String id) throws ComputerValidationException {
-        if (id == null || id.trim().isEmpty()) {
-            throw new ComputerValidationException(ID_IS_EMPTY);
-        } else {
-            Pattern p = Pattern.compile("[^0-9]");
-            Matcher m = p.matcher(id);
-            if (m.find()) {
-                throw new ComputerValidationException(ID_IS_NOT_A_VALID_NUMBER);
-            }
-            DAOFactory daoFactory = DAOFactory.getInstance();
-            IComputerDAO computerDAO = daoFactory.getComputerDAO();
-
-            if (computerDAO.fetchById(Integer.valueOf(id)) == null) {
-                throw new ComputerValidationException("Id " + id + " does not exist");
-            }
+    public static boolean validateId(String inputId) throws ComputerValidationException {
+        Integer id = validateInputInteger(inputId);
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        IComputerDAO computerDAO = daoFactory.getComputerDAO();
+        if (computerDAO.fetchById(Integer.valueOf(id)) == null) {
+            throw new ComputerValidationException("Id " + id + " does not exist");
         }
         return true;
     }
@@ -132,23 +123,20 @@ public class ComputerValidator {
      * @param limit the number of item to validate
      * @throws ComputerValidationException exception raised if the parameters are invalid
      */
+    @Deprecated
     public static void validatePageParam(int page, int limit) throws ComputerValidationException {
-
         if (limit < 1) {
             throw new ComputerValidationException(PAGE_SIZE_IS_BELOW_1);
         } else if (limit > 100) {
             throw new ComputerValidationException(PAGE_SIZE_IS_TOO_LARGE);
         }
-
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
-
         if (page < 1) {
             throw new ComputerValidationException(PAGE_NUMBER_IS_BELOW_1);
         } else if (page > computerDAO.count() / limit + 1) {
             throw new ComputerValidationException(PAGE_NUMBER_IS_TOO_LARGE);
         }
-
     }
 
     /**
@@ -158,7 +146,7 @@ public class ComputerValidator {
      * @return true if the discontinued date is valid
      * @throws ComputerValidationException exception raised if the date is invalid
      */
-    public static LocalDate validateDate(String date) throws ComputerValidationException {
+    public static LocalDate validateInputDate(String date) throws ComputerValidationException {
         if (date == null) {
             throw new ComputerValidationException(DATE_IS_NULL);
         } else {
@@ -179,22 +167,72 @@ public class ComputerValidator {
      * @throws ComputerValidationException exception raised if the company name is invalid or the company does not exist
      */
     public static Company validateCompanyId(String companyId) throws ComputerValidationException {
-        if (companyId == null) {
-            throw new ComputerValidationException(ID_IS_NULL);
+        Integer id = validateInputInteger(companyId);
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
+        Company company = companyDAO.fetch(Integer.valueOf(id));
+        if (company != null) {
+            return company;
+        }
+        return null;
+    }
+
+    /**
+     * Validate the given limit and return it, return a default value in case the input is not valid.
+     *
+     * @param limit the limit to validate
+     * @return the limit
+     */
+    public static int validateInputLimit(Integer limit) {
+        int defaultLimit = 50;
+        int minimumLimit = 10;
+        int maximumLimit = 100;
+        if(limit != null) {
+            if (limit < minimumLimit) {
+                limit = defaultLimit;
+            } else if (limit > maximumLimit) {
+                limit = defaultLimit;
+            }
+        } else {
+            limit = defaultLimit;
+        }
+        return limit;
+    }
+
+    /**
+     * Validate the given page number and return it, return a default value in case the input is not valid.
+     *
+     * @param count the total number of entries
+     * @param limit the limit value
+     * @param page the page number to validate
+     * @return the page number
+     */
+    public static int validateInputPage(int count, int limit, Integer page) {
+        int defaultPage = 1;
+        int minimumPage = 1;
+        int maximumPage = count / limit + 1;
+        if(page != null) {
+            if (page < minimumPage) {
+                page = defaultPage;
+            } else if (page > maximumPage) {
+                page = maximumPage;
+            }
+        } else {
+            page = defaultPage;
+        }
+        return page;
+    }
+
+    public static Integer validateInputInteger(String input) throws ComputerValidationException {
+        if (input == null || input.trim().isEmpty()) {
+            throw new ComputerValidationException(ID_IS_EMPTY);
         } else {
             Pattern p = Pattern.compile("[^0-9]");
-            Matcher m = p.matcher(companyId);
+            Matcher m = p.matcher(input);
             if (m.find()) {
-                throw new ComputerValidationException(COMPANY_ID_IS_NOT_A_VALID_NUMBER);
-            } else {
-                DAOFactory daoFactory = DAOFactory.getInstance();
-                ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
-                Company company = companyDAO.fetch(Integer.valueOf(companyId));
-                if (company != null) {
-                    return company;
-                }
+                throw new ComputerValidationException(ID_IS_NOT_A_VALID_NUMBER);
             }
-            return null;
         }
+        return Integer.valueOf(input);
     }
 }

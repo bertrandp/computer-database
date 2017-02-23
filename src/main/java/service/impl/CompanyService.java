@@ -3,7 +3,6 @@ package service.impl;
 
 import dao.DAOFactory;
 import dao.ICompanyDAO;
-import dao.utils.DAOConfigurationException;
 import model.Company;
 import service.ICompanyService;
 
@@ -27,13 +26,7 @@ public class CompanyService implements ICompanyService {
 
     @Override
     public List<Company> fetchAll() {
-        List<Company> listCompany = null;
-        try {
-            listCompany = companyDAO.fetchAll();
-        } catch (DAOConfigurationException e) {
-            e.printStackTrace(); // TODO remove printstacktrace
-        }
-        return listCompany;
+        return companyDAO.fetchAll();
     }
 
     @Override

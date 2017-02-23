@@ -77,19 +77,19 @@ public class ComputerValidatorTest {
     public void throwExceptionWhenValidateDateWithInvalidDate() throws ComputerValidationException {
         thrown.expect(ComputerValidationException.class);
         thrown.expectMessage(DATE_FORMAT_IS_INVALID);
-        ComputerValidator.validateDate("invalid date");
+        ComputerValidator.validateInputDate("invalid date");
     }
 
     @Test
     public void throwExceptionWhenValidateDateWithNull() throws ComputerValidationException {
         thrown.expect(ComputerValidationException.class);
         thrown.expectMessage(DATE_IS_NULL);
-        ComputerValidator.validateDate(null);
+        ComputerValidator.validateInputDate(null);
     }
 
     @Test
     public void validateDateWithValidDate() throws ComputerValidationException {
-        assertNotNull(ComputerValidator.validateDate("01/01/2000"));
+        assertNotNull(ComputerValidator.validateInputDate("01/01/2000"));
     }
 
     @Test

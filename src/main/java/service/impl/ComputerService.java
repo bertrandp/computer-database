@@ -20,20 +20,14 @@ import java.util.List;
  */
 public class ComputerService implements IComputerService {
 
-    private DAOFactory daoFactory;
     private IComputerDAO computerDAO;
 
     /**
      * Computer service constructor. Fetch the instance of DAOFactory.
      */
     public ComputerService() {
-        this.daoFactory = DAOFactory.getInstance();
+        DAOFactory daoFactory = DAOFactory.getInstance();
         this.computerDAO = daoFactory.getComputerDAO();
-    }
-
-    @Override
-    public List<Computer> fetchAll() {
-        return computerDAO.fetchAll();
     }
 
     @Override
@@ -49,6 +43,14 @@ public class ComputerService implements IComputerService {
         return null;
     }
 
+    @Override
+    public ComputerDTO getDTO(String id) throws ComputerValidationException {
+        if (ComputerValidator.validateId(id)) {
+            return computerDAO.fetchDTOById(Integer.valueOf(id));
+        }
+        return null;
+    }
+
     /**
      * Add the computer with the given parameters.
      *
@@ -60,12 +62,9 @@ public class ComputerService implements IComputerService {
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
     private boolean add(String name, String introduced, String discontinued, Company company) throws ComputerValidationException {
-
         Computer computerToAdd = setParameters(name, introduced, discontinued);
-
         computerToAdd.setCompany(company);
         return computerDAO.add(computerToAdd);
-
     }
 
     /**
@@ -78,15 +77,15 @@ public class ComputerService implements IComputerService {
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
     private Computer setParameters(String name, String introduced, String discontinued) throws ComputerValidationException {
-
         Computer computer = new Computer();
+
         if (ComputerValidator.validateName(name)) {
             computer.setName(name);
         }
 
         if (introduced != null && !introduced.trim().isEmpty()) {
             try {
-                LocalDate introducedLD = ComputerValidator.validateDate(introduced);
+                LocalDate introducedLD = ComputerValidator.validateInputDate(introduced);
                 if (introducedLD != null) {
                     computer.setIntroduced(introducedLD);
                 }
@@ -98,7 +97,7 @@ public class ComputerService implements IComputerService {
 
         if (discontinued != null && !discontinued.trim().isEmpty()) {
             try {
-                LocalDate discontinuedLD = ComputerValidator.validateDate(discontinued);
+                LocalDate discontinuedLD = ComputerValidator.validateInputDate(discontinued);
                 if (discontinuedLD != null) {
                     if (computer.getIntroduced() != null) {
                         ComputerValidator.validateDiscontinuedDate(discontinuedLD, computer.getIntroduced());
@@ -148,15 +147,11 @@ public class ComputerService implements IComputerService {
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
     private boolean update(String id, String name, String introduced, String discontinued, Company company) throws ComputerValidationException {
-
         Computer computerToAdd = setParameters(name, introduced, discontinued);
-
         if (ComputerValidator.validateId(id)) {
             computerToAdd.setId(Integer.valueOf(id));
         }
-
         computerToAdd.setCompany(company);
-
         return computerDAO.update(computerToAdd);
     }
 
@@ -183,8 +178,8 @@ public class ComputerService implements IComputerService {
     }
 
     @Override
-    public boolean delete(Computer computer) {
-        return computerDAO.delete(computer);
+    public boolean delete(int computerId) {
+        return computerDAO.delete(computerId);
     }
 
     @Override
@@ -193,20 +188,19 @@ public class ComputerService implements IComputerService {
     }
 
     @Override
-    public Pager getPagedComputerList() {
-        return new ComputerPager();
-    }
-
-    @Override
-    public Pager getPagedComputerList(int page, int limit) throws ComputerValidationException {
-        ComputerValidator.validatePageParam(page, limit);
-        return new ComputerPager(page, limit);
-    }
-
-    @Override
-    public ComputerPagerDTO getPagedComputerDTOList(int page, int limit) throws ComputerValidationException {
-        ComputerValidator.validatePageParam(page, limit);
-        return new ComputerPagerDTO(page, limit);
+    public ComputerPagerDTO getPagedComputerDTOList(String inputPage, String inputLimit) throws ComputerValidationException {
+        int count = computerDAO.count();
+        Integer pageToValidate = null;
+        Integer limitToValidate = null;
+        if(inputPage != null) {
+            pageToValidate = ComputerValidator.validateInputInteger(inputPage);
+        }
+        if(inputLimit != null) {
+            limitToValidate = ComputerValidator.validateInputInteger(inputLimit);
+        }
+        int limit = ComputerValidator.validateInputLimit(limitToValidate);
+        int page = ComputerValidator.validateInputPage(count, limit, pageToValidate);
+        return new ComputerPagerDTO(count, page, limit);
     }
 
 }

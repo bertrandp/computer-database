@@ -6,7 +6,6 @@ import model.Computer;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -56,7 +55,7 @@ public class DAOTest {
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
 
-        // Test : List computers
+        /*// Test : List computers
         List<Computer> listComputer = computerDAO.fetchAll();
         System.out.println("Test : List computers");
         System.out.println(listComputer);
@@ -86,7 +85,7 @@ public class DAOTest {
         computer.setName("Test Name");
         computerDAO.update(computer);
         System.out.println("Show computer details (id = 409)");
-        System.out.println(computer);
+        System.out.println(computer);*/
 
         // Test : Delete a computer
         /*computer = computerDAO.fetchById(418);
@@ -107,7 +106,7 @@ public class DAOTest {
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
 
         // Test : List computers
-        List<Computer> listComputer = computerDAO.fetch(20, 20);
+        List<Computer> listComputer = computerDAO.fetchPage(20, 20);
         System.out.println("Test : List computers");
         System.out.println(listComputer);
 

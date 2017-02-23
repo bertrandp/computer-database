@@ -1,6 +1,7 @@
 package ui;
 
 
+import dto.ComputerDTO;
 import model.Computer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +28,16 @@ public class DeleteComputerPage {
 
         if (!id.trim().isEmpty()) {
             IComputerService computerService = new ComputerService();
-            Computer computer;
+            ComputerDTO computer;
             try {
-                computer = computerService.get(id);
+                computer = computerService.getDTO(id);
                 System.out.println("* Do you really want to delete this computer : " + computer.getName());
                 sc = new Scanner(System.in);
                 System.out.println("* yes/no :");
                 String input = sc.nextLine();
                 switch (input) {
                     case "yes":
-                        computerService.delete(computer);
+                        computerService.delete(computer.getId());
                         MenuPage.display();
                         break;
                     default:

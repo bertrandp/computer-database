@@ -5,7 +5,7 @@ package model;
  */
 public class Company {
 
-    private Integer id;
+    private int id;
     private String name;
 
     /**

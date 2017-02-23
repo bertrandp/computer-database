@@ -1,6 +1,7 @@
 package ui;
 
 
+import dto.ComputerDTO;
 import model.Computer;
 import service.IComputerService;
 import service.impl.ComputerService;
@@ -24,12 +25,12 @@ public class ListComputerPage {
         System.out.println("");
 
         IComputerService computerService = new ComputerService();
-        List<Computer> listComputer = computerService.fetchAll();
+        List<ComputerDTO> listComputer = computerService.fetchAllDTO();
 
         System.out.println("---------------------------------------------------------");
         System.out.println("|\t" + "n°" + "\t\tName");
         System.out.println("---------------------------------------------------------");
-        for (Computer computer : listComputer) {
+        for (ComputerDTO computer : listComputer) {
             System.out.println("|\t" + computer.getId() + "\t\t" + computer.getName());
         }
 

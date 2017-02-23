@@ -21,18 +21,23 @@ import java.io.IOException;
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
+    public static final String COUNT = "count";
+    public static final String LIMIT = "limit";
+    public static final String PAGE = "page";
+    public static final String COMPUTER_LIST = "computerList";
+    public static final String ERROR_MESSAGE = "errorMessage";
+    public static final String DASHBOARD_JSP = "jsp/dashboard.jsp";
     private static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         logger.debug("DashboardServlet.doGet()");
-
         setAttributes(request);
-
-        RequestDispatcher view = request.getRequestDispatcher("jsp/dashboard.jsp");
+        RequestDispatcher view = request.getRequestDispatcher(DASHBOARD_JSP);
         view.forward(request, response);
     }
+
 
     /**
      * Set request attributes related to pagination.
@@ -40,42 +45,20 @@ public class DashboardServlet extends HttpServlet {
      * @param request the http request
      */
     private void setAttributes(HttpServletRequest request) {
-        IComputerService computerService = new ComputerService();
-        int count = computerService.count();
-        logger.debug("Count computers : " + count);
-        request.setAttribute("count", count);
 
-        String limitParam = request.getParameter("limit");
-        int limit = 50;
-        if (limitParam != null) {
-            limit = Integer.valueOf(limitParam);
-            if (limit < 1) {
-                limit = 1;
-            } else if (limit > 100) {
-                limit = 100;
-            }
-        }
-        request.setAttribute("limit", limit);
-
-        int page = 1;
-        String pageParam = request.getParameter("page");
-        if (pageParam != null) {
-            page = Integer.valueOf(pageParam);
-            if (page < 1) {
-                page = 1;
-            } else if (page > count / limit + 1) {
-                page = count / limit + 1;
-            }
-        }
-        request.setAttribute("page", page);
+        String limit = request.getParameter(LIMIT);
+        String page = request.getParameter(PAGE);
 
         try {
+            IComputerService computerService = new ComputerService();
             ComputerPagerDTO pager = computerService.getPagedComputerDTOList(page, limit);
-            request.setAttribute("computerList", pager.getList());
+            request.setAttribute(COUNT, pager.getCount());
+            request.setAttribute(LIMIT, pager.getLimit());
+            request.setAttribute(PAGE, pager.getPage());
+            request.setAttribute(COMPUTER_LIST, pager.getList());
         } catch (ComputerValidationException e) {
-            request.setAttribute("errorMessage", e.getMessage());
+            request.setAttribute(ERROR_MESSAGE, e.getMessage());
         }
-
 
     }
 

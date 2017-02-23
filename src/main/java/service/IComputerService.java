@@ -15,13 +15,6 @@ import java.util.List;
 public interface IComputerService {
 
     /**
-     * Retrieve the list of computer.
-     *
-     * @return the list of computer
-     */
-    List<Computer> fetchAll();
-
-    /**
      * Retrieve the list of computerDTO.
      *
      * @return the list of computerDTO
@@ -36,6 +29,15 @@ public interface IComputerService {
      * @throws ComputerValidationException exception raised when id is not valid
      */
     Computer get(String id) throws ComputerValidationException;
+
+    /**
+     * Retrieve the computer for the given id.
+     *
+     * @param id the id of the computer
+     * @return the computer for the given id
+     * @throws ComputerValidationException exception raised when id is not valid
+     */
+    ComputerDTO getDTO(String id) throws ComputerValidationException;
 
     /**
      * Add the computer with the given parameters.
@@ -90,10 +92,10 @@ public interface IComputerService {
     /**
      * Delete the given computer.
      *
-     * @param computer the computer to delete
+     * @param computerId the computer to delete
      * @return true if the computer is deleted
      */
-    boolean delete(Computer computer);
+    boolean delete(int computerId);
 
     /**
      * Retrieve the total number of computers.
@@ -103,13 +105,6 @@ public interface IComputerService {
     int count();
 
     /**
-     * Retrieve the paged computer list.
-     *
-     * @return the paged computer list
-     */
-    Pager getPagedComputerList();
-
-    /**
      * Retrieve the paged computer list for the given page and the number of item per page.
      *
      * @param page  the page index
@@ -117,17 +112,8 @@ public interface IComputerService {
      * @return the pager containing the computer page
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
-    Pager getPagedComputerList(int page, int limit) throws ComputerValidationException;
+    ComputerPagerDTO getPagedComputerDTOList(String page, String limit) throws ComputerValidationException;
 
-    /**
-     * Retrieve the paged computer list for the given page and the number of item per page.
-     *
-     * @param page  the page index
-     * @param limit the number of computer to display per page
-     * @return the pager containing the computer page
-     * @throws ComputerValidationException exception raised if parameters are not valid
-     */
-    ComputerPagerDTO getPagedComputerDTOList(int page, int limit) throws ComputerValidationException;
 
 
 }

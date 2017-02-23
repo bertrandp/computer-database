@@ -1,5 +1,6 @@
 package ui;
 
+import dto.ComputerDTO;
 import model.Computer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,37 +28,16 @@ public class ComputerDetailsPage {
         String id = sc.nextLine();
 
         IComputerService computerService = new ComputerService();
-        Computer computer;
+        ComputerDTO computer;
         try {
-            computer = computerService.get(id);
+            computer = computerService.getDTO(id);
 
-            String introduced;
-            String discontinued;
-            String companyName;
-
-            LocalDate introducedDate = computer.getIntroduced();
-            if (introducedDate == null) {
-                introduced = "unknown\t";
-            } else {
-                introduced = String.valueOf(introducedDate);
-            }
-            LocalDate discontinuedDate = computer.getDiscontinued();
-            if (discontinuedDate == null) {
-                discontinued = "unknown\t";
-            } else {
-                discontinued = String.valueOf(discontinuedDate);
-            }
-            if (computer.getCompany() != null) {
-                companyName = computer.getCompany().getName();
-            } else {
-                companyName = "unknown";
-            }
             System.out.println("---------------------------------------------------------------------------------");
             System.out.println("|\t****\t" + computer.getName() + "\t****");
             System.out.println("---------------------------------------------------------------------------------");
             System.out.println("|\t" + "Introduced Date" + "\t\tDiscontinued Date" + "\t\tCompany");
             System.out.println("---------------------------------------------------------------------------------");
-            System.out.println("|\t" + introduced + "\t\t\t" + discontinued + "\t\t\t\t" + companyName);
+            System.out.println("|\t" + computer.getIntroduced() + "\t\t\t" + computer.getDiscontinued() + "\t\t\t\t" + computer.getName());
             System.out.println("---------------------------------------------------------------------------------");
 
         } catch (ComputerValidationException e) {
