@@ -1,14 +1,12 @@
-package ui;
+package cli.ui;
 
 import dto.ComputerDTO;
-import model.Computer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.IComputerService;
 import service.impl.ComputerService;
 import service.utils.ComputerValidationException;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 /**

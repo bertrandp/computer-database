@@ -1,6 +1,6 @@
-package launcher;
+package cli.launcher;
 
-import ui.UserInterfaceCLI;
+import cli.ui.UserInterfaceCLI;
 
 /**
  * Created by bpestre on 17/02/17.

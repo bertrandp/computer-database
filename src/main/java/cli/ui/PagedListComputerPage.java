@@ -1,10 +1,9 @@
-package ui;
+package cli.ui;
 
 
 import dto.ComputerDTO;
 import dto.ComputerPagerDTO;
 import model.Computer;
-import model.ComputerPager;
 import model.Pager;
 import service.IComputerService;
 import service.impl.ComputerService;

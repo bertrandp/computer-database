@@ -1,8 +1,7 @@
-package ui;
+package cli.ui;
 
 
 import dto.ComputerDTO;
-import model.Computer;
 import service.IComputerService;
 import service.impl.ComputerService;
 

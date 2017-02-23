@@ -1,4 +1,4 @@
-package ui;
+package cli.ui;
 
 /**
  * Created by ebiz on 15/02/17.
