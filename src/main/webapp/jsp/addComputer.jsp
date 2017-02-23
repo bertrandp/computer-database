@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="actions pull-right">
-                        <input type="submit" id="submit" value="Add" class="btn btn-primary">
+                        <input type="submit" value="Add" class="btn btn-primary">
                         or
                         <a href="dashboard" class="btn btn-default">Cancel</a>
                     </div>
@@ -77,7 +77,7 @@
 
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/input_validation.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrapValidator.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/input_validation.js"></script>
 </body>
 </html>

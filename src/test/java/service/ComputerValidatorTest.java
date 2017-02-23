@@ -16,6 +16,7 @@ import static service.utils.ComputerValidator.DATE_IS_NULL;
 import static service.utils.ComputerValidator.DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE;
 import static service.utils.ComputerValidator.DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE;
 import static service.utils.ComputerValidator.ID_IS_NULL;
+import static service.utils.ComputerValidator.INTRODUCED_DATE_DOES_NOT_EXISTS;
 import static service.utils.ComputerValidator.NAME_IS_EMPTY;
 import static service.utils.ComputerValidator.NAME_IS_TOO_LONG;
 
@@ -58,6 +59,13 @@ public class ComputerValidatorTest {
         thrown.expect(ComputerValidationException.class);
         thrown.expectMessage(DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE);
         ComputerValidator.validateDiscontinuedDate(LocalDate.now(), LocalDate.MAX);
+    }
+
+    @Test
+    public void throwExceptionWhenValidateDiscontinuedDateWithNullIntroducedDate() throws ComputerValidationException {
+        thrown.expect(ComputerValidationException.class);
+        thrown.expectMessage(INTRODUCED_DATE_DOES_NOT_EXISTS);
+        ComputerValidator.validateDiscontinuedDate(LocalDate.now(), null);
     }
 
     @Test
