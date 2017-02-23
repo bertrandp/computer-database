@@ -47,11 +47,8 @@ public class AddComputerServlet extends HttpServlet {
             view.forward(req, resp);
         }
 
-        if (req.getAttribute("errorMessage") == null) {
-            req.setAttribute("successMessage", "Success");
-        }
+        resp.sendRedirect("/dashboard");
 
-        doGet(req, resp);
     }
 
     @Override

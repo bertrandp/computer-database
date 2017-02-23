@@ -60,16 +60,6 @@
                         <a href="dashboard" class="btn btn-default">Cancel</a>
                     </div>
                 </form>
-                <c:if test="${not empty errorMessage}">
-                    <div id="error" class="alert alert-danger">
-                        Error: ${errorMessage}
-                    </div>
-                </c:if>
-                <c:if test="${not empty successMessage}">
-                    <div id="success" class="alert alert-success">
-                        The computer is added.
-                    </div>
-                </c:if>
             </div>
         </div>
     </div>

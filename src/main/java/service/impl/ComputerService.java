@@ -55,7 +55,7 @@ public class ComputerService implements IComputerService {
      * @param name         the name of the computer
      * @param introduced   the introduced date of the computer
      * @param discontinued the discontinued date of the computer
-     * @param company       the company of the computer
+     * @param company      the company of the computer
      * @return true if the computer is added
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
@@ -71,7 +71,7 @@ public class ComputerService implements IComputerService {
     /**
      * Retrieve a computer set with the given parameters.
      *
-     * @param name          the name of the computer
+     * @param name         the name of the computer
      * @param introduced   the introduced date of the computer
      * @param discontinued the discontinued date of the computer
      * @return the computer set with the given parameters
@@ -143,7 +143,7 @@ public class ComputerService implements IComputerService {
      * @param name         the name of the computer
      * @param introduced   the introduced date of the computer
      * @param discontinued the discontinued date of the computer
-     * @param company  the company of the computer
+     * @param company      the company of the computer
      * @return true if the computer is added
      * @throws ComputerValidationException exception raised if parameters are not valid
      */

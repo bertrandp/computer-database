@@ -36,8 +36,8 @@ public class ComputerValidator {
     public static final String DATE_IS_NULL = "Date is null";
     public static final String ID_IS_NULL = "Id is null";
     public static final String DATE_FORMAT = "dd/MM/yyyy";
-    private static final int MAX_LENGTH = 255;
     public static final String INTRODUCED_DATE_DOES_NOT_EXISTS = "Introduced date does not exists, discontinued date is not allowed";
+    private static final int MAX_LENGTH = 255;
 
     /**
      * Validate the given name and return true if the name is valid.
@@ -64,7 +64,7 @@ public class ComputerValidator {
      * @throws ComputerValidationException exception raised if the discontinued date is invalid
      */
     public static boolean validateDiscontinuedDate(LocalDate discontinued, LocalDate introduced) throws ComputerValidationException {
-        if(introduced == null && discontinued != null) {
+        if (introduced == null && discontinued != null) {
             throw new ComputerValidationException(INTRODUCED_DATE_DOES_NOT_EXISTS);
         } else if (discontinued != null) {
             if (discontinued.isEqual(introduced)) {

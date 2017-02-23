@@ -55,7 +55,7 @@ public interface IComputerService {
      * @param name         the name of the computer
      * @param introduced   the introduced date of the computer
      * @param discontinued the discontinued date of the computer
-     * @param companyId  the id of the company
+     * @param companyId    the id of the company
      * @return true if the computer is added
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
@@ -68,7 +68,7 @@ public interface IComputerService {
      * @param name         the name of the computer
      * @param introduced   the introduced date of the computer
      * @param discontinued the discontinued date of the computer
-     * @param companyId  the id of the company
+     * @param companyId    the id of the company
      * @return true if the computer is added
      * @throws ComputerValidationException exception raised if parameters are not valid
      */
