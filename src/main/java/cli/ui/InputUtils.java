@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import static service.utils.ComputerValidator.DATE_FORMAT;
+import static service.validation.ComputerValidator.DATE_FORMAT;
 
 /**
  * Created by ebiz on 16/02/17.

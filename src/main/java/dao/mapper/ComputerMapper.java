@@ -106,7 +106,13 @@ public class ComputerMapper {
         return null;
     }
 
-
+    /**
+     * Map the result set to a computerDTO.
+     *
+     * @param resultSet the result set to map
+     * @return the computer
+     * @throws SQLException exception raised if the there is an issue with the database
+     */
     public static ComputerDTO mapToComputerDTO(ResultSet resultSet) throws SQLException {
         ComputerDTO computer = new ComputerDTO();
         if (resultSet.next()) {

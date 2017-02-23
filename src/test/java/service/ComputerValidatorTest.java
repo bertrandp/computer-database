@@ -4,21 +4,23 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import service.utils.ComputerValidationException;
-import service.utils.ComputerValidator;
+import service.validation.ComputerValidator;
 
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static service.utils.ComputerValidator.COMPANY_ID_IS_NOT_A_VALID_NUMBER;
-import static service.utils.ComputerValidator.DATE_FORMAT_IS_INVALID;
-import static service.utils.ComputerValidator.DATE_IS_NULL;
-import static service.utils.ComputerValidator.DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE;
-import static service.utils.ComputerValidator.DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE;
-import static service.utils.ComputerValidator.ID_IS_NULL;
-import static service.utils.ComputerValidator.INTRODUCED_DATE_DOES_NOT_EXISTS;
-import static service.utils.ComputerValidator.NAME_IS_EMPTY;
-import static service.utils.ComputerValidator.NAME_IS_TOO_LONG;
+import static service.validation.ComputerValidator.COMPANY_ID_IS_NOT_A_VALID_NUMBER;
+import static service.validation.ComputerValidator.DATE_FORMAT_IS_INVALID;
+import static service.validation.ComputerValidator.DATE_IS_NULL;
+import static service.validation.ComputerValidator.DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE;
+import static service.validation.ComputerValidator.DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE;
+import static service.validation.ComputerValidator.ID_IS_EMPTY;
+import static service.validation.ComputerValidator.ID_IS_NOT_A_VALID_NUMBER;
+import static service.validation.ComputerValidator.ID_IS_NULL;
+import static service.validation.ComputerValidator.INTRODUCED_DATE_DOES_NOT_EXISTS;
+import static service.validation.ComputerValidator.NAME_IS_EMPTY;
+import static service.validation.ComputerValidator.NAME_IS_TOO_LONG;
 
 /**
  * Created by bpestre on 22/02/17.
@@ -33,6 +35,20 @@ public class ComputerValidatorTest {
         thrown.expect(ComputerValidationException.class);
         thrown.expectMessage(NAME_IS_EMPTY);
         ComputerValidator.validateName("  ");
+    }
+
+    @Test
+    public void throwExceptionWhenValidateComputerWithInvalidId() throws ComputerValidationException {
+        thrown.expect(ComputerValidationException.class);
+        thrown.expectMessage(ID_IS_NOT_A_VALID_NUMBER);
+        ComputerValidator.validateId("invalid input");
+    }
+
+    @Test
+    public void throwExceptionWhenValidateComputerWithEmptyId() throws ComputerValidationException {
+        thrown.expect(ComputerValidationException.class);
+        thrown.expectMessage(ID_IS_EMPTY);
+        ComputerValidator.validateId("  ");
     }
 
     @Test

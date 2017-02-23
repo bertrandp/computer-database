@@ -29,6 +29,12 @@ public class PagedListComputerPage {
         displayComputerPage(1, 40);
     }
 
+    /**
+     * Display paged computer.
+     *
+     * @param page the current page
+     * @param limit the limit
+     */
     private static void displayComputerPage(int page, int limit) {
         System.out.println("---------------------------------------------------------");
         System.out.println("|\t" + "n°" + "\t\tName");

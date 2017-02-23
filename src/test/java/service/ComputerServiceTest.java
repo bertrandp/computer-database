@@ -8,10 +8,8 @@ import service.impl.ComputerService;
 import service.utils.ComputerValidationException;
 
 import static org.junit.Assert.assertNotNull;
-import static service.utils.ComputerValidator.COMPANY_ID_IS_NOT_A_VALID_NUMBER;
-import static service.utils.ComputerValidator.DATE_FORMAT_IS_INVALID;
-import static service.utils.ComputerValidator.ID_IS_EMPTY;
-import static service.utils.ComputerValidator.ID_IS_NOT_A_VALID_NUMBER;
+import static service.validation.ComputerValidator.COMPANY_ID_IS_NOT_A_VALID_NUMBER;
+import static service.validation.ComputerValidator.DATE_FORMAT_IS_INVALID;
 
 /**
  * Created by bpestre on 22/02/17.
@@ -27,19 +25,6 @@ public class ComputerServiceTest {
         computerService = new ComputerService();
     }
 
-    @Test
-    public void throwExceptionWhenGetComputerWithEmptyId() throws ComputerValidationException {
-        thrown.expect(ComputerValidationException.class);
-        thrown.expectMessage(ID_IS_EMPTY);
-        computerService.get("  ");
-    }
-
-    @Test
-    public void throwExceptionWhenGettingComputerWithInvalidId() throws ComputerValidationException {
-        thrown.expect(ComputerValidationException.class);
-        thrown.expectMessage(ID_IS_NOT_A_VALID_NUMBER);
-        computerService.get("invalid input");
-    }
 
     @Test
     public void getComputerWithValidId() throws ComputerValidationException {

@@ -8,7 +8,7 @@ import model.Company;
 import model.Computer;
 import service.IComputerService;
 import service.utils.ComputerValidationException;
-import service.utils.ComputerValidator;
+import service.validation.ComputerValidator;
 
 import java.time.LocalDate;
 import java.util.List;
