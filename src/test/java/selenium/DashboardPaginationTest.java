@@ -35,17 +35,19 @@ public class DashboardPaginationTest {
     public void testDashboardPagination() throws Exception {
         driver.get(baseUrl + "/dashboard");
 
-        checkComputerTableSize();
+        checkComputerTableSize(50);
 
         driver.findElement(By.linkText("5")).click();
         driver.findElement(By.xpath("(//a[contains(text(),'10')])[5]")).click();
         driver.findElement(By.linkText("6")).click();
         driver.findElement(By.cssSelector("a > span")).click();
+
+        //checkComputerTableSize(10);
     }
 
-    private void checkComputerTableSize() {
+    private void checkComputerTableSize(int size) {
         List computerList = driver.findElements(By.tagName("tr"));
-        assertThat(computerList.size(), is(51));
+        assertThat(computerList.size(), is(size + 1));
     }
 
     @After
@@ -57,36 +59,4 @@ public class DashboardPaginationTest {
         }
     }
 
-    private boolean isElementPresent(By by) {
-        try {
-            driver.findElement(by);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    private boolean isAlertPresent() {
-        try {
-            driver.switchTo().alert();
-            return true;
-        } catch (NoAlertPresentException e) {
-            return false;
-        }
-    }
-
-    private String closeAlertAndGetItsText() {
-        try {
-            Alert alert = driver.switchTo().alert();
-            String alertText = alert.getText();
-            if (acceptNextAlert) {
-                alert.accept();
-            } else {
-                alert.dismiss();
-            }
-            return alertText;
-        } finally {
-            acceptNextAlert = true;
-        }
-    }
 }

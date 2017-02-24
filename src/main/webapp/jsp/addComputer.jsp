@@ -24,22 +24,22 @@
                 <h1>Add Computer</h1>
                 <form action="" method="POST" id="addForm">
                     <fieldset>
-                        <div class="form-group">
+                        <div id="form-name" class="form-group">
                             <label for="computerName">Computer name</label>
                             <input type="text" class="form-control" id="computerName" name="computerName"
                                    placeholder="Computer name">
                         </div>
-                        <div class="form-group">
+                        <div id="form-introduced" class="form-group">
                             <label for="introduced">Introduced date</label>
                             <input type="date" class="form-control" id="introduced" name="introduced"
                                    placeholder="DD/MM/YYYY">
                         </div>
-                        <div class="form-group">
+                        <div id="form-discontinued" class="form-group">
                             <label for="discontinued">Discontinued date</label>
                             <input type="date" class="form-control" id="discontinued" name="discontinued"
                                    placeholder="DD/MM/YYYY">
                         </div>
-                        <div class="form-group">
+                        <div id="form-company-id" class="form-group">
                             <label for="companyId">Company</label>
                             <select class="form-control" id="companyId" name="companyId">
                                 <option value="0">--</option>
