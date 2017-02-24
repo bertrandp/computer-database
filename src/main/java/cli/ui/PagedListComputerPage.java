@@ -32,7 +32,7 @@ public class PagedListComputerPage {
     /**
      * Display paged computer.
      *
-     * @param page the current page
+     * @param page  the current page
      * @param limit the limit
      */
     private static void displayComputerPage(int page, int limit) {

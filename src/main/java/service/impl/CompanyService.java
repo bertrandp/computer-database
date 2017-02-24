@@ -13,14 +13,13 @@ import java.util.List;
  */
 public class CompanyService implements ICompanyService {
 
-    private DAOFactory daoFactory;
     private ICompanyDAO companyDAO;
 
     /**
      * Company service constructor. Fetch the instance of DAOFactory.
      */
     public CompanyService() {
-        this.daoFactory = DAOFactory.getInstance();
+        DAOFactory daoFactory = DAOFactory.getInstance();
         this.companyDAO = daoFactory.getCompanyDAO();
     }
 

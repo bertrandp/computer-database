@@ -59,15 +59,6 @@ public interface IComputerDAO {
     boolean delete(int computerId);
 
     /**
-     * Retrieve a list of computer with a specific limit and offset.
-     *
-     * @param limit  the number of computer to retrieve
-     * @param offset the index of the first computer of the list
-     * @return the list of computer with the given limit and offset
-     */
-    List<Computer> fetchPage(int limit, int offset);
-
-    /**
      * Retrieve a list of computerDTO with a specific limit and offset.
      *
      * @param limit  the number of computer to retrieve

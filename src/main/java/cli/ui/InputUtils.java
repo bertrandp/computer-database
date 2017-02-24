@@ -103,7 +103,7 @@ public class InputUtils {
                 break;
             default:
                 try {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT); // TODO date validation
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
                     LocalDate date = LocalDate.parse(input, formatter);
                     return input;
                 } catch (DateTimeParseException e) {

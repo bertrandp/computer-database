@@ -95,7 +95,7 @@ public class ComputerDAO implements IComputerDAO {
         Integer companyId = validateCompany(computer);
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_INSERT, true, computer.getName(), convertToDatabaseColumn(computer.getIntroduced()), convertToDatabaseColumn(computer.getDiscontinued()), companyId);
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_INSERT, true, computer.getName(), convertToDatabaseColumn(computer.getIntroduced()), convertToDatabaseColumn(computer.getDiscontinued()), companyId)
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
@@ -127,7 +127,7 @@ public class ComputerDAO implements IComputerDAO {
         Integer companyId = validateCompany(computer);
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_UPDATE, true, computer.getName(), convertToDatabaseColumn(computer.getIntroduced()), convertToDatabaseColumn(computer.getDiscontinued()), companyId, computer.getId());
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_UPDATE, true, computer.getName(), convertToDatabaseColumn(computer.getIntroduced()), convertToDatabaseColumn(computer.getDiscontinued()), companyId, computer.getId())
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
@@ -164,7 +164,7 @@ public class ComputerDAO implements IComputerDAO {
     public boolean delete(int computerId) {
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, computerId);
+             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, computerId)
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
@@ -175,22 +175,6 @@ public class ComputerDAO implements IComputerDAO {
         }
 
         return true;
-    }
-
-    @Override
-    public List<Computer> fetchPage(int limit, int offset) {
-        List<Computer> list;
-
-        try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIMIT_OFFSET, true, limit, offset);
-             ResultSet resultSet = preparedStatement.executeQuery()
-        ) {
-            list = ComputerMapper.mapToComputerList(resultSet);
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
-
-        return list;
     }
 
     @Override

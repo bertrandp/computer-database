@@ -111,7 +111,7 @@ public class ComputerValidator {
         Integer id = validateInputInteger(inputId);
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
-        if (computerDAO.fetchById(Integer.valueOf(id)) == null) {
+        if (computerDAO.fetchById(id) == null) {
             throw new ComputerValidationException("Id " + id + " does not exist");
         }
         return true;
@@ -171,7 +171,7 @@ public class ComputerValidator {
         Integer id = validateInputInteger(companyId);
         DAOFactory daoFactory = DAOFactory.getInstance();
         ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
-        Company company = companyDAO.fetch(Integer.valueOf(id));
+        Company company = companyDAO.fetch(id);
         if (company != null) {
             return company;
         }
@@ -232,7 +232,9 @@ public class ComputerValidator {
      * @throws ComputerValidationException exception raised if the input is invalid
      */
     public static Integer validateInputInteger(String input) throws ComputerValidationException {
-        if (input == null || input.trim().isEmpty()) {
+        if (input == null) {
+            throw new ComputerValidationException(ID_IS_NULL);
+        } else if (input.trim().isEmpty()) {
             throw new ComputerValidationException(ID_IS_EMPTY);
         } else {
             Pattern p = Pattern.compile("[^0-9]");

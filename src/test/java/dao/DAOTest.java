@@ -1,19 +1,11 @@
 package dao;
 
-import dao.utils.DAOConfigurationException;
-import model.Company;
-import model.Computer;
-import org.junit.Ignore;
-import org.junit.Test;
-
-import java.util.List;
-
 /**
  * Created by ebiz on 14/02/17.
  */
 public class DAOTest {
 
-    @Ignore
+    /*@Ignore
     @Test
     public void CompanyDAOTest() {
 
@@ -55,7 +47,7 @@ public class DAOTest {
         DAOFactory daoFactory = DAOFactory.getInstance();
         IComputerDAO computerDAO = daoFactory.getComputerDAO();
 
-        /*// Test : List computers
+        // Test : List computers
         List<Computer> listComputer = computerDAO.fetchAll();
         System.out.println("Test : List computers");
         System.out.println(listComputer);
@@ -85,7 +77,7 @@ public class DAOTest {
         computer.setName("Test Name");
         computerDAO.update(computer);
         System.out.println("Show computer details (id = 409)");
-        System.out.println(computer);*/
+        System.out.println(computer);
 
         // Test : Delete a computer
         /*computer = computerDAO.fetchById(418);
@@ -95,21 +87,8 @@ public class DAOTest {
         computerDAO.delete(computer);
         computer = computerDAO.fetchById(577);
         System.out.println("Show computer details (id = 577)");
-        System.out.println(computer);*/
-    }
+        System.out.println(computer);
+    }*/
 
-    @Ignore
-    @Test
-    public void PageDAOTest() {
-
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        IComputerDAO computerDAO = daoFactory.getComputerDAO();
-
-        // Test : List computers
-        List<Computer> listComputer = computerDAO.fetchPage(20, 20);
-        System.out.println("Test : List computers");
-        System.out.println(listComputer);
-
-    }
 
 }

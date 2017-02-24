@@ -10,7 +10,6 @@ import java.time.LocalDate;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static service.validation.ComputerValidator.COMPANY_ID_IS_NOT_A_VALID_NUMBER;
 import static service.validation.ComputerValidator.DATE_FORMAT_IS_INVALID;
 import static service.validation.ComputerValidator.DATE_IS_NULL;
 import static service.validation.ComputerValidator.DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE;
@@ -111,7 +110,7 @@ public class ComputerValidatorTest {
     @Test
     public void throwExceptionWhenValidateCompanyIdWithInvalidId() throws ComputerValidationException {
         thrown.expect(ComputerValidationException.class);
-        thrown.expectMessage(COMPANY_ID_IS_NOT_A_VALID_NUMBER);
+        thrown.expectMessage(ID_IS_NOT_A_VALID_NUMBER);
         ComputerValidator.validateCompanyId("invalid id");
     }
 

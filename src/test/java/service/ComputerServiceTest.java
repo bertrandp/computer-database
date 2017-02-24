@@ -8,8 +8,8 @@ import service.impl.ComputerService;
 import service.utils.ComputerValidationException;
 
 import static org.junit.Assert.assertNotNull;
-import static service.validation.ComputerValidator.COMPANY_ID_IS_NOT_A_VALID_NUMBER;
 import static service.validation.ComputerValidator.DATE_FORMAT_IS_INVALID;
+import static service.validation.ComputerValidator.ID_IS_NOT_A_VALID_NUMBER;
 
 /**
  * Created by bpestre on 22/02/17.
@@ -41,7 +41,7 @@ public class ComputerServiceTest {
     @Test
     public void throwExceptionWhenAddingComputerWithInvalidCompanyId() throws ComputerValidationException {
         thrown.expect(ComputerValidationException.class);
-        thrown.expectMessage(COMPANY_ID_IS_NOT_A_VALID_NUMBER);
+        thrown.expectMessage(ID_IS_NOT_A_VALID_NUMBER);
         computerService.addWithCompanyId("test", "", "", "invalid id");
     }
 
