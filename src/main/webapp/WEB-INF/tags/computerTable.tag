@@ -44,7 +44,22 @@
                     <input type="checkbox" name="cb" class="cb" value="0">
                 </td>
                 <td>
-                    <a href="editComputer.html" onclick="">${computer.name}</a>
+                    <c:set var="url">
+                        <c:url value="/edit-computer">
+                            <c:param name="id" value="${computer.id}" />
+                            <c:param name="name" value="${computer.name}" />
+                            <c:if test="${not empty computer.introduced}" >
+                                <c:param name="introduced" value="${computer.introduced}" />
+                            </c:if>
+                            <c:if test="${not empty computer.discontinued}" >
+                                <c:param name="discontinued" value="${computer.discontinued}" />
+                            </c:if>
+                            <c:if test="${not empty computer.companyName}" >
+                                <c:param name="companyName" value="${computer.companyName}" />
+                            </c:if>
+                        </c:url>
+                    </c:set>
+                    <a href="${url}" onclick="">${computer.name}</a>
                 </td>
                 <td>${computer.introduced}</td>
                 <td>${computer.discontinued}</td>
