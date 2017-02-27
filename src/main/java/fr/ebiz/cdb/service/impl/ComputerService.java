@@ -11,11 +11,12 @@ import fr.ebiz.cdb.service.exception.CompanyException;
 import fr.ebiz.cdb.service.exception.ComputerException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.validation.ComputerValidator;
+import fr.ebiz.cdb.service.validation.InputValidator;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static fr.ebiz.cdb.service.validation.InputValidation.validateInputInteger;
+import static fr.ebiz.cdb.service.validation.InputValidator.validateInputInteger;
 
 /**
  * Created by ebiz on 14/02/17.
@@ -119,9 +120,10 @@ public class ComputerService implements IComputerService {
     @Override
     public boolean update(String id, String name, String introduced, String discontinued, String companyId) throws CompanyException, InputValidationException, ComputerException {
         Computer computerToAdd = setParameters(name, introduced, discontinued, companyId);
-        if (ComputerValidator.validateId(id, computerDAO)) {
-            computerToAdd.setId(Integer.valueOf(id));
+        if (get(id) == null) {
+            return false;
         }
+        computerToAdd.setId(Integer.valueOf(id));
         return computerDAO.update(computerToAdd);
     }
 

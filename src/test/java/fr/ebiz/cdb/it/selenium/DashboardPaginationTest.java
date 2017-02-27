@@ -1,4 +1,4 @@
-package fr.ebiz.cdb.selenium;
+package fr.ebiz.cdb.it.selenium;
 
 import org.junit.After;
 import org.junit.Before;

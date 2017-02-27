@@ -1,9 +1,10 @@
-package fr.ebiz.cdb.service;
+package fr.ebiz.cdb.ut.service;
 
 import fr.ebiz.cdb.dao.IComputerDAO;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
+import fr.ebiz.cdb.service.IComputerService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

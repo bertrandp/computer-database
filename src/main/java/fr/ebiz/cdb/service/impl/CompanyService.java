@@ -7,7 +7,7 @@ import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.exception.CompanyException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
-import fr.ebiz.cdb.service.validation.InputValidation;
+import fr.ebiz.cdb.service.validation.InputValidator;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class CompanyService implements ICompanyService {
 
     @Override
     public Company fetchById(String companyId) throws InputValidationException, CompanyException {
-        Integer id = InputValidation.validateInputInteger(companyId);
+        Integer id = InputValidator.validateInputInteger(companyId);
         Company company = companyDAO.fetch(id);
         if (company == null) {
             throw new CompanyException("Company with id = " + id + " not found");

@@ -12,7 +12,7 @@ import static fr.ebiz.cdb.service.validation.ComputerValidator.ID_IS_NULL;
 /**
  * Created by bpestre on 24/02/17.
  */
-public class InputValidation {
+public class InputValidator {
 
     /**
      * Validate the given string and return an Integer if it is one.

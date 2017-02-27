@@ -1,4 +1,4 @@
-package fr.ebiz.cdb.service;
+package fr.ebiz.cdb.ut.service;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,20 +32,6 @@ public class ComputerValidatorTest {
         thrown.expectMessage(NAME_IS_EMPTY);
         ComputerValidator.validateName("  ");
     }
-
-    /*@Test
-    public void throwExceptionWhenValidateComputerWithInvalidId() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(ID_IS_NOT_A_VALID_NUMBER);
-        ComputerValidator.validateId("invalid input");
-    }
-
-    @Test
-    public void throwExceptionWhenValidateComputerWithEmptyId() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(ID_IS_EMPTY);
-        ComputerValidator.validateId("  ");
-    }*/
 
     @Test
     public void throwExceptionWhenValidateNameWithInvalidData() throws InputValidationException {
@@ -104,22 +90,5 @@ public class ComputerValidatorTest {
         assertNotNull(ComputerValidator.validateInputDate("01/01/2000"));
     }
 
-    /*@Test
-    public void throwExceptionWhenValidateCompanyIdWithInvalidId() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(ID_IS_NOT_A_VALID_NUMBER);
-        ComputerValidator.validateCompanyId("invalid id");
-    }
 
-    @Test
-    public void throwExceptionWhenValidateCompanyIdWithNull() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(ID_IS_NULL);
-        ComputerValidator.validateCompanyId(null);
-    }
-
-    @Test
-    public void validateCompanyIdWithValidId() throws InputValidationException {
-        assertNotNull(ComputerValidator.validateCompanyId("1"));
-    }*/
 }

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import static fr.ebiz.cdb.service.validation.InputValidation.validateInputInteger;
+import static fr.ebiz.cdb.service.validation.InputValidator.validateInputInteger;
 
 /**
  * Created by ebiz on 16/02/17.
@@ -62,23 +62,6 @@ public class ComputerValidator {
             } else if (discontinued.isBefore(introduced)) {
                 throw new InputValidationException(DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE);
             }
-        }
-        return true;
-    }
-
-    /**
-     * Validate the given id and return true if the id is valid and a computer exists with this id.
-     *
-     * @param inputId the id of the computer
-     * @param computerDAO the computerDAO to check if id exists
-     * @return true if the id is valid and a computer with this id exists
-     * @throws InputValidationException exception raised if the id is invalid
-     * @throws ComputerException        exception raised if no computer exists with this id
-     */
-    public static boolean validateId(String inputId, IComputerDAO computerDAO) throws ComputerException, InputValidationException {
-        Integer id = validateInputInteger(inputId);
-        if (computerDAO.fetchById(id) == null) {
-            throw new ComputerException("Id " + id + " does not exist");
         }
         return true;
     }
