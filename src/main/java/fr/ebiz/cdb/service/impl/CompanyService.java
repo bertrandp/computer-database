@@ -1,8 +1,8 @@
 package fr.ebiz.cdb.service.impl;
 
 
-import fr.ebiz.cdb.dao.DAOFactory;
 import fr.ebiz.cdb.dao.ICompanyDAO;
+import fr.ebiz.cdb.dao.impl.CompanyDAO;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.exception.CompanyException;
@@ -22,8 +22,7 @@ public class CompanyService implements ICompanyService {
      * Company fr.ebiz.cdb.service constructor. Fetch the instance of DAOFactory.
      */
     public CompanyService() {
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        this.companyDAO = daoFactory.getCompanyDAO();
+        this.companyDAO = CompanyDAO.INSTANCE;
     }
 
     @Override

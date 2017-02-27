@@ -21,7 +21,9 @@ import java.util.List;
 /**
  * Created by ebiz on 15/02/17.
  */
-public class ComputerDAO implements IComputerDAO {
+public enum ComputerDAO implements IComputerDAO {
+
+    INSTANCE;
 
     private static final String SQL_SELECT = "SELECT c1.id, c1.name, c1.introduced, c1.discontinued, c1.company_id, c2.name as company_name FROM computer c1 LEFT OUTER JOIN company c2 ON c1.company_id = c2.id";
     private static final String SQL_COUNT = "SELECT count(*) AS total FROM computer";
@@ -34,11 +36,9 @@ public class ComputerDAO implements IComputerDAO {
 
     /**
      * ComputerDAO constructor.
-     *
-     * @param daoFactory the DAOFactory
      */
-    public ComputerDAO(DAOFactory daoFactory) {
-        this.daoFactory = daoFactory;
+    ComputerDAO() {
+        this.daoFactory = DAOFactory.INSTANCE;
     }
 
     @Override
@@ -149,7 +149,7 @@ public class ComputerDAO implements IComputerDAO {
     private Integer validateCompany(Computer computer) {
         Integer companyId = null;
         if (computer.getCompany() != null) {
-            ICompanyDAO companyDAO = daoFactory.getCompanyDAO();
+            ICompanyDAO companyDAO = CompanyDAO.INSTANCE;
             Company company = companyDAO.fetch(computer.getCompany().getName());
             if (company == null) {
                 throw new DAOException("Failed to create computer : " + computer.getName() + ". Company name must be an existing company");

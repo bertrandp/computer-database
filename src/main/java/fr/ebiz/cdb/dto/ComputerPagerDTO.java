@@ -1,7 +1,7 @@
 package fr.ebiz.cdb.dto;
 
-import fr.ebiz.cdb.dao.DAOFactory;
 import fr.ebiz.cdb.dao.IComputerDAO;
+import fr.ebiz.cdb.dao.impl.ComputerDAO;
 
 import java.util.List;
 
@@ -27,8 +27,7 @@ public class ComputerPagerDTO {
         this.limit = limit;
         this.count = count;
         int offset = (page - 1) * limit;
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        IComputerDAO computerDAO = daoFactory.getComputerDAO();
+        IComputerDAO computerDAO = ComputerDAO.INSTANCE;
         this.list = computerDAO.fetchPageDTO(limit, offset);
     }
 

@@ -1,7 +1,7 @@
 package fr.ebiz.cdb.service.impl;
 
-import fr.ebiz.cdb.dao.DAOFactory;
 import fr.ebiz.cdb.dao.IComputerDAO;
+import fr.ebiz.cdb.dao.impl.ComputerDAO;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Company;
@@ -28,8 +28,7 @@ public class ComputerService implements IComputerService {
      * Computer fr.ebiz.cdb.service constructor. Fetch the instance of DAOFactory.
      */
     public ComputerService() {
-        DAOFactory daoFactory = DAOFactory.getInstance();
-        this.computerDAO = daoFactory.getComputerDAO();
+        this.computerDAO = ComputerDAO.INSTANCE;
     }
 
     @Override

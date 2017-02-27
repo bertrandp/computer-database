@@ -16,7 +16,9 @@ import java.util.List;
 /**
  * Created by bpestre on 14/02/17.
  */
-public class CompanyDAO implements ICompanyDAO {
+public enum CompanyDAO implements ICompanyDAO {
+
+    INSTANCE;
 
     private static final String SQL_SELECT = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
@@ -25,11 +27,9 @@ public class CompanyDAO implements ICompanyDAO {
 
     /**
      * CompanyDAO constructor.
-     *
-     * @param daoFactory the DAOFactory
      */
-    public CompanyDAO(DAOFactory daoFactory) {
-        this.daoFactory = daoFactory;
+    CompanyDAO() {
+        this.daoFactory = DAOFactory.INSTANCE;
     }
 
     @Override

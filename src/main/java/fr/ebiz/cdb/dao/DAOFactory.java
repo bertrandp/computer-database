@@ -1,7 +1,5 @@
 package fr.ebiz.cdb.dao;
 
-import fr.ebiz.cdb.dao.impl.CompanyDAO;
-import fr.ebiz.cdb.dao.impl.ComputerDAO;
 import fr.ebiz.cdb.dao.utils.DAOConfigurationException;
 import fr.ebiz.cdb.dao.utils.DAOHelper;
 
@@ -16,13 +14,14 @@ import java.util.Properties;
  * <p>
  * Created by bpestre on 14/02/17.
  */
-public class DAOFactory {
+public enum DAOFactory {
+
+    INSTANCE;
 
     private static final String PROPERTY_URL = "url";
     private static final String PROPERTY_DRIVER = "driver";
     private static final String PROPERTY_USERNAME = "username";
     private static final String PROPERTY_PASSWORD = "password";
-    private static DAOFactory factoryInstance = null;
     private String url;
     private String username;
     private String password;
@@ -30,7 +29,7 @@ public class DAOFactory {
     /**
      * DAOFactory constructor. Fetch the database connection properties and instantiate the driver.
      */
-    private DAOFactory() {
+    DAOFactory() {
 
         Properties properties = DAOHelper.readPropertiesFile();
         this.url = properties.getProperty(PROPERTY_URL);
@@ -46,24 +45,6 @@ public class DAOFactory {
     }
 
     /**
-     * Retrieve DAOFactory instance.
-     *
-     * @return instance of DAOFactory
-     * @throws DAOConfigurationException exception raised if the configuration is incorrect
-     */
-    public static DAOFactory getInstance() throws DAOConfigurationException {
-
-        if (factoryInstance == null) {
-            synchronized (DAOFactory.class) {
-                if (factoryInstance == null) {
-                    factoryInstance = new DAOFactory();
-                }
-            }
-        }
-        return factoryInstance;
-    }
-
-    /**
      * Retrieve driver connection.
      *
      * @return Connection
@@ -72,24 +53,5 @@ public class DAOFactory {
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
-
-    /**
-     * Retrieve implementation of ICompanyDAO.
-     *
-     * @return the implementation of ICompanyDAO
-     */
-    public ICompanyDAO getCompanyDAO() {
-        return new CompanyDAO(this);
-    }
-
-    /**
-     * Retrieve implementation of IComputerDAO.
-     *
-     * @return implementation of IComputerDAO
-     */
-    public IComputerDAO getComputerDAO() {
-        return new ComputerDAO(this);
-    }
-
 
 }
