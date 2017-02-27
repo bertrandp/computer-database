@@ -48,7 +48,7 @@ public class EditComputerServlet extends HttpServlet {
         List<Company> companyList = companyService.fetchAll();
 
         req.setAttribute(COMPANY_LIST, companyList);
-        RequestDispatcher view = req.getRequestDispatcher("jsp/editComputer.jsp");
+        RequestDispatcher view = req.getRequestDispatcher("/WEB-INF/jsp/editComputer.jsp");
         view.forward(req, resp);
     }
 }

@@ -4,8 +4,8 @@ package fr.ebiz.cdb.cli.ui;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.service.exception.InputValidationException;
+import fr.ebiz.cdb.service.impl.ComputerService;
 
 import java.util.List;
 import java.util.Scanner;

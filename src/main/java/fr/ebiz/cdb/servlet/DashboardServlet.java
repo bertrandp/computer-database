@@ -1,11 +1,11 @@
 package fr.ebiz.cdb.servlet;
 
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
+import fr.ebiz.cdb.service.IComputerService;
+import fr.ebiz.cdb.service.exception.InputValidationException;
+import fr.ebiz.cdb.service.impl.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.impl.ComputerService;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,7 +26,7 @@ public class DashboardServlet extends HttpServlet {
     public static final String PAGE = "page";
     public static final String COMPUTER_LIST = "computerList";
     public static final String ERROR_MESSAGE = "errorMessage";
-    public static final String DASHBOARD_JSP = "jsp/dashboard.jsp";
+    public static final String DASHBOARD_JSP = "/WEB-INF/jsp/dashboard.jsp";
     private static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 
     @Override

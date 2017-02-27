@@ -1,15 +1,11 @@
 package fr.ebiz.cdb.service.validation;
 
 
-import fr.ebiz.cdb.dao.IComputerDAO;
-import fr.ebiz.cdb.service.exception.ComputerException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
-import static fr.ebiz.cdb.service.validation.InputValidator.validateInputInteger;
 
 /**
  * Created by ebiz on 16/02/17.

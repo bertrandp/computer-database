@@ -5,6 +5,9 @@ import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.service.IComputerService;
+import fr.ebiz.cdb.service.exception.ComputerException;
+import fr.ebiz.cdb.service.exception.InputValidationException;
+import fr.ebiz.cdb.service.impl.ComputerService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,9 +16,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
-import fr.ebiz.cdb.service.impl.ComputerService;
-import fr.ebiz.cdb.service.exception.ComputerException;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 
 import java.time.LocalDate;
 

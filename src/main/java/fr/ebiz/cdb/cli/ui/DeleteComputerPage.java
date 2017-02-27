@@ -2,12 +2,12 @@ package fr.ebiz.cdb.cli.ui;
 
 
 import fr.ebiz.cdb.dto.ComputerDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.service.exception.ComputerException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
+import fr.ebiz.cdb.service.impl.ComputerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 

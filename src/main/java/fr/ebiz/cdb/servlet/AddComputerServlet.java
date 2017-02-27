@@ -1,14 +1,14 @@
 package fr.ebiz.cdb.servlet;
 
 import fr.ebiz.cdb.model.Company;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.impl.CompanyService;
-import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.service.exception.CompanyException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
+import fr.ebiz.cdb.service.impl.CompanyService;
+import fr.ebiz.cdb.service.impl.ComputerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,7 +32,7 @@ public class AddComputerServlet extends HttpServlet {
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String DASHBOARD = "/dashboard";
     public static final String JSP_403 = "jsp/403.jsp";
-    public static final String ADD_COMPUTER_JSP = "jsp/addComputer.jsp";
+    public static final String ADD_COMPUTER_JSP = "/WEB-INF/jsp/addComputer.jsp";
     public static final String COMPANY_LIST = "companyList";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
@@ -49,7 +49,7 @@ public class AddComputerServlet extends HttpServlet {
 
         IComputerService computerService = new ComputerService();
         try {
-            if("0".equals(companyId)) {
+            if ("0".equals(companyId)) {
                 companyId = null;
             }
             computerService.add(name, introduced, discontinued, companyId);
