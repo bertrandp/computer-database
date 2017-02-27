@@ -23,7 +23,7 @@ public class ListComputerPage {
         System.out.println("*********************");
         System.out.println("");
 
-        IComputerService computerService = new ComputerService();
+        IComputerService computerService = ComputerService.INSTANCE;
         List<ComputerDTO> listComputer = computerService.fetchAllDTO();
 
         System.out.println("---------------------------------------------------------");

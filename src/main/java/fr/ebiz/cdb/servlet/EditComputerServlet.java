@@ -44,7 +44,7 @@ public class EditComputerServlet extends HttpServlet {
             req.setAttribute("discontinued", discontinued);
         }
 
-        ICompanyService companyService = new CompanyService();
+        ICompanyService companyService = CompanyService.INSTANCE;
         List<Company> companyList = companyService.fetchAll();
 
         req.setAttribute(COMPANY_LIST, companyList);

@@ -36,7 +36,7 @@ public class ComputerServiceTest {
 
     @Before
     public void setUp() {
-        computerService = new ComputerService();
+        computerService = ComputerService.INSTANCE;
         computerService.setComputerDAO(mockComputerDAO);
     }
 
@@ -64,40 +64,5 @@ public class ComputerServiceTest {
         PowerMockito.when(mockComputerDAO.fetchDTOById(8888)).thenReturn(new ComputerDTO(12, "tutu", "11/12/1234", "11/12/1234", "ibm"));
         assertEquals(new ComputerDTO(12, "tutu", "11/12/1234", "11/12/1234", "ibm"), computerService.getDTO("8888"));
     }
-
-
-    /*@Rule
-    public final ExpectedException thrown = ExpectedException.none();
-    private IComputerService computerService;
-
-    @Before
-    public void init() {
-        computerService = new ComputerService();
-    }
-
-
-    @Test
-    public void getComputerWithValidId() throws InputValidationException {
-        assertNotNull(computerService.get("1"));
-    }
-
-    @Test
-    public void throwExceptionWhenAddingComputerWithInvalidDate() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(DATE_FORMAT_IS_INVALID);
-        computerService.add("test", "invalid date", "", "");
-    }
-
-    @Test
-    public void throwExceptionWhenAddingComputerWithInvalidCompanyId() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(ID_IS_NOT_A_VALID_NUMBER);
-        computerService.add("test", "", "", "invalid id");
-    }*/
-
-    /*@Test
-    public void addComputerWithValidData() throws InputValidationException {
-        assertNotNull(computerService.add("test", "01/01/2000", "01/01/2001", "1"));
-    }*/
 
 }

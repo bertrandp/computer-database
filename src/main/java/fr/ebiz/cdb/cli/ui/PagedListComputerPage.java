@@ -40,7 +40,7 @@ public class PagedListComputerPage {
         System.out.println("|\t" + "n°" + "\t\tName");
         System.out.println("---------------------------------------------------------");
 
-        IComputerService computerService = new ComputerService();
+        IComputerService computerService = ComputerService.INSTANCE;
         try {
             ComputerPagerDTO pager = computerService.getPagedComputerDTOList(String.valueOf(page), String.valueOf(limit));
 

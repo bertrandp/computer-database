@@ -29,7 +29,7 @@ public class InputUtils {
      * @return true if the company exist
      */
     private static Company companyExists(String name) {
-        ICompanyService companyService = new CompanyService();
+        ICompanyService companyService = CompanyService.INSTANCE;
         return companyService.fetch(name);
     }
 

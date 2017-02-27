@@ -28,7 +28,7 @@ public class UpdateComputerPage {
         String id = sc.nextLine();
 
         if (!id.trim().isEmpty()) {
-            IComputerService computerService = new ComputerService();
+            IComputerService computerService = ComputerService.INSTANCE;
             Computer computer;
             try {
                 computer = computerService.get(id);
@@ -38,7 +38,7 @@ public class UpdateComputerPage {
                 String introduced = updateIntroducedDate(computer);
                 String discontinued = updateDiscontinuedDate(computer);
                 Integer companyId = updateCompanyName(computer);
-                computerService = new ComputerService();
+                computerService = ComputerService.INSTANCE;
                 computerService.update(id, name, introduced, discontinued, String.valueOf(companyId));
 
                 MenuPage.display();

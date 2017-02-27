@@ -30,7 +30,7 @@ public class CreateComputerPage {
         String discontinued = writeDiscontinued(newComputer);
         Integer companyId = writeCompanyName(newComputer);
 
-        IComputerService computerService = new ComputerService();
+        IComputerService computerService = ComputerService.INSTANCE;
         try {
             computerService.add(name, introduced, discontinued, String.valueOf(companyId));
         } catch (InputValidationException | CompanyException e) {

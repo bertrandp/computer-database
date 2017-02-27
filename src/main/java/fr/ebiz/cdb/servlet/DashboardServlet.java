@@ -50,7 +50,7 @@ public class DashboardServlet extends HttpServlet {
         String page = request.getParameter(PAGE);
 
         try {
-            IComputerService computerService = new ComputerService();
+            IComputerService computerService = ComputerService.INSTANCE;
             ComputerPagerDTO pager = computerService.getPagedComputerDTOList(page, limit);
             request.setAttribute(COUNT, pager.getCount());
             request.setAttribute(LIMIT, pager.getLimit());

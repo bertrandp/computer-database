@@ -6,6 +6,7 @@ import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
+import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.exception.CompanyException;
 import fr.ebiz.cdb.service.exception.ComputerException;
@@ -20,14 +21,16 @@ import static fr.ebiz.cdb.service.validation.InputValidator.validateInputInteger
 /**
  * Created by ebiz on 14/02/17.
  */
-public class ComputerService implements IComputerService {
+public enum ComputerService implements IComputerService {
+
+    INSTANCE;
 
     private IComputerDAO computerDAO;
 
     /**
      * Computer fr.ebiz.cdb.service constructor. Fetch the instance of DAOFactory.
      */
-    public ComputerService() {
+    ComputerService() {
         this.computerDAO = ComputerDAO.INSTANCE;
     }
 
@@ -97,7 +100,7 @@ public class ComputerService implements IComputerService {
         }
 
         if (companyId != null && !companyId.trim().isEmpty()) {
-            CompanyService companyService = new CompanyService();
+            ICompanyService companyService = CompanyService.INSTANCE;
             Company company;
             company = companyService.fetchById(companyId);
 

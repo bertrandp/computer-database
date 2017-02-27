@@ -14,14 +14,16 @@ import java.util.List;
 /**
  * Created by ebiz on 14/02/17.
  */
-public class CompanyService implements ICompanyService {
+public enum CompanyService implements ICompanyService {
+
+    INSTANCE;
 
     private ICompanyDAO companyDAO;
 
     /**
      * Company fr.ebiz.cdb.service constructor. Fetch the instance of DAOFactory.
      */
-    public CompanyService() {
+    CompanyService() {
         this.companyDAO = CompanyDAO.INSTANCE;
     }
 

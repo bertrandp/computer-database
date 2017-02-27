@@ -27,7 +27,7 @@ public class DeleteComputerPage {
         String id = sc.nextLine();
 
         if (!id.trim().isEmpty()) {
-            IComputerService computerService = new ComputerService();
+            IComputerService computerService = ComputerService.INSTANCE;
             ComputerDTO computer;
             try {
                 computer = computerService.getDTO(id);

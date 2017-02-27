@@ -47,7 +47,7 @@ public class AddComputerServlet extends HttpServlet {
 
         LOGGER.debug("AddComputerServlet.doPost() : name:" + name + ", introduced:" + introduced + ", discontinued:" + discontinued + ", companyId:" + companyId);
 
-        IComputerService computerService = new ComputerService();
+        IComputerService computerService = ComputerService.INSTANCE;
         try {
             if ("0".equals(companyId)) {
                 companyId = null;
@@ -68,7 +68,7 @@ public class AddComputerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        ICompanyService companyService = new CompanyService();
+        ICompanyService companyService = CompanyService.INSTANCE;
         List<Company> companyList = companyService.fetchAll();
 
         request.setAttribute(COMPANY_LIST, companyList);

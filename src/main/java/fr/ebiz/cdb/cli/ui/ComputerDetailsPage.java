@@ -26,7 +26,7 @@ public class ComputerDetailsPage {
         System.out.println("* Specify the computer's id :");
         String id = sc.nextLine();
 
-        IComputerService computerService = new ComputerService();
+        IComputerService computerService = ComputerService.INSTANCE;
         ComputerDTO computer;
         try {
             computer = computerService.getDTO(id);

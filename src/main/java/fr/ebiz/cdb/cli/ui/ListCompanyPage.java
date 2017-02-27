@@ -22,7 +22,7 @@ public class ListCompanyPage {
         System.out.println("*********************");
         System.out.println("");
 
-        ICompanyService companyService = new CompanyService();
+        ICompanyService companyService = CompanyService.INSTANCE;
         List<Company> listCompany = companyService.fetchAll();
 
         System.out.println("---------------------------------------------------------");
