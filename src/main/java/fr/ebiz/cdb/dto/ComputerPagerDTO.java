@@ -12,18 +12,18 @@ public class ComputerPagerDTO {
 
     private List<ComputerDTO> list;
     private int count;
-    private int page;
+    private int currentPage;
     private int limit;
 
     /**
      * ComputerPagerDTO constructor. Fetch list of computerDTO.
      *
      * @param count the total number of entries
-     * @param page  the page index
+     * @param page  the currentPage index
      * @param limit the limit
      */
     public ComputerPagerDTO(int count, int page, int limit) {
-        this.page = page;
+        this.currentPage = page;
         this.limit = limit;
         this.count = count;
         int offset = (page - 1) * limit;
@@ -39,8 +39,8 @@ public class ComputerPagerDTO {
         return count;
     }
 
-    public int getPage() {
-        return page;
+    public int getCurrentPage() {
+        return currentPage;
     }
 
     public int getLimit() {

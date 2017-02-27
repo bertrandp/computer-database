@@ -48,7 +48,7 @@ public class PagedListComputerPage {
                 System.out.println("|\t" + computer.getId() + "\t\t" + computer.getName());
             }
             System.out.println("---------------------------------------------------------");
-            System.out.println("*********** Page  " + pager.getPage() + "\t/ " + (pager.getCount() / limit + 1) + " ***************");
+            System.out.println("*********** Page  " + pager.getCurrentPage() + "\t/ " + (pager.getCount() / limit + 1) + " ***************");
             System.out.println("*** 1 : Previous      2 : Next        0 : Quit  ***");
             Scanner sc = new Scanner(System.in);
             String input = sc.nextLine();
@@ -57,13 +57,13 @@ public class PagedListComputerPage {
                     MenuPage.display();
                     break;
                 case "1":
-                    displayComputerPage(pager.getPage() - 1, pager.getLimit());
+                    displayComputerPage(pager.getCurrentPage() - 1, pager.getLimit());
                     break;
                 case "2":
-                    displayComputerPage(pager.getPage() + 1, pager.getLimit());
+                    displayComputerPage(pager.getCurrentPage() + 1, pager.getLimit());
                     break;
                 default:
-                    displayComputerPage(pager.getPage(), pager.getLimit());
+                    displayComputerPage(pager.getCurrentPage(), pager.getLimit());
                     break;
             }
 

@@ -47,15 +47,12 @@ public class DashboardServlet extends HttpServlet {
     private void setAttributes(HttpServletRequest request) {
 
         String limit = request.getParameter(LIMIT);
-        String page = request.getParameter(PAGE);
+        String currentPage = request.getParameter(PAGE);
 
         try {
             IComputerService computerService = ComputerService.INSTANCE;
-            ComputerPagerDTO pager = computerService.getPagedComputerDTOList(page, limit);
-            request.setAttribute(COUNT, pager.getCount());
-            request.setAttribute(LIMIT, pager.getLimit());
-            request.setAttribute(PAGE, pager.getPage());
-            request.setAttribute(COMPUTER_LIST, pager.getList());
+            ComputerPagerDTO page = computerService.getPagedComputerDTOList(currentPage, limit);
+            request.setAttribute(PAGE, page);
         } catch (InputValidationException e) {
             request.setAttribute(ERROR_MESSAGE, e.getMessage());
         }

@@ -24,84 +24,92 @@
     <c:choose>
         <c:when test="${lastPage <= 10}">
             <c:forEach var="i" begin="1" end="${lastPage}">
-                <li>
-                    <c:set var="url">
-                        <c:url value="/dashboard">
-                            <c:param name="page" value="${i}" />
-                            <c:param name="limit" value="${limit}" />
-                        </c:url>
-                    </c:set>
-                    <c:choose>
-                        <c:when test="${i == page}">
-                            <a href="${url}"><strong>${i}</strong></a>
-                        </c:when>
-                        <c:otherwise>
+                <c:set var="url">
+                    <c:url value="/dashboard">
+                        <c:param name="page" value="${i}" />
+                        <c:param name="limit" value="${limit}" />
+                    </c:url>
+                </c:set>
+                <c:choose>
+                    <c:when test="${i == page}">
+                        <li class="active">
+                            <a href="${url}" >${i}</a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li>
                             <a href="${url}">${i}</a>
-                        </c:otherwise>
-                    </c:choose>
-                </li>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
         </c:when>
         <c:otherwise>
             <c:choose>
                 <c:when test="${page <= 5}">
                     <c:forEach var="i" begin="1" end="10">
-                        <li>
-                            <c:set var="url">
-                                <c:url value="/dashboard">
-                                    <c:param name="page" value="${i}" />
-                                    <c:param name="limit" value="${limit}" />
-                                </c:url>
-                            </c:set>
-                            <c:choose>
-                                <c:when test="${i == page}">
-                                    <a href="${url}"><strong>${i}</strong></a>
-                                </c:when>
-                                <c:otherwise>
+                        <c:set var="url">
+                            <c:url value="/dashboard">
+                                <c:param name="page" value="${i}" />
+                                <c:param name="limit" value="${limit}" />
+                            </c:url>
+                        </c:set>
+                        <c:choose>
+                            <c:when test="${i == page}">
+                                <li class="active">
+                                    <a href="${url}" >${i}</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li>
                                     <a href="${url}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </li>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                 </c:when>
                 <c:when test="${page >= lastPage - 5 }">
                     <c:forEach var="i" begin="${lastPage-10}" end="${lastPage}">
-                        <li>
-                            <c:set var="url">
-                                <c:url value="/dashboard">
-                                    <c:param name="page" value="${i}" />
-                                    <c:param name="limit" value="${limit}" />
-                                </c:url>
-                            </c:set>
-                            <c:choose>
-                                <c:when test="${i == page}">
-                                    <a href="${url}"><strong>${i}</strong></a>
-                                </c:when>
-                                <c:otherwise>
+                        <c:set var="url">
+                            <c:url value="/dashboard">
+                                <c:param name="page" value="${i}" />
+                                <c:param name="limit" value="${limit}" />
+                            </c:url>
+                        </c:set>
+                        <c:choose>
+                            <c:when test="${i == page}">
+                                <li class="active">
+                                    <a href="${url}" >${i}</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li>
                                     <a href="${url}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </li>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="i" begin="${page-5}" end="${page+5}">
-                        <li>
-                            <c:set var="url">
-                                <c:url value="/dashboard">
-                                    <c:param name="page" value="${i}" />
-                                    <c:param name="limit" value="${limit}" />
-                                </c:url>
-                            </c:set>
-                            <c:choose>
-                                <c:when test="${i == page}">
-                                    <a href="${url}"><strong>${i}</strong></a>
-                                </c:when>
-                                <c:otherwise>
+                        <c:set var="url">
+                            <c:url value="/dashboard">
+                                <c:param name="page" value="${i}" />
+                                <c:param name="limit" value="${limit}" />
+                            </c:url>
+                        </c:set>
+                        <c:choose>
+                            <c:when test="${i == page}">
+                                <li class="active">
+                                    <a href="${url}" >${i}</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li>
                                     <a href="${url}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </li>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                 </c:otherwise>
             </c:choose>

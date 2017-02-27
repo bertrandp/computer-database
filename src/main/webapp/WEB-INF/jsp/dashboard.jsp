@@ -22,7 +22,7 @@
 <section id="main">
     <div class="container">
         <h1 id="homeTitle">
-            ${count} Computers found
+            ${page.count} Computers found
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
@@ -46,7 +46,7 @@
 
     <div class="container" style="margin-top: 10px;">
 
-        <tags:computerTable list="${computerList}"/>
+        <tags:computerTable list="${page.list}"/>
 
     </div>
 </section>
@@ -54,8 +54,8 @@
 <footer class="navbar-fixed-bottom">
     <div class="container text-center">
 
-        <c:set var="lastPage" value="${count / limit + 1}"/>
-        <tags:pagination page="${page}" limit="${limit}" lastPage="${lastPage}"/>
+        <c:set var="lastPage" value="${page.count / page.limit + 1}"/>
+        <tags:pagination page="${page.currentPage}" limit="${page.limit}" lastPage="${lastPage}"/>
 
     </div>
 </footer>
