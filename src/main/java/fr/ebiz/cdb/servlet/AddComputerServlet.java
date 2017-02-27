@@ -49,10 +49,7 @@ public class AddComputerServlet extends HttpServlet {
 
         IComputerService computerService = ComputerService.INSTANCE;
         try {
-            if ("0".equals(companyId)) {
-                companyId = null;
-            }
-            computerService.add(name, introduced, discontinued, companyId);
+            computerService.add(name, introduced, discontinued, "0".equals(companyId) ? null : companyId);
         } catch (InputValidationException | CompanyException e) {
             LOGGER.error(e.getMessage());
             req.setAttribute(ERROR_MESSAGE, e.getMessage());
