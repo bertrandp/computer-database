@@ -49,6 +49,9 @@ public class AddComputerServlet extends HttpServlet {
 
         IComputerService computerService = new ComputerService();
         try {
+            if("0".equals(companyId)) {
+                companyId = null;
+            }
             computerService.add(name, introduced, discontinued, companyId);
         } catch (InputValidationException | CompanyException e) {
             LOGGER.error(e.getMessage());
