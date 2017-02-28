@@ -145,16 +145,16 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public boolean delete(int computerId) {
+    public boolean delete(int computerId, Connection connection) throws SQLException {
 
-        try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, computerId)
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, computerId)
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
                 throw new DAOException("Failed to delete computer : " + computerId);
             }
         } catch (SQLException e) {
+            connection.rollback();
             throw new DAOException(e);
         }
 

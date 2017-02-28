@@ -2,6 +2,7 @@ package fr.ebiz.cdb.servlet;
 
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.service.IComputerService;
+import fr.ebiz.cdb.service.exception.ComputerException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import org.slf4j.Logger;
@@ -38,6 +39,23 @@ public class DashboardServlet extends HttpServlet {
         view.forward(request, response);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String ids = req.getParameter("selection");
+        logger.debug(" IDs of computers to delete : " + ids);
+
+        String[] idList = ids.split(",");
+
+        IComputerService computerService = ComputerService.INSTANCE;
+        try {
+            computerService.delete(idList);
+        } catch (InputValidationException | ComputerException e) {
+            e.printStackTrace();
+        }
+
+        doGet(req, resp);
+    }
 
     /**
      * Set request attributes related to pagination.

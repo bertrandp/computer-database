@@ -13,6 +13,7 @@ import fr.ebiz.cdb.service.exception.CompanyException;
 import fr.ebiz.cdb.service.exception.ComputerException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.validation.ComputerValidator;
+import fr.ebiz.cdb.service.validation.InputValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -125,10 +126,22 @@ public enum ComputerService implements IComputerService {
         return true;
     }
 
-
     @Override
-    public boolean delete(int computerId) {
-        return computerDAO.delete(computerId);
+    public boolean delete(String[] idList) throws InputValidationException, ComputerException {
+
+        DAOFactory daoFactory = DAOFactory.INSTANCE;
+        try (Connection connection = daoFactory.getConnection()) {
+            for (String inputId : idList) {
+                Integer id = InputValidator.validateInteger(inputId);
+                computerDAO.delete(id, connection);
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new ComputerException(e);
+        }
+
+        return true;
     }
 
     @Override

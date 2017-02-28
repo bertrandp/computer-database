@@ -37,14 +37,15 @@ public class DeleteComputerPage {
                 String input = sc.nextLine();
                 switch (input) {
                     case "yes":
-                        computerService.delete(computer.getId());
+                        String[] idlist = {String.valueOf(computer.getId())};
+                        computerService.delete(idlist);
                         MenuPage.display();
                         break;
                     default:
                         MenuPage.display();
                         break;
                 }
-            } catch (ComputerException | InputValidationException e) {
+            } catch (InputValidationException | ComputerException e) {
                 logger.error("*** Error : " + e.getMessage());
                 display();
             }

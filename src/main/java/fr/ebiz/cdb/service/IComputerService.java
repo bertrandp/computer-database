@@ -65,10 +65,12 @@ public interface IComputerService {
     /**
      * Delete the given computer.
      *
-     * @param computerId the computer to delete
+     * @param idList the list of computer to delete
      * @return true if the computer is deleted
+     * @throws InputValidationException exception raised when id is not valid
+     * @throws ComputerException        exception raised when a computer is not found
      */
-    boolean delete(int computerId);
+    boolean delete(String[] idList) throws InputValidationException, ComputerException;
 
     /**
      * Retrieve the paged computer list for the given page and the number of item per page.
@@ -86,6 +88,5 @@ public interface IComputerService {
      * @param computerDAO the computerDAO
      */
     void setComputerDAO(IComputerDAO computerDAO);
-
 
 }

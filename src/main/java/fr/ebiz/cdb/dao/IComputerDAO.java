@@ -63,9 +63,11 @@ public interface IComputerDAO {
      * Delete a computer.
      *
      * @param computerId the computer to delete
+     * @param connection the connection from the pool
      * @return <tt>true</tt> if the computer is deleted
+     * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean delete(int computerId);
+    boolean delete(int computerId, Connection connection) throws SQLException;
 
     /**
      * Retrieve a list of computerDTO with a specific limit and offset.
