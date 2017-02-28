@@ -11,6 +11,7 @@ public class ComputerPagerDTO {
     private int count;
     private int currentPage;
     private int limit;
+    private String search;
 
     /**
      * ComputerPagerDTO constructor. Fetch list of computerDTO.
@@ -49,5 +50,14 @@ public class ComputerPagerDTO {
 
     public void setLimit(int limit) {
         this.limit = limit;
+    }
+
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 }

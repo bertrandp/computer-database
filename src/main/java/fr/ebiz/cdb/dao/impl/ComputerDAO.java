@@ -26,7 +26,9 @@ public enum ComputerDAO implements IComputerDAO {
     INSTANCE;
 
     private static final String SQL_SELECT = "SELECT c1.id, c1.name, c1.introduced, c1.discontinued, c1.company_id, c2.name as company_name FROM computer c1 LEFT OUTER JOIN company c2 ON c1.company_id = c2.id";
+    private static final String COUNT_WITH_SEARCH = "SELECT count(*) AS total FROM computer c1 LEFT OUTER JOIN company c2 ON c1.company_id = c2.id";
     private static final String SQL_COUNT = "SELECT count(*) AS total FROM computer";
+    private static final String LIKE = " WHERE c1.name LIKE ? OR c2.name LIKE ? ";
     private static final String LIMIT_OFFSET = " LIMIT ? OFFSET ?";
     private static final String WHERE_ID = " WHERE c1.id = ?";
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id ) VALUES (?, ?, ?, ?)";
@@ -162,15 +164,18 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public List<ComputerDTO> fetchPageDTO(int limit, int offset, Connection connection) throws SQLException {
+    public List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, Connection connection) throws SQLException {
         List<ComputerDTO> list;
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIMIT_OFFSET, true, limit, offset);
+        String like = search == null ? "%" : "%"+search+"%";
+
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIKE +  LIMIT_OFFSET, true, like, like, limit, offset);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             list = ComputerMapper.mapToComputerDTOList(resultSet);
         } catch (SQLException e) {
             connection.rollback();
+            LOGGER.error(e.getMessage());
             throw new DAOException(e);
         }
 
@@ -178,19 +183,34 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public int count(Connection connection) throws SQLException {
+    public int count(String search, Connection connection) throws SQLException {
         int count = 0;
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_COUNT, true);
-             ResultSet resultSet = preparedStatement.executeQuery()
-        ) {
-            if (resultSet.next()) {
-                count = resultSet.getInt("total");
+        if(search == null) {
+            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_COUNT, true);
+                 ResultSet resultSet = preparedStatement.executeQuery()
+            ) {
+                if (resultSet.next()) {
+                    count = resultSet.getInt("total");
+                }
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new DAOException(e);
             }
-        } catch (SQLException e) {
-            connection.rollback();
-            throw new DAOException(e);
+        } else {
+            String like = "%"+search+"%";
+            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, COUNT_WITH_SEARCH + LIKE , true, like, like);
+                 ResultSet resultSet = preparedStatement.executeQuery()
+            ) {
+                if (resultSet.next()) {
+                    count = resultSet.getInt("total");
+                }
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new DAOException(e);
+            }
         }
+
 
         return count;
     }

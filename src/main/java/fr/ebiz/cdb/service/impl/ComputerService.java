@@ -145,13 +145,20 @@ public enum ComputerService implements IComputerService {
     }
 
     @Override
-    public ComputerPagerDTO getPagedComputerDTOList(String inputPage, String inputLimit) throws InputValidationException {
+    public ComputerPagerDTO getPagedComputerDTOList(String inputPage, String inputLimit, String search) throws InputValidationException {
 
         DAOFactory daoFactory = DAOFactory.INSTANCE;
         try (Connection connection = daoFactory.getConnection()) {
 
+            ComputerPagerDTO computerPagerDTO = new ComputerPagerDTO();
+            if(search != null && !search.trim().isEmpty()) {
+                computerPagerDTO.setSearch(search);
+            } else {
+                search = null;
+            }
+
             // Count the number of computers
-            int count = computerDAO.count(connection);
+            int count = computerDAO.count(search, connection);
 
             Integer pageToValidate = null;
             Integer limitToValidate = null;
@@ -164,14 +171,13 @@ public enum ComputerService implements IComputerService {
             int limit = ComputerValidator.validateInputLimit(limitToValidate);
             int page = ComputerValidator.validateInputPage(count, limit, pageToValidate);
 
-            ComputerPagerDTO computerPagerDTO = new ComputerPagerDTO();
             computerPagerDTO.setCurrentPage(page);
             computerPagerDTO.setCount(count);
             computerPagerDTO.setLimit(limit);
 
             // fetch computerDTO page
             int offset = (page - 1) * limit;
-            computerPagerDTO.setList(computerDAO.fetchPageDTO(count, offset, connection));
+            computerPagerDTO.setList(computerDAO.fetchPageDTO(limit, offset, search == null || search.trim().isEmpty() ? null : search, connection));
 
             connection.commit();
 

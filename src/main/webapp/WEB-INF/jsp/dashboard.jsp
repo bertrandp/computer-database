@@ -26,9 +26,10 @@
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
-                <form id="searchForm" action="#" method="GET" class="form-inline">
-
-                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name"/>
+                <form id="searchForm" action="" method="GET" class="form-inline">
+                    <input type="hidden" value="${page.currentPage}" id="page" name="page"/>
+                    <input type="hidden" value="${page.limit}" id="limit" name="limit"/>
+                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${page.search}"/>
                     <input type="submit" id="searchsubmit" value="Filter by name"
                            class="btn btn-primary"/>
                 </form>
@@ -55,7 +56,7 @@
     <div class="container text-center">
 
         <c:set var="lastPage" value="${page.count / page.limit + 1}"/>
-        <tags:pagination page="${page.currentPage}" limit="${page.limit}" lastPage="${lastPage}"/>
+        <tags:pagination page="${page.currentPage}" limit="${page.limit}" lastPage="${lastPage}" search="${page.search}"/>
 
     </div>
 </footer>

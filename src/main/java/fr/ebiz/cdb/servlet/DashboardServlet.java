@@ -66,10 +66,11 @@ public class DashboardServlet extends HttpServlet {
 
         String limit = request.getParameter(LIMIT);
         String currentPage = request.getParameter(PAGE);
+        String search = request.getParameter("search");
 
         try {
             IComputerService computerService = ComputerService.INSTANCE;
-            ComputerPagerDTO page = computerService.getPagedComputerDTOList(currentPage, limit);
+            ComputerPagerDTO page = computerService.getPagedComputerDTOList(currentPage, limit, search);
             request.setAttribute(PAGE, page);
         } catch (InputValidationException e) {
             request.setAttribute(ERROR_MESSAGE, e.getMessage());

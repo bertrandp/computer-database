@@ -74,18 +74,20 @@ public interface IComputerDAO {
      *
      * @param limit      the number of computer to retrieve
      * @param offset     the index of the first computer of the list
-     * @param connection the connection from the pool
-     * @return the list of computerDTO with the given limit and offset
+     * @param search
+     *@param connection the connection from the pool  @return the list of computerDTO with the given limit and offset
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    List<ComputerDTO> fetchPageDTO(int limit, int offset, Connection connection) throws SQLException;
+    List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, Connection connection) throws SQLException;
 
     /**
      * Retrieve the number of computers.
      *
+     *
+     * @param search
      * @param connection the connection from the pool
      * @return the number of computers
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    int count(Connection connection) throws SQLException;
+    int count(String search, Connection connection) throws SQLException;
 }

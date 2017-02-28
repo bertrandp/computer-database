@@ -77,10 +77,11 @@ public interface IComputerService {
      *
      * @param page  the page index
      * @param limit the number of computer to display per page
+     * @param search
      * @return the pager containing the computer page
      * @throws InputValidationException exception raised if parameters are not valid
      */
-    ComputerPagerDTO getPagedComputerDTOList(String page, String limit) throws InputValidationException;
+    ComputerPagerDTO getPagedComputerDTOList(String page, String limit, String search) throws InputValidationException;
 
     /**
      * Set the computerDAO.
