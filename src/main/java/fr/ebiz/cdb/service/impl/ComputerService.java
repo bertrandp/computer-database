@@ -46,11 +46,19 @@ public enum ComputerService implements IComputerService {
     @Override
     public Computer get(String inputId) throws InputValidationException, ComputerException {
         Integer id = validateInteger(inputId);
-        Computer computer = computerDAO.fetchById(id);
-        if (computer == null) {
-            throw new ComputerException("The computer with id=" + id + " does not exists.");
+
+        DAOFactory daoFactory = DAOFactory.INSTANCE;
+        try (Connection connection = daoFactory.getConnection()) {
+            Computer computer = computerDAO.fetchById(id, connection);
+            connection.commit();
+            if (computer == null) {
+                throw new ComputerException("The computer with id=" + id + " does not exists.");
+            }
+            return computer;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new ComputerException(e);
         }
-        return computer;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class ComputerValidator {
     public static final String DATE_FORMAT_IS_INVALID = "Date format is invalid. Must be DD/MM/YYYY";
     public static final String DATE_IS_NULL = "Date is null";
     public static final String ID_IS_NULL = "Id is null";
-    public static final String DATE_FORMAT = "dd/MM/yyyy";
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String INTRODUCED_DATE_DOES_NOT_EXISTS = "Introduced date does not exists, discontinued date is not allowed";
     private static final int MAX_LENGTH = 255;
 
@@ -178,7 +178,7 @@ public class ComputerValidator {
     /**
      * Retrieve a computer set with the given parameters.
      *
-     * @param id         the id of the computer
+     * @param id           the id of the computer
      * @param name         the name of the computer
      * @param introduced   the introduced date of the computer
      * @param discontinued the discontinued date of the computer

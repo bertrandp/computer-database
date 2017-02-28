@@ -21,8 +21,8 @@ $(document).ready(function() {
             introduced: {
                 validators: {
                     regexp: {
-                        regexp: /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/i,
-                        message: 'The date has to be DD/MM/YYYY'
+                        regexp: /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/i,
+                        message: 'The date has to be YYYY-MM-DD'
                     },
                     callback: {
                         message: 'Discontinued date must be after introduced date',
@@ -35,13 +35,13 @@ $(document).ready(function() {
                                 return true;
                             }
 
-                            var discDay = disc.substring(0,2);
-                            var discMonth = disc.substring(3,5);
-                            var discYear = disc.substring(6,10);
+                            var discYear = disc.substring(0,4);
+                            var discMonth = disc.substring(5,7);
+                            var discDay = disc.substring(8,10);
 
-                            var introDay = intro.substring(0,2);
-                            var introMonth = intro.substring(3,5);
-                            var introYear = intro.substring(6,10);
+                            var introYear = intro.substring(0,4);
+                            var introMonth = intro.substring(5,7);
+                            var introDay = intro.substring(8,10);
 
                             if(discYear > introYear) {
                                 return true;
@@ -64,8 +64,8 @@ $(document).ready(function() {
             discontinued: {
                 validators: {
                     regexp: {
-                        regexp: /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/i,
-                        message: 'The date has to be DD/MM/YYYY'
+                        regexp: /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/i,
+                        message: 'The date has to be YYYY-MM-DD'
                     },
                     callback: {
                         message: 'Discontinued date must be after introduced date',

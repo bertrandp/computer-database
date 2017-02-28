@@ -29,7 +29,7 @@ public interface ICompanyDAO {
     /**
      * Retrieve the Company for the given id.
      *
-     * @param id the id of the Company
+     * @param id         the id of the Company
      * @param connection the connection from the pool
      * @return the Company for the given id
      * @throws SQLException exception raised if there is a issue during the transaction

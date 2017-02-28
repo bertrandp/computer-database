@@ -24,7 +24,7 @@ public interface IComputerDAO {
     /**
      * Retrieve the computer for the given id.
      *
-     * @param id the id of the computer
+     * @param id         the id of the computer
      * @param connection the connection from the pool
      * @return the computer for the given id
      * @throws SQLException exception raised if there is a issue during the transaction
@@ -42,7 +42,7 @@ public interface IComputerDAO {
     /**
      * Add a computer.
      *
-     * @param computer the computer to add
+     * @param computer   the computer to add
      * @param connection the connection from the pool
      * @return <tt>true</tt> if the computer is added
      * @throws SQLException exception raised if there is a issue during the transaction
@@ -52,7 +52,7 @@ public interface IComputerDAO {
     /**
      * Update a computer.
      *
-     * @param computer the computer to update
+     * @param computer   the computer to update
      * @param connection the connection from the pool
      * @return <tt>true</tt> if the computer is updated
      * @throws SQLException exception raised if there is a issue during the transaction

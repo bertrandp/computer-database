@@ -13,4 +13,13 @@ public class ComputerException extends Exception {
     public ComputerException(String message) {
         super(message);
     }
+
+    /**
+     * Exception raised when input related to computer is invalid.
+     *
+     * @param e the exception
+     */
+    public ComputerException(Exception e) {
+        super(e);
+    }
 }

@@ -87,7 +87,7 @@ public class ComputerValidatorTest {
 
     @Test
     public void validateDateWithValidDate() throws InputValidationException {
-        assertNotNull(ComputerValidator.validateInputDate("01/01/2000"));
+        assertNotNull(ComputerValidator.validateInputDate("2000-10-10"));
     }
 
 
