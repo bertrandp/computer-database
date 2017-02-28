@@ -25,7 +25,7 @@
                 </div>
                 <h1>Edit Computer</h1>
 
-                <form action="" method="POST">
+                <form action="" method="POST" id="form">
                     <input type="hidden" value="${computer.id}" id="id"/>
                     <fieldset>
                         <div class="form-group">
@@ -72,5 +72,9 @@
         </div>
     </div>
 </section>
+<script src="${pageContext.request.contextPath}/static/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/bootstrapValidator.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/input_validation.js"></script>
 </body>
 </html>

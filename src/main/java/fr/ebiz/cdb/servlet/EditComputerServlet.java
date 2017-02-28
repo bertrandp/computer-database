@@ -40,7 +40,6 @@ public class EditComputerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
 
         String id = req.getParameter("id");
         String name = req.getParameter(COMPUTER_NAME);

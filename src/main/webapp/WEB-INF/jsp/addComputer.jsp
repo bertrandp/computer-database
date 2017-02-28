@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2 box">
                 <h1>Add Computer</h1>
-                <form action="" method="POST" id="addForm">
+                <form action="" method="POST" id="form">
                     <fieldset>
                         <div id="form-name" class="form-group">
                             <label for="computerName">Computer name</label>

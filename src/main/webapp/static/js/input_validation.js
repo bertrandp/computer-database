@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#addForm').bootstrapValidator({
+    $('#form').bootstrapValidator({
         container: '#messages',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
