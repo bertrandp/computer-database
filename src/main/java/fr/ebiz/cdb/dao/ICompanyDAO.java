@@ -2,6 +2,8 @@ package fr.ebiz.cdb.dao;
 
 import fr.ebiz.cdb.model.Company;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -23,6 +25,16 @@ public interface ICompanyDAO {
      * @return the Company for the given id
      */
     Company fetch(int id);
+
+    /**
+     * Retrieve the Company for the given id.
+     *
+     * @param id the id of the Company
+     * @param connection the connection from the pool
+     * @return the Company for the given id
+     * @throws SQLException exception raised if there is a issue during the transaction
+     */
+    Company fetch(int id, Connection connection) throws SQLException;
 
     /**
      * Retrieve the Company for the given name.

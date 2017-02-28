@@ -28,11 +28,11 @@ public class CreateComputerPage {
         String name = writeName(newComputer);
         String introduced = writeIntroduced(newComputer);
         String discontinued = writeDiscontinued(newComputer);
-        Integer companyId = writeCompanyName(newComputer);
+        String companyId = writeCompany(newComputer);
 
         IComputerService computerService = ComputerService.INSTANCE;
         try {
-            computerService.add(name, introduced, discontinued, String.valueOf(companyId));
+            computerService.add(name, introduced, discontinued, companyId);
         } catch (InputValidationException | CompanyException e) {
             logger.error("*** Error : " + e.getMessage());
             display();
@@ -82,9 +82,9 @@ public class CreateComputerPage {
      * @param newComputer computer to create
      * @return the input
      */
-    static Integer writeCompanyName(Computer newComputer) {
-        System.out.println("* Company Name : ");
+    static String writeCompany(Computer newComputer) {
+        System.out.println("* Company : ");
         System.out.println("* (optional) ");
-        return InputUtils.inputCompanyName(newComputer);
+        return InputUtils.inputCompanyId(newComputer);
     }
 }

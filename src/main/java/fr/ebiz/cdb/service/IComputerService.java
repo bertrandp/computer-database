@@ -9,19 +9,10 @@ import fr.ebiz.cdb.service.exception.CompanyException;
 import fr.ebiz.cdb.service.exception.ComputerException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
 
-import java.util.List;
-
 /**
  * Created by ebiz on 14/02/17.
  */
 public interface IComputerService {
-
-    /**
-     * Retrieve the list of computerDTO.
-     *
-     * @return the list of computerDTO
-     */
-    List<ComputerDTO> fetchAllDTO();
 
     /**
      * Retrieve the computer for the given id.
@@ -78,13 +69,6 @@ public interface IComputerService {
      * @return true if the computer is deleted
      */
     boolean delete(int computerId);
-
-    /**
-     * Retrieve the total number of computers.
-     *
-     * @return the total number of computers
-     */
-    int count();
 
     /**
      * Retrieve the paged computer list for the given page and the number of item per page.

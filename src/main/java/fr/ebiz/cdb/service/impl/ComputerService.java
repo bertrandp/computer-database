@@ -1,22 +1,25 @@
 package fr.ebiz.cdb.service.impl;
 
+import fr.ebiz.cdb.dao.DAOFactory;
+import fr.ebiz.cdb.dao.ICompanyDAO;
 import fr.ebiz.cdb.dao.IComputerDAO;
+import fr.ebiz.cdb.dao.impl.CompanyDAO;
 import fr.ebiz.cdb.dao.impl.ComputerDAO;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
-import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
-import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.exception.CompanyException;
 import fr.ebiz.cdb.service.exception.ComputerException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.validation.ComputerValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-import static fr.ebiz.cdb.service.validation.InputValidator.validateInputInteger;
+import static fr.ebiz.cdb.service.validation.InputValidator.validateInteger;
 
 /**
  * Created by ebiz on 14/02/17.
@@ -25,6 +28,7 @@ public enum ComputerService implements IComputerService {
 
     INSTANCE;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
     private IComputerDAO computerDAO;
 
     /**
@@ -40,13 +44,8 @@ public enum ComputerService implements IComputerService {
     }
 
     @Override
-    public List<ComputerDTO> fetchAllDTO() {
-        return computerDAO.fetchAllDTO();
-    }
-
-    @Override
     public Computer get(String inputId) throws InputValidationException, ComputerException {
-        Integer id = validateInputInteger(inputId);
+        Integer id = validateInteger(inputId);
         Computer computer = computerDAO.fetchById(id);
         if (computer == null) {
             throw new ComputerException("The computer with id=" + id + " does not exists.");
@@ -56,7 +55,7 @@ public enum ComputerService implements IComputerService {
 
     @Override
     public ComputerDTO getDTO(String inputId) throws ComputerException, InputValidationException {
-        Integer id = validateInputInteger(inputId);
+        Integer id = validateInteger(inputId);
         ComputerDTO computer = computerDAO.fetchDTOById(id);
         if (computer == null) {
             throw new ComputerException("The computer with id=" + id + " does not exists.");
@@ -64,68 +63,58 @@ public enum ComputerService implements IComputerService {
         return computer;
     }
 
-    /**
-     * Retrieve a computer set with the given parameters.
-     *
-     * @param name         the name of the computer
-     * @param introduced   the introduced date of the computer
-     * @param discontinued the discontinued date of the computer
-     * @param companyId    the id of the company
-     * @return the computer set with the given parameters
-     * @throws InputValidationException exception raised if parameters are not valid
-     * @throws CompanyException         exception raised if company is not found
-     */
-    private Computer setParameters(String name, String introduced, String discontinued, String companyId) throws InputValidationException, CompanyException {
-        Computer computer = new Computer();
-
-        if (ComputerValidator.validateName(name)) {
-            computer.setName(name);
-        }
-
-        if (introduced != null && !introduced.trim().isEmpty()) {
-            LocalDate introducedLD = ComputerValidator.validateInputDate(introduced);
-            if (introducedLD != null) {
-                computer.setIntroduced(introducedLD);
-            }
-        }
-
-        if (discontinued != null && !discontinued.trim().isEmpty()) {
-            LocalDate discontinuedLD = ComputerValidator.validateInputDate(discontinued);
-            if (discontinuedLD != null) {
-                if (computer.getIntroduced() != null) {
-                    ComputerValidator.validateDiscontinuedDate(discontinuedLD, computer.getIntroduced());
-                }
-                computer.setDiscontinued(discontinuedLD);
-            }
-        }
-
-        if (companyId != null && !companyId.trim().isEmpty()) {
-            ICompanyService companyService = CompanyService.INSTANCE;
-            Company company;
-            company = companyService.fetchById(companyId);
-
-            if (company != null) {
-                computer.setCompany(company);
-            }
-        }
-
-        return computer;
-    }
-
     @Override
     public boolean add(String name, String introduced, String discontinued, String companyId) throws CompanyException, InputValidationException {
-        Computer computerToAdd = setParameters(name, introduced, discontinued, companyId);
-        return computerDAO.add(computerToAdd);
+        Computer computerToAdd = ComputerValidator.validateParams(name, introduced, discontinued, companyId);
+
+        DAOFactory daoFactory = DAOFactory.INSTANCE;
+        try (Connection connection = daoFactory.getConnection()) {
+
+            if (computerToAdd.getCompany() != null) {
+                // Check if the company id is valid
+                ICompanyDAO companyDAO = CompanyDAO.INSTANCE;
+                companyDAO.fetch(computerToAdd.getCompany().getId(), connection);
+            }
+
+            // Add the computer
+            computerDAO.add(computerToAdd, connection);
+
+            // Commit the transaction
+            connection.commit();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new CompanyException(e);
+        }
+        return true;
+
     }
 
     @Override
     public boolean update(String id, String name, String introduced, String discontinued, String companyId) throws CompanyException, InputValidationException, ComputerException {
-        Computer computerToAdd = setParameters(name, introduced, discontinued, companyId);
-        if (get(id) == null) {
-            return false;
+        Computer computerToAdd = ComputerValidator.validateParams(id, name, introduced, discontinued, companyId);
+
+        DAOFactory daoFactory = DAOFactory.INSTANCE;
+        try (Connection connection = daoFactory.getConnection()) {
+
+            // Check if computer exists
+            computerDAO.fetchById(computerToAdd.getId(), connection);
+
+            if (computerToAdd.getCompany() != null) {
+                // Check if the company exists
+                ICompanyDAO companyDAO = CompanyDAO.INSTANCE;
+                companyDAO.fetch(computerToAdd.getCompany().getId(), connection);
+            }
+
+            // Add the computer
+            computerDAO.update(computerToAdd, connection);
+
+            // Commit the transaction
+            connection.commit();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new CompanyException(e);
         }
-        computerToAdd.setId(Integer.valueOf(id));
-        return computerDAO.update(computerToAdd);
+        return true;
     }
 
 
@@ -135,24 +124,43 @@ public enum ComputerService implements IComputerService {
     }
 
     @Override
-    public int count() {
-        return computerDAO.count();
-    }
-
-    @Override
     public ComputerPagerDTO getPagedComputerDTOList(String inputPage, String inputLimit) throws InputValidationException {
-        int count = computerDAO.count();
-        Integer pageToValidate = null;
-        Integer limitToValidate = null;
-        if (inputPage != null) {
-            pageToValidate = validateInputInteger(inputPage);
+
+        DAOFactory daoFactory = DAOFactory.INSTANCE;
+        try (Connection connection = daoFactory.getConnection()) {
+
+            // Count the number of computers
+            int count = computerDAO.count(connection);
+
+            Integer pageToValidate = null;
+            Integer limitToValidate = null;
+            if (inputPage != null) {
+                pageToValidate = validateInteger(inputPage);
+            }
+            if (inputLimit != null) {
+                limitToValidate = validateInteger(inputLimit);
+            }
+            int limit = ComputerValidator.validateInputLimit(limitToValidate);
+            int page = ComputerValidator.validateInputPage(count, limit, pageToValidate);
+
+            ComputerPagerDTO computerPagerDTO = new ComputerPagerDTO();
+            computerPagerDTO.setCurrentPage(page);
+            computerPagerDTO.setCount(count);
+            computerPagerDTO.setLimit(limit);
+
+            // fetch computerDTO page
+            int offset = (page - 1) * limit;
+            computerPagerDTO.setList(computerDAO.fetchPageDTO(count, offset, connection));
+
+            connection.commit();
+
+            return computerPagerDTO;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        if (inputLimit != null) {
-            limitToValidate = validateInputInteger(inputLimit);
-        }
-        int limit = ComputerValidator.validateInputLimit(limitToValidate);
-        int page = ComputerValidator.validateInputPage(count, limit, pageToValidate);
-        return new ComputerPagerDTO(count, page, limit);
+
+        return null;
     }
 
 }

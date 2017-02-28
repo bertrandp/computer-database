@@ -21,7 +21,7 @@ public enum CompanyService implements ICompanyService {
     private ICompanyDAO companyDAO;
 
     /**
-     * Company fr.ebiz.cdb.service constructor. Fetch the instance of DAOFactory.
+     * Company constructor. Fetch the instance of DAOFactory.
      */
     CompanyService() {
         this.companyDAO = CompanyDAO.INSTANCE;
@@ -33,18 +33,8 @@ public enum CompanyService implements ICompanyService {
     }
 
     @Override
-    public Company fetch(String name) {
-        return companyDAO.fetch(name);
-    }
-
-    @Override
-    public Company fetch(int id) {
-        return companyDAO.fetch(id);
-    }
-
-    @Override
     public Company fetchById(String companyId) throws InputValidationException, CompanyException {
-        Integer id = InputValidator.validateInputInteger(companyId);
+        Integer id = InputValidator.validateInteger(companyId);
         Company company = companyDAO.fetch(id);
         if (company == null) {
             throw new CompanyException("Company with id = " + id + " not found");

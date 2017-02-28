@@ -20,7 +20,6 @@ public class MenuPage {
         System.out.println("*");
         System.out.println("**  Computer Database Application : Menu ");
         System.out.println("*");
-        System.out.println("* 1 : List computers (all entries)");
         System.out.println("* 2 : List companies ");
         System.out.println("* 3 : Show computer details ");
         System.out.println("* 4 : Create a computer ");
@@ -36,11 +35,8 @@ public class MenuPage {
         switch (option) {
             case "0":
                 break;
-            case "1":
-                ListComputerPage.display();
-                break;
             case "2":
-                ListCompanyPage.display();
+                ListCompanyPage.display(false);
                 break;
             case "3":
                 ComputerDetailsPage.display();

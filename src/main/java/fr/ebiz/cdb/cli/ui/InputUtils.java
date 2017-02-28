@@ -1,10 +1,7 @@
 package fr.ebiz.cdb.cli.ui;
 
 
-import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
-import fr.ebiz.cdb.service.ICompanyService;
-import fr.ebiz.cdb.service.impl.CompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,37 +20,21 @@ public class InputUtils {
     private static Logger logger = LoggerFactory.getLogger(InputUtils.class);
 
     /**
-     * Check if the company with the given name exist.
-     *
-     * @param name the name of the company
-     * @return true if the company exist
-     */
-    private static Company companyExists(String name) {
-        ICompanyService companyService = CompanyService.INSTANCE;
-        return companyService.fetch(name);
-    }
-
-    /**
      * Validate the input company name.
      *
      * @param computer the computer to update
      * @return the input
      */
-    static Integer inputCompanyName(Computer computer) {
+    static String inputCompanyId(Computer computer) {
+        ListCompanyPage.display(false);
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {
             case "":
+                CreateComputerPage.writeCompany(computer);
                 break;
             default:
-                Company company = companyExists(input);
-                if (company != null) {
-                    return company.getId();
-                } else {
-                    logger.error("* Error : Invalid Company Name ");
-                    CreateComputerPage.writeCompanyName(computer);
-                }
-                break;
+                return input;
         }
         return null;
     }

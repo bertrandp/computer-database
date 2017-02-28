@@ -24,7 +24,16 @@ public class Company {
      * @param name the name of the company
      */
     public Company(int id, String name) {
-        this(name);
+        this.name = name;
+        this.id = id;
+    }
+
+    /**
+     * Company constructor.
+     *
+     * @param id the id of the company
+     */
+    public Company(Integer id) {
         this.id = id;
     }
 

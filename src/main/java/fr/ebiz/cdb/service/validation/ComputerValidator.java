@@ -1,6 +1,8 @@
 package fr.ebiz.cdb.service.validation;
 
 
+import fr.ebiz.cdb.model.Company;
+import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.service.exception.InputValidationException;
 
 import java.time.LocalDate;
@@ -128,5 +130,65 @@ public class ComputerValidator {
         return page;
     }
 
+    /**
+     * Retrieve a computer set with the given parameters.
+     *
+     * @param name         the name of the computer
+     * @param introduced   the introduced date of the computer
+     * @param discontinued the discontinued date of the computer
+     * @param companyId    the id of the company
+     * @return the computer set with the given parameters
+     * @throws InputValidationException exception raised if parameters are not valid
+     */
+    public static Computer validateParams(String name, String introduced, String discontinued, String companyId) throws InputValidationException {
+        Computer computer = new Computer();
 
+        if (ComputerValidator.validateName(name)) {
+            computer.setName(name);
+        }
+
+        if (introduced != null && !introduced.trim().isEmpty()) {
+            LocalDate introducedLD = ComputerValidator.validateInputDate(introduced);
+            if (introducedLD != null) {
+                computer.setIntroduced(introducedLD);
+            }
+        }
+
+        if (discontinued != null && !discontinued.trim().isEmpty()) {
+            LocalDate discontinuedLD = ComputerValidator.validateInputDate(discontinued);
+            if (discontinuedLD != null) {
+                if (computer.getIntroduced() != null) {
+                    ComputerValidator.validateDiscontinuedDate(discontinuedLD, computer.getIntroduced());
+                }
+                computer.setDiscontinued(discontinuedLD);
+            }
+        }
+
+
+        if (companyId != null && !companyId.trim().isEmpty()) {
+            Integer id = InputValidator.validateInteger(companyId);
+            if (id != null) {
+                computer.setCompany(new Company(id));
+            }
+        }
+
+        return computer;
+    }
+
+    /**
+     * Retrieve a computer set with the given parameters.
+     *
+     * @param id         the id of the computer
+     * @param name         the name of the computer
+     * @param introduced   the introduced date of the computer
+     * @param discontinued the discontinued date of the computer
+     * @param companyId    the id of the company
+     * @return the computer set with the given parameters
+     * @throws InputValidationException exception raised if parameters are not valid
+     */
+    public static Computer validateParams(String id, String name, String introduced, String discontinued, String companyId) throws InputValidationException {
+        Computer computer = validateParams(name, introduced, discontinued, companyId);
+        computer.setId(InputValidator.validateInteger(id));
+        return computer;
+    }
 }

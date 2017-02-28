@@ -20,22 +20,6 @@ public interface ICompanyService {
     List<Company> fetchAll();
 
     /**
-     * Check if company already exists for the given name.
-     *
-     * @param name the name of the company
-     * @return true if the company already exists
-     */
-    Company fetch(String name);
-
-    /**
-     * Check if company already exists for the given id.
-     *
-     * @param id the name of the company
-     * @return true if the company already exists
-     */
-    Company fetch(int id);
-
-    /**
      * Retrieve the company for the given id.
      *
      * @param companyId the id of the computer

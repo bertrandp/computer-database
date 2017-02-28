@@ -40,11 +40,11 @@ public class ComputerServiceTest {
         computerService.setComputerDAO(mockComputerDAO);
     }
 
-    @Test
+    /*@Test
     public void testCount() {
         PowerMockito.when(mockComputerDAO.count()).thenReturn(10);
         assertEquals(10, computerService.count());
-    }
+    }*/
 
     @Test
     public void testGet() throws ComputerException, InputValidationException {

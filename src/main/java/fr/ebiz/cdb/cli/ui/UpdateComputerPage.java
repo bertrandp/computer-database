@@ -37,9 +37,9 @@ public class UpdateComputerPage {
                 String name = updateName(computer);
                 String introduced = updateIntroducedDate(computer);
                 String discontinued = updateDiscontinuedDate(computer);
-                Integer companyId = updateCompanyName(computer);
+                String companyId = updateCompany(computer);
                 computerService = ComputerService.INSTANCE;
-                computerService.update(id, name, introduced, discontinued, String.valueOf(companyId));
+                computerService.update(id, name, introduced, discontinued, companyId);
 
                 MenuPage.display();
 
@@ -60,14 +60,14 @@ public class UpdateComputerPage {
      * @param computer the computer to update
      * @return the input
      */
-    private static Integer updateCompanyName(Computer computer) {
+    private static String updateCompany(Computer computer) {
         if (computer.getCompany() != null) {
             System.out.println("* Company Name : " + computer.getCompany().getName());
         } else {
             System.out.println("* Company Name : undefined");
         }
-        System.out.println("* Specify the new company name or press Enter ");
-        return InputUtils.inputCompanyName(computer);
+        System.out.println("* Specify the new id of the company company or press Enter ");
+        return InputUtils.inputCompanyId(computer);
     }
 
     /**

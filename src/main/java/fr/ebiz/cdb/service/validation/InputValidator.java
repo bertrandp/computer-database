@@ -21,7 +21,7 @@ public class InputValidator {
      * @return the integer
      * @throws InputValidationException exception raised if the input is invalid
      */
-    public static Integer validateInputInteger(String input) throws InputValidationException {
+    public static Integer validateInteger(String input) throws InputValidationException {
         if (input == null) {
             throw new InputValidationException(ID_IS_NULL);
         } else if (input.trim().isEmpty()) {

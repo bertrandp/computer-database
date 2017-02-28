@@ -14,8 +14,10 @@ public class ListCompanyPage {
 
     /**
      * Display the page of the list of company.
+     *
+     * @param withMenu whether the menu should be displayed after the list or not
      */
-    static void display() {
+    static void display(boolean withMenu) {
         System.out.println("");
         System.out.println("*********************");
         System.out.println("*     Companies     *");
@@ -32,7 +34,9 @@ public class ListCompanyPage {
             System.out.println("|\t" + company.getId() + "\t\t" + company.getName());
         }
 
-        MenuPage.display();
+        if (withMenu) {
+            MenuPage.display();
+        }
     }
 
 

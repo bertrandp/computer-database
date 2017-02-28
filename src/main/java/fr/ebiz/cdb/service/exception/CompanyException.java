@@ -13,4 +13,13 @@ public class CompanyException extends Exception {
     public CompanyException(String message) {
         super(message);
     }
+
+    /**
+     * Exception raised when input related to company is invalid.
+     *
+     * @param e the exception
+     */
+    public CompanyException(Exception e) {
+        super(e);
+    }
 }
