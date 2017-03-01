@@ -73,21 +73,18 @@ public interface IComputerService {
     boolean delete(String[] idList) throws InputValidationException, ComputerException;
 
     /**
-     * Retrieve the paged computer list for the given page and the number of item per page.
-     *
-     * @param page   the page index
-     * @param limit  the number of computer to display per page
-     * @param search the filter for the search
-     * @return the pager containing the computer page
-     * @throws InputValidationException exception raised if parameters are not valid
-     */
-    ComputerPagerDTO getPagedComputerDTOList(String page, String limit, String search) throws InputValidationException;
-
-    /**
      * Set the computerDAO.
      *
      * @param computerDAO the computerDAO
      */
     void setComputerDAO(IComputerDAO computerDAO);
 
+    /**
+     * Fill the list of computer for the given computerPagerDTO.
+     *
+     * @param page the page index
+     * @return the computerPagerDTO with the list of computer
+     * @throws InputValidationException exception raised if parameters are not valid
+     */
+    ComputerPagerDTO fetchComputerList(ComputerPagerDTO page);
 }

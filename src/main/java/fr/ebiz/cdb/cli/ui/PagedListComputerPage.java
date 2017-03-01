@@ -4,8 +4,8 @@ package fr.ebiz.cdb.cli.ui;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.impl.ComputerService;
+import fr.ebiz.cdb.service.validation.ComputerValidator;
 
 import java.util.List;
 import java.util.Scanner;
@@ -41,35 +41,33 @@ public class PagedListComputerPage {
         System.out.println("---------------------------------------------------------");
 
         IComputerService computerService = ComputerService.INSTANCE;
-        try {
-            ComputerPagerDTO pager = computerService.getPagedComputerDTOList(String.valueOf(page), String.valueOf(limit), null);
 
-            for (ComputerDTO computer : (List<ComputerDTO>) pager.getList()) {
-                System.out.println("|\t" + computer.getId() + "\t\t" + computer.getName());
-            }
-            System.out.println("---------------------------------------------------------");
-            System.out.println("*********** Page  " + pager.getCurrentPage() + "\t/ " + (pager.getCount() / limit + 1) + " ***************");
-            System.out.println("*** 1 : Previous      2 : Next        0 : Quit  ***");
-            Scanner sc = new Scanner(System.in);
-            String input = sc.nextLine();
-            switch (input.trim()) {
-                case "0":
-                    MenuPage.display();
-                    break;
-                case "1":
-                    displayComputerPage(pager.getCurrentPage() - 1, pager.getLimit());
-                    break;
-                case "2":
-                    displayComputerPage(pager.getCurrentPage() + 1, pager.getLimit());
-                    break;
-                default:
-                    displayComputerPage(pager.getCurrentPage(), pager.getLimit());
-                    break;
-            }
+        //ComputerPagerDTO pager = computerService.getPagedComputerDTOList(String.valueOf(page), String.valueOf(limit), null);
 
-
-        } catch (InputValidationException e) {
-            e.printStackTrace();
+        ComputerPagerDTO pager = new ComputerPagerDTO.Builder().currentPage(page).limit(limit).build();
+        ComputerPagerDTO pageValid = ComputerValidator.validate(pager);
+        pageValid = computerService.fetchComputerList(pageValid);
+        for (ComputerDTO computer : (List<ComputerDTO>) pageValid.getList()) {
+            System.out.println("|\t" + computer.getId() + "\t\t" + computer.getName());
+        }
+        System.out.println("---------------------------------------------------------");
+        System.out.println("*********** Page  " + pageValid.getCurrentPage() + "\t/ " + (pageValid.getCount() / limit + 1) + " ***************");
+        System.out.println("*** 1 : Previous      2 : Next        0 : Quit  ***");
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        switch (input.trim()) {
+            case "0":
+                MenuPage.display();
+                break;
+            case "1":
+                displayComputerPage(pageValid.getCurrentPage() - 1, pageValid.getLimit());
+                break;
+            case "2":
+                displayComputerPage(pageValid.getCurrentPage() + 1, pageValid.getLimit());
+                break;
+            default:
+                displayComputerPage(pageValid.getCurrentPage(), pageValid.getLimit());
+                break;
         }
 
     }

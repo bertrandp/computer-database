@@ -1,6 +1,7 @@
 package fr.ebiz.cdb.service.validation;
 
 
+import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.service.exception.InputValidationException;
@@ -85,52 +86,6 @@ public class ComputerValidator {
     }
 
     /**
-     * Validate the given limit and return it, return a default value in case the input is not valid.
-     *
-     * @param limit the limit to validate
-     * @return the limit
-     */
-    public static int validateInputLimit(Integer limit) {
-        int defaultLimit = 50;
-        int minimumLimit = 10;
-        int maximumLimit = 100;
-        if (limit != null) {
-            if (limit < minimumLimit) {
-                limit = defaultLimit;
-            } else if (limit > maximumLimit) {
-                limit = defaultLimit;
-            }
-        } else {
-            limit = defaultLimit;
-        }
-        return limit;
-    }
-
-    /**
-     * Validate the given page number and return it, return a default value in case the input is not valid.
-     *
-     * @param count the total number of entries
-     * @param limit the limit value
-     * @param page  the page number to validate
-     * @return the page number
-     */
-    public static int validateInputPage(int count, int limit, Integer page) {
-        int defaultPage = 1;
-        int minimumPage = 1;
-        int maximumPage = count / limit + 1;
-        if (page != null) {
-            if (page < minimumPage) {
-                page = defaultPage;
-            } else if (page > maximumPage) {
-                page = maximumPage;
-            }
-        } else {
-            page = defaultPage;
-        }
-        return page;
-    }
-
-    /**
      * Retrieve a computer set with the given parameters.
      *
      * @param name         the name of the computer
@@ -190,5 +145,64 @@ public class ComputerValidator {
         Computer computer = validateParams(name, introduced, discontinued, companyId);
         computer.setId(InputValidator.validateInteger(id));
         return computer;
+    }
+
+    public static ComputerPagerDTO validate(ComputerPagerDTO page) {
+        int limit = validateLimit(page.getLimit());
+        int currentPage = validateCurrentPage(page.getCurrentPage());
+        String search = validateSearch(page.getSearch());
+
+        return new ComputerPagerDTO.Builder().limit(limit).currentPage(currentPage).search(search).build();
+    }
+
+    private static String validateSearch(String search) {
+        if (search != null && !search.trim().isEmpty()) {
+            return search.trim();
+        } else {
+            return null;
+        }
+    }
+
+    private static int validateCurrentPage(int currentPage) {
+        int defaultPage = 1;
+        int minimumPage = 1;
+        if (currentPage < minimumPage) {
+            currentPage = defaultPage;
+        }
+        return currentPage;
+    }
+
+    /**
+     * Validate the given limit and return it, return a default value in case the input is not valid.
+     *
+     * @param limit the limit to validate
+     * @return the limit
+     */
+    private static int validateLimit(int limit) {
+        int defaultLimit = 50;
+        int minimumLimit = 10;
+        int maximumLimit = 100;
+        if (limit < minimumLimit) {
+            limit = defaultLimit;
+        } else if (limit > maximumLimit) {
+            limit = defaultLimit;
+        }
+        return limit;
+    }
+
+    /**
+     * Validate the given page number and return it, return a default value in case the input is not valid.
+     *
+     * @param count the total number of entries
+     * @param limit the limit value
+     * @param page  the page number to validate
+     * @return the page number
+     */
+    public static int validateCurrentPageMax(int count, int limit, int currentPage) {
+        int maximumPage = count / limit + 1;
+        if (currentPage > maximumPage) {
+            currentPage = maximumPage;
+        }
+        return currentPage;
     }
 }

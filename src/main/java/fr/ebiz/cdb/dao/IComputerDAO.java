@@ -74,7 +74,7 @@ public interface IComputerDAO {
      *
      * @param limit      the number of computer to retrieve
      * @param offset     the index of the first computer of the list
-     * @param search the filter for the search
+     * @param search     the filter for the search
      * @param connection the connection from the pool  @return the list of computerDTO with the given limit and offset
      * @return the list of computer
      * @throws SQLException exception raised if there is a issue during the transaction
@@ -84,7 +84,7 @@ public interface IComputerDAO {
     /**
      * Retrieve the number of computers.
      *
-     * @param search the filter for the search
+     * @param search     the filter for the search
      * @param connection the connection from the pool
      * @return the number of computers
      * @throws SQLException exception raised if there is a issue during the transaction

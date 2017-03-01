@@ -5,6 +5,7 @@ import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.exception.ComputerException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.impl.ComputerService;
+import fr.ebiz.cdb.service.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,15 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         logger.debug("DashboardServlet.doGet()");
-        setAttributes(request);
+
+        ComputerPagerDTO page = parseRequest(request);
+        ComputerPagerDTO pageValid = ComputerValidator.validate(page);
+
+        IComputerService computerService = ComputerService.INSTANCE;
+        ComputerPagerDTO pageToSend = computerService.fetchComputerList(pageValid);
+
+        request.setAttribute(PAGE, pageToSend);
+
         RequestDispatcher view = request.getRequestDispatcher(DASHBOARD_JSP);
         view.forward(request, response);
     }
@@ -58,24 +67,28 @@ public class DashboardServlet extends HttpServlet {
     }
 
     /**
-     * Set request attributes related to pagination.
+     * Parse the parameters of the request.
      *
      * @param request the http request
      */
-    private void setAttributes(HttpServletRequest request) {
+    private ComputerPagerDTO parseRequest(HttpServletRequest request) {
 
         String limit = request.getParameter(LIMIT);
         String currentPage = request.getParameter(PAGE);
         String search = request.getParameter("search");
 
-        try {
-            IComputerService computerService = ComputerService.INSTANCE;
-            ComputerPagerDTO page = computerService.getPagedComputerDTOList(currentPage, limit, search);
-            request.setAttribute(PAGE, page);
-        } catch (InputValidationException e) {
-            request.setAttribute(ERROR_MESSAGE, e.getMessage());
+        ComputerPagerDTO.Builder pageBuilder = new ComputerPagerDTO.Builder();
+        if (limit != null) {
+            pageBuilder.limit(Integer.valueOf(limit));
+        }
+        if (currentPage != null) {
+            pageBuilder.currentPage(Integer.valueOf(currentPage));
+        }
+        if (search != null) {
+            pageBuilder.search(search);
         }
 
+        return pageBuilder.build();
     }
 
 }

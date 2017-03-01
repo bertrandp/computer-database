@@ -145,43 +145,25 @@ public enum ComputerService implements IComputerService {
     }
 
     @Override
-    public ComputerPagerDTO getPagedComputerDTOList(String inputPage, String inputLimit, String search) throws InputValidationException {
+    public ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) {
 
         DAOFactory daoFactory = DAOFactory.INSTANCE;
         try (Connection connection = daoFactory.getConnection()) {
 
-            ComputerPagerDTO computerPagerDTO = new ComputerPagerDTO();
-            if (search != null && !search.trim().isEmpty()) {
-                computerPagerDTO.setSearch(search);
-            } else {
-                search = null;
-            }
-
             // Count the number of computers
-            int count = computerDAO.count(search, connection);
+            page.setCount(computerDAO.count(page.getSearch(), connection));
 
-            Integer pageToValidate = null;
-            Integer limitToValidate = null;
-            if (inputPage != null) {
-                pageToValidate = validateInteger(inputPage);
-            }
-            if (inputLimit != null) {
-                limitToValidate = validateInteger(inputLimit);
-            }
-            int limit = ComputerValidator.validateInputLimit(limitToValidate);
-            int page = ComputerValidator.validateInputPage(count, limit, pageToValidate);
+            int pageToValidate = page.getCurrentPage();
 
-            computerPagerDTO.setCurrentPage(page);
-            computerPagerDTO.setCount(count);
-            computerPagerDTO.setLimit(limit);
+            page.setCurrentPage(ComputerValidator.validateCurrentPageMax(page.getCount(), page.getLimit(), pageToValidate));
 
             // fetch computerDTO page
-            int offset = (page - 1) * limit;
-            computerPagerDTO.setList(computerDAO.fetchPageDTO(limit, offset, search == null || search.trim().isEmpty() ? null : search, connection));
+            int offset = (page.getCurrentPage() - 1) * page.getLimit();
+            page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), connection));
 
             connection.commit();
 
-            return computerPagerDTO;
+            return page;
 
         } catch (SQLException e) {
             e.printStackTrace();
