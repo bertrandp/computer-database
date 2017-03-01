@@ -75,9 +75,9 @@ public interface IComputerService {
     /**
      * Retrieve the paged computer list for the given page and the number of item per page.
      *
-     * @param page  the page index
-     * @param limit the number of computer to display per page
-     * @param search
+     * @param page   the page index
+     * @param limit  the number of computer to display per page
+     * @param search the filter for the search
      * @return the pager containing the computer page
      * @throws InputValidationException exception raised if parameters are not valid
      */

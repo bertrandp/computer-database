@@ -167,9 +167,9 @@ public enum ComputerDAO implements IComputerDAO {
     public List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, Connection connection) throws SQLException {
         List<ComputerDTO> list;
 
-        String like = search == null ? "%" : "%"+search+"%";
+        String like = search == null ? "%" : "%" + search + "%";
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIKE +  LIMIT_OFFSET, true, like, like, limit, offset);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIKE + LIMIT_OFFSET, true, like, like, limit, offset);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             list = ComputerMapper.mapToComputerDTOList(resultSet);
@@ -186,7 +186,7 @@ public enum ComputerDAO implements IComputerDAO {
     public int count(String search, Connection connection) throws SQLException {
         int count = 0;
 
-        if(search == null) {
+        if (search == null) {
             try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_COUNT, true);
                  ResultSet resultSet = preparedStatement.executeQuery()
             ) {
@@ -198,8 +198,8 @@ public enum ComputerDAO implements IComputerDAO {
                 throw new DAOException(e);
             }
         } else {
-            String like = "%"+search+"%";
-            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, COUNT_WITH_SEARCH + LIKE , true, like, like);
+            String like = "%" + search + "%";
+            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, COUNT_WITH_SEARCH + LIKE, true, like, like);
                  ResultSet resultSet = preparedStatement.executeQuery()
             ) {
                 if (resultSet.next()) {

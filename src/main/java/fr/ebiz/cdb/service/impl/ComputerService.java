@@ -151,7 +151,7 @@ public enum ComputerService implements IComputerService {
         try (Connection connection = daoFactory.getConnection()) {
 
             ComputerPagerDTO computerPagerDTO = new ComputerPagerDTO();
-            if(search != null && !search.trim().isEmpty()) {
+            if (search != null && !search.trim().isEmpty()) {
                 computerPagerDTO.setSearch(search);
             } else {
                 search = null;
