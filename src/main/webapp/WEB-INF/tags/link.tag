@@ -5,6 +5,8 @@
 <%@ attribute name="page" required="true" type="java.lang.Integer" %>
 <%@ attribute name="limit" required="true" type="java.lang.Integer" %>
 <%@ attribute name="search" required="false" type="java.lang.String" %>
+<%@ attribute name="order" required="false" type="java.lang.String" %>
+<%@ attribute name="column" required="false" type="java.lang.String" %>
 <%@ attribute name="var" required="true" type="java.lang.String" %>
 
 
@@ -14,6 +16,12 @@
         <c:param name="limit" value="${limit}" />
         <c:if test="${not empty search}">
             <c:param name="search" value="${search}" />
+        </c:if>
+        <c:if test="${not empty order}">
+            <c:param name="order" value="${order}" />
+        </c:if>
+        <c:if test="${not empty column}">
+            <c:param name="column" value="${column}" />
         </c:if>
     </c:url>
 </c:set>

@@ -148,11 +148,30 @@ public class ComputerValidator {
     }
 
     public static ComputerPagerDTO validate(ComputerPagerDTO page) {
-        int limit = validateLimit(page.getLimit());
-        int currentPage = validateCurrentPage(page.getCurrentPage());
-        String search = validateSearch(page.getSearch());
 
-        return new ComputerPagerDTO.Builder().limit(limit).currentPage(currentPage).search(search).build();
+        page.setLimit(validateLimit(page.getLimit()));
+        page.setCurrentPage(validateCurrentPage(page.getCurrentPage()));
+        page.setSearch(validateSearch(page.getSearch()));
+        page.setOrder(validateOrder(page.getOrder())); // TODO does order and column need validation ?
+        page.setColumn(validateColumn(page.getColumn()));
+
+        return page;
+    }
+
+    private static ComputerPagerDTO.COLUMN validateColumn(ComputerPagerDTO.COLUMN column) {
+        if(column == null) {
+            return ComputerPagerDTO.COLUMN.NAME;
+        } else {
+            return column;
+        }
+    }
+
+    private static ComputerPagerDTO.ORDER validateOrder(ComputerPagerDTO.ORDER order) {
+        if(order == null) {
+            return ComputerPagerDTO.ORDER.ASC;
+        } else {
+            return order;
+        }
     }
 
     private static String validateSearch(String search) {
@@ -195,7 +214,7 @@ public class ComputerValidator {
      *
      * @param count the total number of entries
      * @param limit the limit value
-     * @param page  the page number to validate
+     * @param currentPage  the page number to validate
      * @return the page number
      */
     public static int validateCurrentPageMax(int count, int limit, int currentPage) {

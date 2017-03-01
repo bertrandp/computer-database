@@ -159,7 +159,8 @@ public enum ComputerService implements IComputerService {
 
             // fetch computerDTO page
             int offset = (page.getCurrentPage() - 1) * page.getLimit();
-            page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), connection));
+            //page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), connection));
+            page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), page.getOrder(), page.getColumn(), connection));
 
             connection.commit();
 

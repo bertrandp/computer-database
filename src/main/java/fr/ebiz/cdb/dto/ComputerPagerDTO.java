@@ -12,21 +12,8 @@ public class ComputerPagerDTO {
     private int currentPage;
     private int limit;
     private String search;
-
-    /**
-     * ComputerPagerDTO constructor. Fetch list of computerDTO.
-     */
-    public ComputerPagerDTO() {
-
-    }
-
-    public ComputerPagerDTO(List<ComputerDTO> list, int count, int currentPage, int limit, String search) {
-        this.list = list;
-        this.count = count;
-        this.currentPage = currentPage;
-        this.limit = limit;
-        this.search = search;
-    }
+    private ORDER order;
+    private COLUMN column;
 
     private ComputerPagerDTO(Builder builder) {
         setList(builder.list);
@@ -34,8 +21,9 @@ public class ComputerPagerDTO {
         setCurrentPage(builder.currentPage);
         setLimit(builder.limit);
         setSearch(builder.search);
+        setOrder(builder.order);
+        setColumn(builder.column);
     }
-
 
     public List getList() {
         return list;
@@ -73,9 +61,26 @@ public class ComputerPagerDTO {
         return search;
     }
 
+    public ORDER getOrder() {
+        return order;
+    }
+
+    public void setOrder(ORDER order) {
+        this.order = order;
+    }
+
+    public COLUMN getColumn() {
+        return column;
+    }
+
+    public void setColumn(COLUMN column) {
+        this.column = column;
+    }
+
     public void setSearch(String search) {
         this.search = search;
     }
+
 
     public static final class Builder {
         private List<ComputerDTO> list;
@@ -83,6 +88,8 @@ public class ComputerPagerDTO {
         private int currentPage;
         private int limit;
         private String search;
+        private ORDER order;
+        private COLUMN column;
 
         public Builder() {
         }
@@ -112,8 +119,26 @@ public class ComputerPagerDTO {
             return this;
         }
 
+        public Builder order(ORDER val) {
+            order = val;
+            return this;
+        }
+
+        public Builder column(COLUMN val) {
+            column = val;
+            return this;
+        }
+
         public ComputerPagerDTO build() {
             return new ComputerPagerDTO(this);
         }
+    }
+
+    public enum ORDER {
+        ASC,DESC
+    }
+
+    public enum COLUMN {
+        NAME, INTRODUCED, DISCONTINUED, COMPANY_NAME
     }
 }

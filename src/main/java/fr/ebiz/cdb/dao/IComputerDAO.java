@@ -2,6 +2,7 @@ package fr.ebiz.cdb.dao;
 
 
 import fr.ebiz.cdb.dto.ComputerDTO;
+import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Computer;
 
 import java.sql.Connection;
@@ -75,11 +76,12 @@ public interface IComputerDAO {
      * @param limit      the number of computer to retrieve
      * @param offset     the index of the first computer of the list
      * @param search     the filter for the search
-     * @param connection the connection from the pool  @return the list of computerDTO with the given limit and offset
-     * @return the list of computer
+     * @param order
+     *@param column
+     * @param connection the connection from the pool  @return the list of computerDTO with the given limit and offset  @return the list of computer
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, Connection connection) throws SQLException;
+    List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column, Connection connection) throws SQLException;
 
     /**
      * Retrieve the number of computers.

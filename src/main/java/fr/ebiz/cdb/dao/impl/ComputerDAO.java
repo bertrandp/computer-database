@@ -6,6 +6,7 @@ import fr.ebiz.cdb.dao.mapper.ComputerMapper;
 import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.dao.utils.DAOHelper;
 import fr.ebiz.cdb.dto.ComputerDTO;
+import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Computer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,12 +165,14 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, Connection connection) throws SQLException {
+    public List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column, Connection connection) throws SQLException {
         List<ComputerDTO> list;
 
         String like = search == null ? "%" : "%" + search + "%";
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIKE + LIMIT_OFFSET, true, like, like, limit, offset);
+        String orderByQuery = buildOrderByQuery(order, column);
+
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIKE + orderByQuery + LIMIT_OFFSET, true, like, like, limit, offset);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             list = ComputerMapper.mapToComputerDTOList(resultSet);
@@ -180,6 +183,21 @@ public enum ComputerDAO implements IComputerDAO {
         }
 
         return list;
+    }
+
+    private String buildOrderByQuery(ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column) {
+        String query = " ORDER BY ";
+        switch (column) {
+            case NAME: query += "c1.name"; break;
+            case INTRODUCED: query += "c1.introduced"; break;
+            case DISCONTINUED: query += "c1.discontinued"; break;
+            case COMPANY_NAME: query += "c2.name"; break;
+        }
+        switch (order) {
+            case ASC: query += " ASC"; break;
+            case DESC: query += " DESC"; break;
+        }
+        return query;
     }
 
     @Override
