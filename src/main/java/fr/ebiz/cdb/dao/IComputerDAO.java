@@ -17,14 +17,6 @@ public interface IComputerDAO {
     /**
      * Retrieve the computer for the given id.
      *
-     * @param id the id of the computer
-     * @return the computer for the given id
-     */
-    Computer fetchById(int id);
-
-    /**
-     * Retrieve the computer for the given id.
-     *
      * @param id         the id of the computer
      * @param connection the connection from the pool
      * @return the computer for the given id
@@ -36,9 +28,10 @@ public interface IComputerDAO {
      * Retrieve the computerDTO for the given id.
      *
      * @param id the id of the computer
+     * @param connection
      * @return the computer for the given id
      */
-    ComputerDTO fetchDTOById(Integer id);
+    ComputerDTO fetchDTOById(Integer id, Connection connection) throws SQLException;
 
     /**
      * Add a computer.

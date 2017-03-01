@@ -7,8 +7,12 @@ import fr.ebiz.cdb.model.Computer;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static fr.ebiz.cdb.service.validation.ComputerValidator.DATE_FORMAT;
 
 /**
  * Created by bpestre on 23/02/17.
@@ -121,8 +125,29 @@ public class ComputerMapper {
             computer.setIntroduced(resultSet.getString(INTRODUCED));
             computer.setDiscontinued(resultSet.getString(DISCONTINUED));
             computer.setCompanyName(resultSet.getString(COMPANY_NAME));
+            computer.setCompanyId(resultSet.getInt(COMPANY_ID));
             return computer;
         }
         return null;
+    }
+
+    public static Computer mapToComputer(ComputerDTO computerDTO) {
+        Computer computer = new Computer();
+        computer.setId(computerDTO.getId());
+        computer.setName(computerDTO.getName());
+        if(computerDTO.getIntroduced() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+            LocalDate introducedLD = LocalDate.parse(computerDTO.getIntroduced(), formatter);
+            computer.setIntroduced(introducedLD);
+        }
+        if(computerDTO.getDiscontinued() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+            LocalDate discontinuedLD = LocalDate.parse(computerDTO.getDiscontinued(), formatter);
+            computer.setDiscontinued(discontinuedLD);
+        }
+        if(computerDTO.getCompanyId() != 0 ) {
+            computer.setCompany(new Company(computerDTO.getCompanyId()));
+        }
+        return computer;
     }
 }

@@ -43,17 +43,17 @@ public class ComputerServiceTest {
         assertEquals(new Computer("tutu", LocalDate.of(2000, 2, 2), LocalDate.of(2000, 3, 3), new Company("ibm")), computerService.get("8888"));
     }*/
 
-    @Test
+    /*@Test
     public void throwExceptionWhenIdDoesNotExists() throws ComputerException, InputValidationException {
         thrown.expect(ComputerException.class);
         PowerMockito.when(mockComputerDAO.fetchById(0)).thenReturn(null);
         computerService.get("0");
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testGetDTO() throws ComputerException, InputValidationException {
         PowerMockito.when(mockComputerDAO.fetchDTOById(8888)).thenReturn(new ComputerDTO(12, "tutu", "11/12/1234", "11/12/1234", "ibm"));
         assertEquals(new ComputerDTO(12, "tutu", "11/12/1234", "11/12/1234", "ibm"), computerService.getDTO("8888"));
-    }
+    }*/
 
 }

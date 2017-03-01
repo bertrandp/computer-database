@@ -27,5 +27,5 @@ public interface ICompanyService {
      * @throws InputValidationException exception raised when id is not valid
      * @throws CompanyException         exception raised when company is not found
      */
-    Company fetchById(String companyId) throws InputValidationException, CompanyException;
+    Company fetchById(Integer companyId) throws InputValidationException, CompanyException;
 }

@@ -1,26 +1,21 @@
 package fr.ebiz.cdb.service.impl;
 
 import fr.ebiz.cdb.dao.DAOFactory;
-import fr.ebiz.cdb.dao.ICompanyDAO;
 import fr.ebiz.cdb.dao.IComputerDAO;
-import fr.ebiz.cdb.dao.impl.CompanyDAO;
 import fr.ebiz.cdb.dao.impl.ComputerDAO;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.exception.CompanyException;
 import fr.ebiz.cdb.service.exception.ComputerException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.validation.ComputerValidator;
-import fr.ebiz.cdb.service.validation.InputValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import static fr.ebiz.cdb.service.validation.InputValidator.validateInteger;
+import java.util.List;
 
 /**
  * Created by ebiz on 14/02/17.
@@ -45,94 +40,60 @@ public enum ComputerService implements IComputerService {
     }
 
     @Override
-    public Computer get(String inputId) throws InputValidationException, ComputerException {
-        Integer id = validateInteger(inputId);
-
+    public ComputerDTO getDTO(Integer id) throws ComputerException, InputValidationException {
         DAOFactory daoFactory = DAOFactory.INSTANCE;
+        ComputerDTO computer = null;
         try (Connection connection = daoFactory.getConnection()) {
-            Computer computer = computerDAO.fetchById(id, connection);
+            computer = computerDAO.fetchDTOById(id, connection);
             connection.commit();
             if (computer == null) {
                 throw new ComputerException("The computer with id=" + id + " does not exists.");
             }
-            return computer;
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-            throw new ComputerException(e);
-        }
-    }
-
-    @Override
-    public ComputerDTO getDTO(String inputId) throws ComputerException, InputValidationException {
-        Integer id = validateInteger(inputId);
-        ComputerDTO computer = computerDAO.fetchDTOById(id);
-        if (computer == null) {
-            throw new ComputerException("The computer with id=" + id + " does not exists.");
         }
         return computer;
     }
 
     @Override
-    public boolean add(String name, String introduced, String discontinued, String companyId) throws CompanyException, InputValidationException {
-        Computer computerToAdd = ComputerValidator.validateParams(name, introduced, discontinued, companyId);
+    public boolean add(Computer computer) {
 
         DAOFactory daoFactory = DAOFactory.INSTANCE;
         try (Connection connection = daoFactory.getConnection()) {
 
-            if (computerToAdd.getCompany() != null) {
-                // Check if the company id is valid
-                ICompanyDAO companyDAO = CompanyDAO.INSTANCE;
-                companyDAO.fetch(computerToAdd.getCompany().getId(), connection);
-            }
-
             // Add the computer
-            computerDAO.add(computerToAdd, connection);
+            computerDAO.add(computer, connection);
 
             // Commit the transaction
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-            throw new CompanyException(e);
         }
         return true;
-
     }
 
     @Override
-    public boolean update(String id, String name, String introduced, String discontinued, String companyId) throws CompanyException, InputValidationException, ComputerException {
-        Computer computerToAdd = ComputerValidator.validateParams(id, name, introduced, discontinued, companyId);
-
+    public boolean update(Computer computer) {
         DAOFactory daoFactory = DAOFactory.INSTANCE;
         try (Connection connection = daoFactory.getConnection()) {
 
-            // Check if computer exists
-            computerDAO.fetchById(computerToAdd.getId(), connection);
-
-            if (computerToAdd.getCompany() != null) {
-                // Check if the company exists
-                ICompanyDAO companyDAO = CompanyDAO.INSTANCE;
-                companyDAO.fetch(computerToAdd.getCompany().getId(), connection);
-            }
-
             // Add the computer
-            computerDAO.update(computerToAdd, connection);
+            computerDAO.update(computer, connection);
 
             // Commit the transaction
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
-            throw new CompanyException(e);
         }
         return true;
     }
 
     @Override
-    public boolean delete(String[] idList) throws InputValidationException, ComputerException {
+    public boolean delete(List<Integer> idList) throws InputValidationException, ComputerException {
 
         DAOFactory daoFactory = DAOFactory.INSTANCE;
         try (Connection connection = daoFactory.getConnection()) {
-            for (String inputId : idList) {
-                Integer id = InputValidator.validateInteger(inputId);
+            for (Integer id : idList) {
                 computerDAO.delete(id, connection);
             }
             connection.commit();

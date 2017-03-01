@@ -1,7 +1,7 @@
 package fr.ebiz.cdb.cli.ui;
 
 
-import fr.ebiz.cdb.model.Computer;
+import fr.ebiz.cdb.dto.ComputerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    static String inputCompanyId(Computer computer) {
+    static String inputCompanyId(ComputerDTO computer) {
         ListCompanyPage.display(false);
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
@@ -45,7 +45,7 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    static String inputDiscontinuedDate(Computer computer) {
+    static String inputDiscontinuedDate(ComputerDTO computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {
@@ -55,12 +55,12 @@ public class InputUtils {
                 try {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT); // TODO date validation
                     LocalDate date = LocalDate.parse(input, formatter);
-                    if (computer.isGreaterThanIntroduced(date)) {
+                    //if (computer.isGreaterThanIntroduced(date)) {
                         return input;
-                    } else {
+                    /*} else {
                         logger.error("* Error : Date must be greater than " + computer.getIntroduced());
                         CreateComputerPage.writeDiscontinued(computer);
-                    }
+                    }*/
                 } catch (DateTimeParseException e) {
                     logger.error("* Error : Date is invalid ");
                     CreateComputerPage.writeDiscontinued(computer);
@@ -76,7 +76,7 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    static String inputIntroducedDate(Computer computer) {
+    static String inputIntroducedDate(ComputerDTO computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
 
@@ -103,7 +103,7 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    static String inputName(Computer computer) {
+    static String inputName(ComputerDTO computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {

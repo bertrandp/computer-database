@@ -7,7 +7,6 @@ import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.exception.CompanyException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
-import fr.ebiz.cdb.service.validation.InputValidator;
 
 import java.util.List;
 
@@ -33,11 +32,10 @@ public enum CompanyService implements ICompanyService {
     }
 
     @Override
-    public Company fetchById(String companyId) throws InputValidationException, CompanyException {
-        Integer id = InputValidator.validateInteger(companyId);
-        Company company = companyDAO.fetch(id);
+    public Company fetchById(Integer companyId) throws InputValidationException, CompanyException {
+        Company company = companyDAO.fetch(companyId);
         if (company == null) {
-            throw new CompanyException("Company with id = " + id + " not found");
+            throw new CompanyException("Company with id = " + companyId + " not found");
         }
         return company;
     }

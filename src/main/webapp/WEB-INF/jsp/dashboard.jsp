@@ -22,14 +22,13 @@
 <section id="main">
     <div class="container">
         <h1 id="homeTitle">
-            ${page.count} Computers found
+            ${pager.count} Computers found
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
                 <form id="searchForm" action="" method="GET" class="form-inline">
-                    <input type="hidden" value="${page.currentPage}" id="page" name="page"/>
-                    <input type="hidden" value="${page.limit}" id="limit" name="limit"/>
-                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${page.search}"/>
+                    <input type="hidden" value="${pager.limit}" id="limit" name="limit"/>
+                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${pager.search}"/>
                     <input type="submit" id="searchsubmit" value="Filter by name"
                            class="btn btn-primary"/>
                 </form>
@@ -47,7 +46,7 @@
 
     <div class="container" style="margin-top: 10px;">
 
-        <tags:computerTable list="${page.list}"/>
+        <tags:computerTable list="${pager.list}" limit="${pager.limit}" search="${pager.search}" order="${pager.order}" column="${pager.column}" />
 
     </div>
 </section>
@@ -55,8 +54,8 @@
 <footer class="navbar-fixed-bottom">
     <div class="container text-center">
 
-        <c:set var="lastPage" value="${page.count / page.limit + 1}"/>
-        <tags:pagination page="${page.currentPage}" limit="${page.limit}" lastPage="${lastPage}" search="${page.search}"/>
+        <c:set var="lastPage" value="${pager.count / pager.limit + 1}"/>
+        <tags:pagination page="${pager.currentPage}" limit="${pager.limit}" lastPage="${lastPage}" search="${pager.search}" order="${pager.order}" column="${pager.column}"/>
 
     </div>
 </footer>

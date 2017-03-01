@@ -1,12 +1,17 @@
 package fr.ebiz.cdb.servlet;
 
+import fr.ebiz.cdb.dao.mapper.ComputerMapper;
+import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.model.Company;
+import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.exception.CompanyException;
 import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.impl.CompanyService;
 import fr.ebiz.cdb.service.impl.ComputerService;
+import fr.ebiz.cdb.service.validation.ComputerValidator;
+import fr.ebiz.cdb.servlet.utils.ServletHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,47 +24,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static fr.ebiz.cdb.servlet.utils.ServletHelper.COMPANY_LIST;
+import static fr.ebiz.cdb.servlet.utils.ServletHelper.DASHBOARD;
+
 /**
  * Created by bpestre on 21/02/17.
  */
 @WebServlet("/add-computer")
 public class AddComputerServlet extends HttpServlet {
 
-    public static final String COMPUTER_NAME = "computerName";
-    public static final String INTRODUCED = "introduced";
-    public static final String DISCONTINUED = "discontinued";
-    public static final String COMPANY_ID = "companyId";
-    public static final String ERROR_MESSAGE = "errorMessage";
-    public static final String DASHBOARD = "/dashboard";
-    public static final String JSP_403 = "jsp/403.jsp";
-    public static final String ADD_COMPUTER_JSP = "/WEB-INF/jsp/addComputer.jsp";
-    public static final String COMPANY_LIST = "companyList";
-
+    private static final String ADD_COMPUTER_JSP = "/WEB-INF/jsp/addComputer.jsp";
     private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String name = req.getParameter(COMPUTER_NAME);
-        String introduced = req.getParameter(INTRODUCED);
-        String discontinued = req.getParameter(DISCONTINUED);
-        String companyId = req.getParameter(COMPANY_ID);
+        ComputerDTO computerDTO = ServletHelper.parseRequest(req);
+        LOGGER.debug("AddComputerServlet doPost parameters : " + computerDTO);
 
-        LOGGER.debug("AddComputerServlet.doPost() : name:" + name + ", introduced:" + introduced + ", discontinued:" + discontinued + ", companyId:" + companyId);
+        ServletHelper.validateInput(computerDTO, req, resp);
 
         IComputerService computerService = ComputerService.INSTANCE;
-        try {
-            computerService.add(name, introduced, discontinued, "0".equals(companyId) ? null : companyId);
-        } catch (InputValidationException | CompanyException e) {
-            LOGGER.error(e.getMessage());
-            req.setAttribute(ERROR_MESSAGE, e.getMessage());
-            resp.setStatus(403);
-            RequestDispatcher view = req.getRequestDispatcher(JSP_403);
-            view.forward(req, resp);
-        }
+        Computer computer = ComputerMapper.mapToComputer(computerDTO);
+
+        computerService.add(computer);
 
         resp.sendRedirect(DASHBOARD);
-
     }
 
     @Override

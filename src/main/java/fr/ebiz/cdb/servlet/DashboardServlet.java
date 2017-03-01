@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by bpestre on 20/02/17.
@@ -25,6 +27,7 @@ public class DashboardServlet extends HttpServlet {
 
     public static final String LIMIT = "limit";
     public static final String PAGE = "page";
+    public static final String PAGER = "pager";
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String DASHBOARD_JSP = "/WEB-INF/jsp/dashboard.jsp";
     public static final String SEARCH = "search";
@@ -36,15 +39,14 @@ public class DashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        logger.debug("DashboardServlet.doGet()");
-
         ComputerPagerDTO page = parseRequest(request);
+        logger.debug("parseRequest(request) " + page);
         ComputerPagerDTO pageValid = ComputerValidator.validate(page);
-
+        logger.debug("validate(page) " + pageValid);
         IComputerService computerService = ComputerService.INSTANCE;
         ComputerPagerDTO pageToSend = computerService.fetchComputerList(pageValid);
 
-        request.setAttribute(PAGE, pageToSend);
+        request.setAttribute(PAGER, pageToSend);
 
         RequestDispatcher view = request.getRequestDispatcher(DASHBOARD_JSP);
         view.forward(request, response);
@@ -53,11 +55,8 @@ public class DashboardServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String ids = req.getParameter(SELECTION);
-        logger.debug(" IDs of computers to delete : " + ids);
-
-        String[] idList = ids.split(",");
-
+        List<Integer> idList = parseIdList(req);
+        logger.debug(" IDs of computers to delete : " + idList);
         IComputerService computerService = ComputerService.INSTANCE;
         try {
             computerService.delete(idList);
@@ -66,6 +65,16 @@ public class DashboardServlet extends HttpServlet {
         }
 
         doGet(req, resp);
+    }
+
+    private List<Integer> parseIdList(HttpServletRequest req) {
+        String ids = req.getParameter(SELECTION);
+        String[] stringList = ids.split(",");
+        List<Integer> idList = new ArrayList<>();
+        for(String stringId : stringList) {
+            idList.add(Integer.valueOf(stringId));
+        }
+        return idList;
     }
 
     /**

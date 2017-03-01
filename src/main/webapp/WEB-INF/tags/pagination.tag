@@ -7,12 +7,14 @@
 <%@ attribute name="limit" required="true" type="java.lang.Integer" %>
 <%@ attribute name="lastPage" required="true" type="java.lang.Integer" %>
 <%@ attribute name="search" required="false" type="java.lang.String" %>
+<%@ attribute name="column" required="false" type="java.lang.String" %>
+<%@ attribute name="order" required="false" type="java.lang.String" %>
 
 
 <ul class="pagination">
     <c:if test="${page!=1}" >
         <li>
-            <tags:link page="${page-1}" limit="${limit}" search="${search}" var="url"/>
+            <tags:link page="${page-1}" limit="${limit}" search="${search}" order="${order}" column="${column}" var="url"/>
             <a href="${url}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
@@ -21,7 +23,7 @@
     <c:choose>
         <c:when test="${lastPage <= 10}">
             <c:forEach var="i" begin="1" end="${lastPage}">
-                <tags:link page="${i}" limit="${limit}" search="${search}" var="url"/>
+                <tags:link page="${i}" limit="${limit}" search="${search}" order="${order}" column="${column}" var="url"/>
                 <c:choose>
                     <c:when test="${i == page}">
                         <li class="active">
@@ -40,7 +42,7 @@
             <c:choose>
                 <c:when test="${page <= 5}">
                     <c:forEach var="i" begin="1" end="10">
-                        <tags:link page="${i}" limit="${limit}" search="${search}" var="url"/>
+                        <tags:link page="${i}" limit="${limit}" search="${search}" order="${order}" column="${column}" var="url"/>
                         <c:choose>
                             <c:when test="${i == page}">
                                 <li class="active">
@@ -57,7 +59,7 @@
                 </c:when>
                 <c:when test="${page >= lastPage - 5 }">
                     <c:forEach var="i" begin="${lastPage-10}" end="${lastPage}">
-                        <tags:link page="${i}" limit="${limit}" search="${search}" var="url"/>
+                        <tags:link page="${i}" limit="${limit}" search="${search}" order="${order}" column="${column}" var="url"/>
                         <c:choose>
                             <c:when test="${i == page}">
                                 <li class="active">
@@ -74,7 +76,7 @@
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="i" begin="${page-5}" end="${page+5}">
-                        <tags:link page="${i}" limit="${limit}" search="${search}" var="url"/>
+                        <tags:link page="${i}" limit="${limit}" search="${search}" order="${order}" column="${column}" var="url"/>
                         <c:choose>
                             <c:when test="${i == page}">
                                 <li class="active">
@@ -95,7 +97,7 @@
 
     <c:if test="${page!= lastPage}" >
         <li>
-            <tags:link page="${i}" limit="${limit}" search="${search}" var="url"/>
+            <tags:link page="${page+1}" limit="${limit}" search="${search}" order="${order}" column="${column}" var="url"/>
             <a href="${url}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
@@ -104,10 +106,10 @@
 </ul>
 
 <div class="btn-group btn-group-sm pull-right" role="group" >
-    <tags:link page="1" limit="10" search="${search}" var="url"/>
+    <tags:link page="1" limit="10" search="${search}" order="${order}" column="${column}" var="url"/>
     <a href="${url}" type="button" class="btn btn-default">10</a>
-    <tags:link page="1" limit="50" search="${search}" var="url"/>
+    <tags:link page="1" limit="50" search="${search}" order="${order}" column="${column}" var="url"/>
     <a href="${url}" type="button" class="btn btn-default">50</a>
-    <tags:link page="1" limit="100" search="${search}" var="url"/>
+    <tags:link page="1" limit="100" search="${search}" order="${order}" column="${column}" var="url"/>
     <a href="${url}" type="button" class="btn btn-default">100</a>
 </div>

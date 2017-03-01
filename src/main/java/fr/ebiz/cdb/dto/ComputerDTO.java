@@ -5,10 +5,11 @@ package fr.ebiz.cdb.dto;
  */
 public class ComputerDTO {
 
-    private int id;
+    private Integer id;
     private String name;
     private String introduced;
     private String discontinued;
+    private Integer companyId;
     private String companyName;
 
     /**
@@ -34,11 +35,20 @@ public class ComputerDTO {
         this.companyName = companyName;
     }
 
-    public int getId() {
+    private ComputerDTO(Builder builder) {
+        id = builder.id;
+        name = builder.name;
+        introduced = builder.introduced;
+        discontinued = builder.discontinued;
+        companyId = builder.companyId;
+        companyName = builder.companyName;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -66,6 +76,14 @@ public class ComputerDTO {
         this.discontinued = discontinued;
     }
 
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
+
     public String getCompanyName() {
         return companyName;
     }
@@ -74,39 +92,49 @@ public class ComputerDTO {
         this.companyName = companyName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
+    public static final class Builder {
+        private Integer id;
+        private String name;
+        private String introduced;
+        private String discontinued;
+        private Integer companyId;
+        private String companyName;
+
+        public Builder() {
         }
 
-        ComputerDTO that = (ComputerDTO) o;
+        public Builder id(Integer val) {
+            id = val;
+            return this;
+        }
 
-        if (id != that.id) {
-            return false;
+        public Builder name(String val) {
+            name = val == null || val.trim().isEmpty() ? null : val.trim();
+            return this;
         }
-        if (name != null ? !name.equals(that.name) : that.name != null) {
-            return false;
-        }
-        if (introduced != null ? !introduced.equals(that.introduced) : that.introduced != null) {
-            return false;
-        }
-        if (discontinued != null ? !discontinued.equals(that.discontinued) : that.discontinued != null) {
-            return false;
-        }
-        return companyName != null ? companyName.equals(that.companyName) : that.companyName == null;
-    }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (introduced != null ? introduced.hashCode() : 0);
-        result = 31 * result + (discontinued != null ? discontinued.hashCode() : 0);
-        result = 31 * result + (companyName != null ? companyName.hashCode() : 0);
-        return result;
+        public Builder introduced(String val) {
+            introduced = val == null || val.trim().isEmpty() ? null : val.trim();
+            return this;
+        }
+
+        public Builder discontinued(String val) {
+            discontinued = val == null || val.trim().isEmpty() ? null : val.trim();
+            return this;
+        }
+
+        public Builder companyId(Integer val) {
+            companyId = val;
+            return this;
+        }
+
+        public Builder companyName(String val) {
+            companyName = val == null || val.trim().isEmpty() ? null : val.trim();
+            return this;
+        }
+
+        public ComputerDTO build() {
+            return new ComputerDTO(this);
+        }
     }
 }

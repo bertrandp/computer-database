@@ -8,7 +8,7 @@ import java.time.LocalDate;
  */
 public class Computer implements Serializable {
 
-    private int id;
+    private Integer id;
     private String name;
     private LocalDate introduced;
     private LocalDate discontinued;
@@ -39,7 +39,7 @@ public class Computer implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

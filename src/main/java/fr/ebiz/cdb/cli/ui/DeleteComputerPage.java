@@ -9,6 +9,7 @@ import fr.ebiz.cdb.service.impl.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -30,15 +31,15 @@ public class DeleteComputerPage {
             IComputerService computerService = ComputerService.INSTANCE;
             ComputerDTO computer;
             try {
-                computer = computerService.getDTO(id);
+                computer = computerService.getDTO(Integer.valueOf(id));
                 System.out.println("* Do you really want to delete this computer : " + computer.getName());
                 sc = new Scanner(System.in);
                 System.out.println("* yes/no :");
                 String input = sc.nextLine();
                 switch (input) {
                     case "yes":
-                        String[] idlist = {String.valueOf(computer.getId())};
-                        computerService.delete(idlist);
+
+                        computerService.delete(new ArrayList<>(computer.getId()));
                         MenuPage.display();
                         break;
                     default:

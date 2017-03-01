@@ -2,8 +2,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ attribute name="page" required="true" type="java.lang.Integer" %>
-<%@ attribute name="limit" required="true" type="java.lang.Integer" %>
+<%@ attribute name="page" required="false" type="java.lang.Integer" %>
+<%@ attribute name="limit" required="false" type="java.lang.Integer" %>
 <%@ attribute name="search" required="false" type="java.lang.String" %>
 <%@ attribute name="order" required="false" type="java.lang.String" %>
 <%@ attribute name="column" required="false" type="java.lang.String" %>
@@ -12,8 +12,12 @@
 
 <c:set var="url">
     <c:url value="/dashboard">
-        <c:param name="page" value="${page}" />
-        <c:param name="limit" value="${limit}" />
+        <c:if test="${not empty page}">
+            <c:param name="page" value="${page}" />
+        </c:if>
+        <c:if test="${not empty limit}">
+            <c:param name="limit" value="${limit}" />
+        </c:if>
         <c:if test="${not empty search}">
             <c:param name="search" value="${search}" />
         </c:if>

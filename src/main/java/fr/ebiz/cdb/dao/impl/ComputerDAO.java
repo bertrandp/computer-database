@@ -45,24 +45,6 @@ public enum ComputerDAO implements IComputerDAO {
         this.daoFactory = DAOFactory.INSTANCE;
     }
 
-
-    @Override
-    public Computer fetchById(int id) {
-        Computer computer;
-
-        try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + WHERE_ID, true, id);
-             ResultSet resultSet = preparedStatement.executeQuery()
-        ) {
-            computer = ComputerMapper.mapToComputer(resultSet);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            throw new DAOException(e);
-        }
-
-        return computer;
-    }
-
     @Override
     public Computer fetchById(int id, Connection connection) throws SQLException {
         Computer computer;
@@ -81,16 +63,16 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public ComputerDTO fetchDTOById(Integer id) {
+    public ComputerDTO fetchDTOById(Integer id, Connection connection) throws SQLException {
         ComputerDTO computer;
 
-        try (Connection connection = daoFactory.getConnection();
-             PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + WHERE_ID, true, id);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + WHERE_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             computer = ComputerMapper.mapToComputerDTO(resultSet);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+            connection.rollback();
             throw new DAOException(e);
         }
 

@@ -1,8 +1,13 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-<%@ attribute name="list" required="true" type="java.util.List" %>
+<%@ attribute name="list" required="false" type="java.util.List" %>
+<%@ attribute name="order" required="false" type="java.lang.String" %>
+<%@ attribute name="column" required="false" type="java.lang.String" %>
+<%@ attribute name="limit" required="false" type="java.lang.Integer" %>
+<%@ attribute name="search" required="false" type="java.lang.String" %>
 
 <table class="table table-striped table-bordered">
     <thead>
@@ -19,18 +24,86 @@
                             </span>
         </th>
         <th>
-            Computer name
+            <c:choose>
+                <c:when test="${column == 'NAME'}">
+                    <c:choose>
+                        <c:when test="${order == 'ASC'}">
+                            <tags:link limit="${limit}" search="${search}" order="DESC" column="NAME" var="url"/>
+                            Computer name <a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet pull-right"></span></a>
+                        </c:when>
+                        <c:otherwise>
+                            <tags:link limit="${limit}" search="${search}" order="ASC" column="NAME" var="url"/>
+                            Computer name <a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet-alt pull-right"></span></a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:otherwise>
+                    <tags:link limit="${limit}" search="${search}" order="ASC" column="NAME" var="url"/>
+                    Computer name <a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
+                </c:otherwise>
+            </c:choose>
         </th>
         <th>
-            Introduced date
+            <c:choose>
+                <c:when test="${column == 'INTRODUCED'}">
+                    <c:choose>
+                        <c:when test="${order == 'ASC'}">
+                            <tags:link limit="${limit}" search="${search}" order="DESC" column="INTRODUCED" var="url"/>
+                            Introduced date <a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes pull-right"></span></a>
+                        </c:when>
+                        <c:otherwise>
+                            <tags:link limit="${limit}" search="${search}" order="ASC" column="INTRODUCED" var="url"/>
+                            Introduced date <a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span></a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:otherwise>
+                    <tags:link limit="${limit}" search="${search}" order="ASC" column="INTRODUCED" var="url"/>
+                    Introduced date <a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
+                </c:otherwise>
+            </c:choose>
         </th>
         <!-- Table header for Discontinued Date -->
         <th>
-            Discontinued date
+            <c:choose>
+                <c:when test="${column == 'DISCONTINUED'}">
+                    <c:choose>
+                        <c:when test="${order == 'ASC'}">
+                            <tags:link limit="${limit}" search="${search}" order="DESC" column="DISCONTINUED" var="url"/>
+                            Discontinued date <a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes pull-right"></span></a>
+                        </c:when>
+                        <c:otherwise>
+                            <tags:link limit="${limit}" search="${search}" order="ASC" column="DISCONTINUED" var="url"/>
+                            Discontinued date <a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span></a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:otherwise>
+                    <tags:link limit="${limit}" search="${search}" order="ASC" column="DISCONTINUED" var="url"/>
+                    Discontinued date <a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
+                </c:otherwise>
+            </c:choose>
         </th>
         <!-- Table header for Company -->
         <th>
-            Company
+            <c:choose>
+                <c:when test="${column == 'COMPANY_NAME'}">
+                    <c:choose>
+                        <c:when test="${order == 'ASC'}">
+                            <tags:link limit="${limit}" search="${search}" order="DESC" column="COMPANY_NAME" var="url"/>
+                            Company <a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet pull-right"></span></a>
+                        </c:when>
+                        <c:otherwise>
+                            <tags:link limit="${limit}" search="${search}" order="ASC" column="COMPANY_NAME" var="url"/>
+                            Company <a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet-alt pull-right"></span></a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:otherwise>
+                    <tags:link limit="${limit}" search="${search}" order="ASC" column="COMPANY_NAME" var="url"/>
+                    Company <a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
+                </c:otherwise>
+            </c:choose>
         </th>
 
     </tr>

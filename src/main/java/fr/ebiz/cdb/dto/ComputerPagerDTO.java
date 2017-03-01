@@ -141,4 +141,15 @@ public class ComputerPagerDTO {
     public enum COLUMN {
         NAME, INTRODUCED, DISCONTINUED, COMPANY_NAME
     }
+
+    @Override
+    public String toString() {
+        return "ComputerPagerDTO{" +
+                "currentPage=" + currentPage +
+                ", limit=" + limit +
+                ", search='" + search + '\'' +
+                ", order=" + order +
+                ", column=" + column +
+                '}';
+    }
 }

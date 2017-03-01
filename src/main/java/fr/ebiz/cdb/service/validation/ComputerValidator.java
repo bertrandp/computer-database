@@ -1,6 +1,7 @@
 package fr.ebiz.cdb.service.validation;
 
 
+import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
@@ -9,6 +10,8 @@ import fr.ebiz.cdb.service.exception.InputValidationException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by ebiz on 16/02/17.
@@ -35,13 +38,12 @@ public class ComputerValidator {
      * @return true if the name is valid
      * @throws InputValidationException exception raised if the name is invalid
      */
-    public static boolean validateName(String name) throws InputValidationException {
+    public static void validateName(String name) throws InputValidationException {
         if (name == null || name.trim().isEmpty()) {
             throw new InputValidationException(NAME_IS_EMPTY);
         } else if (name.length() >= MAX_LENGTH) {
             throw new InputValidationException(NAME_IS_TOO_LONG);
         }
-        return true;
     }
 
     /**
@@ -72,79 +74,15 @@ public class ComputerValidator {
      * @return true if the discontinued date is valid
      * @throws InputValidationException exception raised if the date is invalid
      */
-    public static LocalDate validateInputDate(String date) throws InputValidationException {
-        if (date == null) {
-            throw new InputValidationException(DATE_IS_NULL);
-        } else {
+    public static void validateDate(String date) throws InputValidationException {
+        if (date != null) {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-                return LocalDate.parse(date, formatter);
+                LocalDate.parse(date, formatter);
             } catch (DateTimeParseException e) {
                 throw new InputValidationException(DATE_FORMAT_IS_INVALID);
             }
         }
-    }
-
-    /**
-     * Retrieve a computer set with the given parameters.
-     *
-     * @param name         the name of the computer
-     * @param introduced   the introduced date of the computer
-     * @param discontinued the discontinued date of the computer
-     * @param companyId    the id of the company
-     * @return the computer set with the given parameters
-     * @throws InputValidationException exception raised if parameters are not valid
-     */
-    public static Computer validateParams(String name, String introduced, String discontinued, String companyId) throws InputValidationException {
-        Computer computer = new Computer();
-
-        if (ComputerValidator.validateName(name)) {
-            computer.setName(name);
-        }
-
-        if (introduced != null && !introduced.trim().isEmpty()) {
-            LocalDate introducedLD = ComputerValidator.validateInputDate(introduced);
-            if (introducedLD != null) {
-                computer.setIntroduced(introducedLD);
-            }
-        }
-
-        if (discontinued != null && !discontinued.trim().isEmpty()) {
-            LocalDate discontinuedLD = ComputerValidator.validateInputDate(discontinued);
-            if (discontinuedLD != null) {
-                if (computer.getIntroduced() != null) {
-                    ComputerValidator.validateDiscontinuedDate(discontinuedLD, computer.getIntroduced());
-                }
-                computer.setDiscontinued(discontinuedLD);
-            }
-        }
-
-
-        if (companyId != null && !companyId.trim().isEmpty()) {
-            Integer id = InputValidator.validateInteger(companyId);
-            if (id != null) {
-                computer.setCompany(new Company(id));
-            }
-        }
-
-        return computer;
-    }
-
-    /**
-     * Retrieve a computer set with the given parameters.
-     *
-     * @param id           the id of the computer
-     * @param name         the name of the computer
-     * @param introduced   the introduced date of the computer
-     * @param discontinued the discontinued date of the computer
-     * @param companyId    the id of the company
-     * @return the computer set with the given parameters
-     * @throws InputValidationException exception raised if parameters are not valid
-     */
-    public static Computer validateParams(String id, String name, String introduced, String discontinued, String companyId) throws InputValidationException {
-        Computer computer = validateParams(name, introduced, discontinued, companyId);
-        computer.setId(InputValidator.validateInteger(id));
-        return computer;
     }
 
     public static ComputerPagerDTO validate(ComputerPagerDTO page) {
@@ -152,7 +90,7 @@ public class ComputerValidator {
         page.setLimit(validateLimit(page.getLimit()));
         page.setCurrentPage(validateCurrentPage(page.getCurrentPage()));
         page.setSearch(validateSearch(page.getSearch()));
-        page.setOrder(validateOrder(page.getOrder())); // TODO does order and column need validation ?
+        page.setOrder(validateOrder(page.getOrder()));
         page.setColumn(validateColumn(page.getColumn()));
 
         return page;
@@ -223,5 +161,26 @@ public class ComputerValidator {
             currentPage = maximumPage;
         }
         return currentPage;
+    }
+
+    public static void validate(ComputerDTO computerDTO) throws InputValidationException {
+        validateName(computerDTO.getName());
+        validateDate(computerDTO.getIntroduced());
+        validateDate(computerDTO.getDiscontinued());
+        validateDiscontinuedDateIsGreaterThanIntroduced(computerDTO.getIntroduced(),computerDTO.getDiscontinued());
+    }
+
+
+    private static void validateDiscontinuedDateIsGreaterThanIntroduced(String introduced, String discontinued) throws InputValidationException {
+        if(introduced != null && discontinued != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+            LocalDate introducedLD = LocalDate.parse(introduced, formatter);
+            LocalDate discontinuedLD = LocalDate.parse(discontinued, formatter);
+            if (introducedLD.isEqual(discontinuedLD)) {
+                throw new InputValidationException(DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE);
+            } else if (introducedLD.isAfter(discontinuedLD)) {
+                throw new InputValidationException(DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE);
+            }
+        }
     }
 }
