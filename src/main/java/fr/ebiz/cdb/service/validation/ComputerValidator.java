@@ -16,15 +16,14 @@ public class ComputerValidator {
     public static final String NAME_IS_EMPTY = "Name is empty";
     public static final String NAME_IS_TOO_LONG = "Name is too long";
     public static final String DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE = "Discontinued date is before introduced date";
-    public static final String DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE = "Discontinued date is same as introduced date";
-    public static final String ID_IS_EMPTY = "Id is empty";
-    public static final String ID_IS_NOT_A_VALID_NUMBER = "Id is not a valid number";
     public static final String DATE_FORMAT_IS_INVALID = "Date format is invalid. Must be DD/MM/YYYY";
     public static final String DATE_IS_NULL = "Date is null";
-    public static final String ID_IS_NULL = "Id is null";
     public static final String DATE_FORMAT = "yyyy-MM-dd";
-    public static final String INTRODUCED_DATE_DOES_NOT_EXISTS = "Introduced date does not exists, discontinued date is not allowed";
+    public static final int MAX_LIMIT = 100;
+    public static final int MIN_LIMIT = 10;
     private static final int MAX_LENGTH = 255;
+    public static final int DEFAULT_LIMIT = 50;
+    public static final int MIN_PAGE = 1;
 
     /**
      * Validate the page parameters and set them to valid values.
@@ -92,10 +91,8 @@ public class ComputerValidator {
      * @return the validated page index
      */
     private static int validateCurrentPage(int currentPage) {
-        int defaultPage = 1;
-        int minimumPage = 1;
-        if (currentPage < minimumPage) {
-            currentPage = defaultPage;
+        if (currentPage < MIN_PAGE) {
+            currentPage = MIN_PAGE;
         }
         return currentPage;
     }
@@ -107,13 +104,10 @@ public class ComputerValidator {
      * @return the validated limit
      */
     private static int validateLimit(int limit) {
-        int defaultLimit = 50;
-        int minimumLimit = 10;
-        int maximumLimit = 100;
-        if (limit < minimumLimit) {
-            limit = defaultLimit;
-        } else if (limit > maximumLimit) {
-            limit = defaultLimit;
+        if (limit < MIN_LIMIT) {
+            limit = DEFAULT_LIMIT;
+        } else if (limit > MAX_LIMIT) {
+            limit = DEFAULT_LIMIT;
         }
         return limit;
     }
@@ -145,7 +139,7 @@ public class ComputerValidator {
         validateName(computerDTO.getName());
         validateDate(computerDTO.getIntroduced());
         validateDate(computerDTO.getDiscontinued());
-        validateDiscontinuedDateIsGreaterThanIntroduced(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
+        validateDiscontinuedDate(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
     }
 
     /**
@@ -182,18 +176,16 @@ public class ComputerValidator {
     /**
      * Validate the given discontinued date and return true if the discontinued date is after the introduced date.
      *
-     * @param discontinued the discontinued date to validate
      * @param introduced   the introduced date to compare to
+     * @param discontinued the discontinued date to validate
      * @throws InputValidationException exception raised if the discontinued date is invalid
      */
-    private static void validateDiscontinuedDateIsGreaterThanIntroduced(String introduced, String discontinued) throws InputValidationException {
+    public static void validateDiscontinuedDate(String introduced, String discontinued) throws InputValidationException {
         if (introduced != null && discontinued != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
             LocalDate introducedLD = LocalDate.parse(introduced, formatter);
             LocalDate discontinuedLD = LocalDate.parse(discontinued, formatter);
-            if (introducedLD.isEqual(discontinuedLD)) {
-                throw new InputValidationException(DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE);
-            } else if (introducedLD.isAfter(discontinuedLD)) {
+            if (introducedLD.isEqual(discontinuedLD) || introducedLD.isAfter(discontinuedLD)) {
                 throw new InputValidationException(DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE);
             }
         }
