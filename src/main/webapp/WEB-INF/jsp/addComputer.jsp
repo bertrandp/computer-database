@@ -32,12 +32,12 @@
                         <div id="form-introduced" class="form-group">
                             <label for="introduced">Introduced date</label>
                             <input type="date" class="form-control" id="introduced" name="introduced"
-                                   placeholder="DD/MM/YYYY">
+                                   placeholder="YYYY-MM-DD">
                         </div>
                         <div id="form-discontinued" class="form-group">
                             <label for="discontinued">Discontinued date</label>
                             <input type="date" class="form-control" id="discontinued" name="discontinued"
-                                   placeholder="DD/MM/YYYY">
+                                   placeholder="YYYY-MM-DD">
                         </div>
                         <div id="form-company-id" class="form-group">
                             <label for="companyId">Company</label>
