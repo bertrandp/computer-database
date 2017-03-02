@@ -5,7 +5,7 @@ import java.sql.SQLException;
 /**
  * Created by ebiz on 15/02/17.
  */
-public class DAOException extends RuntimeException {
+public class DAOException extends Exception {
 
     /**
      * Exception related to SQL.
@@ -23,5 +23,9 @@ public class DAOException extends RuntimeException {
      */
     public DAOException(String s) {
         super(s);
+    }
+
+    public DAOException(String message, Throwable throwable) {
+        super(message, throwable);
     }
 }

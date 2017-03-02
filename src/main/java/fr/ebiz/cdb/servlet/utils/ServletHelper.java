@@ -1,8 +1,8 @@
 package fr.ebiz.cdb.servlet.utils;
 
 import fr.ebiz.cdb.dto.ComputerDTO;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.validation.ComputerValidator;
+import fr.ebiz.cdb.service.validation.InputValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,13 +39,13 @@ public class ServletHelper {
 
         ComputerDTO.Builder computerDTOBuilder = new ComputerDTO.Builder();
 
-        if(id != null) {
+        if (id != null) {
             computerDTOBuilder.id(Integer.valueOf(id));
         }
         computerDTOBuilder.name(name);
         computerDTOBuilder.introduced(introduced);
         computerDTOBuilder.discontinued(discontinued);
-        if(companyId != null) {
+        if (companyId != null) {
             computerDTOBuilder.companyId(Integer.valueOf(companyId));
         }
 

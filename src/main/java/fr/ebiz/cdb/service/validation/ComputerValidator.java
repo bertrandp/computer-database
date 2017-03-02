@@ -3,15 +3,10 @@ package fr.ebiz.cdb.service.validation;
 
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
-import fr.ebiz.cdb.model.Company;
-import fr.ebiz.cdb.model.Computer;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by ebiz on 16/02/17.
@@ -97,7 +92,7 @@ public class ComputerValidator {
     }
 
     private static ComputerPagerDTO.COLUMN validateColumn(ComputerPagerDTO.COLUMN column) {
-        if(column == null) {
+        if (column == null) {
             return ComputerPagerDTO.COLUMN.NAME;
         } else {
             return column;
@@ -105,7 +100,7 @@ public class ComputerValidator {
     }
 
     private static ComputerPagerDTO.ORDER validateOrder(ComputerPagerDTO.ORDER order) {
-        if(order == null) {
+        if (order == null) {
             return ComputerPagerDTO.ORDER.ASC;
         } else {
             return order;
@@ -150,9 +145,9 @@ public class ComputerValidator {
     /**
      * Validate the given page number and return it, return a default value in case the input is not valid.
      *
-     * @param count the total number of entries
-     * @param limit the limit value
-     * @param currentPage  the page number to validate
+     * @param count       the total number of entries
+     * @param limit       the limit value
+     * @param currentPage the page number to validate
      * @return the page number
      */
     public static int validateCurrentPageMax(int count, int limit, int currentPage) {
@@ -167,12 +162,12 @@ public class ComputerValidator {
         validateName(computerDTO.getName());
         validateDate(computerDTO.getIntroduced());
         validateDate(computerDTO.getDiscontinued());
-        validateDiscontinuedDateIsGreaterThanIntroduced(computerDTO.getIntroduced(),computerDTO.getDiscontinued());
+        validateDiscontinuedDateIsGreaterThanIntroduced(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
     }
 
 
     private static void validateDiscontinuedDateIsGreaterThanIntroduced(String introduced, String discontinued) throws InputValidationException {
-        if(introduced != null && discontinued != null) {
+        if (introduced != null && discontinued != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
             LocalDate introducedLD = LocalDate.parse(introduced, formatter);
             LocalDate discontinuedLD = LocalDate.parse(discontinued, formatter);

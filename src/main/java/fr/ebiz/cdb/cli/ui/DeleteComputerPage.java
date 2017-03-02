@@ -1,10 +1,9 @@
 package fr.ebiz.cdb.cli.ui;
 
 
+import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.exception.ComputerException;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,7 @@ import java.util.Scanner;
  */
 public class DeleteComputerPage {
 
-    private static Logger logger = LoggerFactory.getLogger(DeleteComputerPage.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(DeleteComputerPage.class);
 
     /**
      * Display the page to delete a computer.
@@ -46,12 +45,12 @@ public class DeleteComputerPage {
                         MenuPage.display();
                         break;
                 }
-            } catch (InputValidationException | ComputerException e) {
-                logger.error("*** Error : " + e.getMessage());
-                display();
+            } catch (DAOException e) {
+                LOGGER.error(e.getMessage());
+                // TODO handle exception
             }
         } else {
-            logger.error(" *** Error : Invalid id");
+            LOGGER.error(" *** Error : Invalid id");
             display();
         }
 

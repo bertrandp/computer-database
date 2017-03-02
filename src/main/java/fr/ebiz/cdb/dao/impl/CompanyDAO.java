@@ -1,6 +1,5 @@
 package fr.ebiz.cdb.dao.impl;
 
-import fr.ebiz.cdb.dao.DAOFactory;
 import fr.ebiz.cdb.dao.ICompanyDAO;
 import fr.ebiz.cdb.dao.mapper.CompanyMapper;
 import fr.ebiz.cdb.dao.utils.DAOException;
@@ -22,51 +21,32 @@ public enum CompanyDAO implements ICompanyDAO {
 
     INSTANCE;
 
+    public static final String DATABASE_CONNECTION_ERROR = "Database connection error: ";
+    public static final String TRANSACTION_ROLLED_BACK = "Transaction rolled back";
     private static final String SQL_SELECT = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
-    private static final String SQL_SELECT_BY_NAME = "SELECT * FROM company WHERE name = ?";
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAO.class);
-    private DAOFactory daoFactory;
-
-    /**
-     * CompanyDAO constructor.
-     */
-    CompanyDAO() {
-        this.daoFactory = DAOFactory.INSTANCE;
-    }
 
     @Override
-    public List<Company> fetchAll() throws DAOException {
+    public List<Company> fetchAll(Connection connection) throws SQLException, DAOException {
         List<Company> list;
 
-        try (Connection connection = daoFactory.getConnection()) {
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT, true);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT, true);
-                 ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                list = CompanyMapper.mapToCompanyList(resultSet);
-                connection.commit();
-
-            } catch (SQLException e) {
-                LOGGER.error("Failed to fetch fetch all companies, transaction rolls back " + e.getMessage());
-                connection.rollback();
-                throw new DAOException(e);
-            }
+            list = CompanyMapper.mapToCompanyList(resultSet);
 
         } catch (SQLException e) {
-            throw new DAOException(e);
+            connection.rollback();
+            LOGGER.info(TRANSACTION_ROLLED_BACK);
+            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
         return list;
     }
 
     @Override
-    public Company fetch(int id) {
-        return fetch(SQL_SELECT_BY_ID, id);
-    }
-
-    @Override
-    public Company fetch(int id, Connection connection) throws SQLException {
+    public Company fetch(int id, Connection connection) throws SQLException, DAOException {
         Company company;
 
         try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT_BY_ID, true, id);
@@ -75,45 +55,11 @@ public enum CompanyDAO implements ICompanyDAO {
             company = CompanyMapper.mapToCompany(resultSet);
 
         } catch (SQLException e) {
-            LOGGER.error("Failed to fetch company by id, transaction rolls back " + e.getMessage());
             connection.rollback();
-            throw new DAOException(e);
+            LOGGER.info(TRANSACTION_ROLLED_BACK);
+            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
-        return company;
-    }
-
-    @Override
-    public Company fetch(String name) {
-        return fetch(SQL_SELECT_BY_NAME, name);
-    }
-
-    /**
-     * Retrieve the company.
-     *
-     * @param sql    the sql query
-     * @param object the parameter
-     * @return the company
-     */
-    private Company fetch(String sql, Object object) {
-        Company company;
-
-        try (Connection connection = daoFactory.getConnection()) {
-
-            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, sql, true, object);
-                 ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                company = CompanyMapper.mapToCompany(resultSet);
-                connection.commit();
-
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new DAOException(e);
-            }
-
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
         return company;
     }
 

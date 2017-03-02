@@ -61,6 +61,10 @@ public class ComputerPagerDTO {
         return search;
     }
 
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
     public ORDER getOrder() {
         return order;
     }
@@ -77,10 +81,24 @@ public class ComputerPagerDTO {
         this.column = column;
     }
 
-    public void setSearch(String search) {
-        this.search = search;
+    @Override
+    public String toString() {
+        return "ComputerPagerDTO{" +
+                "currentPage=" + currentPage +
+                ", limit=" + limit +
+                ", search='" + search + '\'' +
+                ", order=" + order +
+                ", column=" + column +
+                '}';
     }
 
+    public enum ORDER {
+        ASC, DESC
+    }
+
+    public enum COLUMN {
+        NAME, INTRODUCED, DISCONTINUED, COMPANY_NAME
+    }
 
     public static final class Builder {
         private List<ComputerDTO> list;
@@ -132,24 +150,5 @@ public class ComputerPagerDTO {
         public ComputerPagerDTO build() {
             return new ComputerPagerDTO(this);
         }
-    }
-
-    public enum ORDER {
-        ASC,DESC
-    }
-
-    public enum COLUMN {
-        NAME, INTRODUCED, DISCONTINUED, COMPANY_NAME
-    }
-
-    @Override
-    public String toString() {
-        return "ComputerPagerDTO{" +
-                "currentPage=" + currentPage +
-                ", limit=" + limit +
-                ", search='" + search + '\'' +
-                ", order=" + order +
-                ", column=" + column +
-                '}';
     }
 }

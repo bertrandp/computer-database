@@ -1,4 +1,4 @@
-package fr.ebiz.cdb.service.exception;
+package fr.ebiz.cdb.service.validation;
 
 /**
  * Created by bpestre on 24/02/17.

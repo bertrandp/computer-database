@@ -2,11 +2,11 @@ package fr.ebiz.cdb.service;
 
 
 import fr.ebiz.cdb.dao.IComputerDAO;
+import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Computer;
-import fr.ebiz.cdb.service.exception.ComputerException;
-import fr.ebiz.cdb.service.exception.InputValidationException;
+import fr.ebiz.cdb.service.validation.InputValidationException;
 
 import java.util.List;
 
@@ -20,10 +20,9 @@ public interface IComputerService {
      *
      * @param id the id of the computer
      * @return the computer for the given id
-     * @throws InputValidationException exception raised when id is not valid
-     * @throws ComputerException        exception raised when computer is not found
+     * @throws DAOException exception raised when computer is not found
      */
-    ComputerDTO getDTO(Integer id) throws ComputerException, InputValidationException;
+    ComputerDTO getDTO(Integer id) throws DAOException;
 
     /**
      * Add the given computer.
@@ -31,7 +30,7 @@ public interface IComputerService {
      * @param computer the computer to add
      * @return true if the computer is added
      */
-    boolean add(Computer computer);
+    boolean add(Computer computer) throws DAOException;
 
     /**
      * Update the given computer.
@@ -39,17 +38,16 @@ public interface IComputerService {
      * @param computer the computer to update
      * @return true if the computer is updated
      */
-    boolean update(Computer computer);
+    boolean update(Computer computer) throws DAOException;
 
     /**
      * Delete the given computer.
      *
      * @param idList the list of computer to delete
      * @return true if the computer is deleted
-     * @throws InputValidationException exception raised when id is not valid
-     * @throws ComputerException        exception raised when a computer is not found
+     * @throws DAOException exception raised when a computer is not found
      */
-    boolean delete(List<Integer> idList) throws InputValidationException, ComputerException;
+    boolean delete(List<Integer> idList) throws DAOException;
 
     /**
      * Set the computerDAO.
@@ -65,7 +63,7 @@ public interface IComputerService {
      * @return the computerPagerDTO with the list of computer
      * @throws InputValidationException exception raised if parameters are not valid
      */
-    ComputerPagerDTO fetchComputerList(ComputerPagerDTO page);
+    ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) throws DAOException;
 
 
 }

@@ -2,12 +2,13 @@ package fr.ebiz.cdb.cli.ui;
 
 
 import fr.ebiz.cdb.dao.mapper.ComputerMapper;
+import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.service.validation.ComputerValidator;
+import fr.ebiz.cdb.service.validation.InputValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +48,7 @@ public class CreateComputerPage {
 
             computerService.add(computer);
 
-        } catch (InputValidationException e) {
+        } catch (DAOException | InputValidationException e) {
             logger.error("*** Error : " + e.getMessage());
             display();
         }

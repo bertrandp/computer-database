@@ -56,7 +56,7 @@ public class InputUtils {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT); // TODO date validation
                     LocalDate date = LocalDate.parse(input, formatter);
                     //if (computer.isGreaterThanIntroduced(date)) {
-                        return input;
+                    return input;
                     /*} else {
                         logger.error("* Error : Date must be greater than " + computer.getIntroduced());
                         CreateComputerPage.writeDiscontinued(computer);

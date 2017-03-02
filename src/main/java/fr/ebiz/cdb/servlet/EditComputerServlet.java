@@ -1,17 +1,14 @@
 package fr.ebiz.cdb.servlet;
 
 import fr.ebiz.cdb.dao.mapper.ComputerMapper;
+import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.exception.CompanyException;
-import fr.ebiz.cdb.service.exception.ComputerException;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.impl.CompanyService;
 import fr.ebiz.cdb.service.impl.ComputerService;
-import fr.ebiz.cdb.service.validation.ComputerValidator;
 import fr.ebiz.cdb.servlet.utils.ServletHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +48,12 @@ public class EditComputerServlet extends HttpServlet {
         IComputerService computerService = ComputerService.INSTANCE;
         Computer computer = ComputerMapper.mapToComputer(computerDTO);
 
-        computerService.update(computer);
+        try {
+            computerService.update(computer);
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+            // TODO handle exception
+        }
 
         resp.sendRedirect(DASHBOARD);
     }
@@ -66,15 +68,19 @@ public class EditComputerServlet extends HttpServlet {
             ComputerDTO computer = computerService.getDTO(Integer.valueOf(id));
             req.setAttribute(COMPUTER, computer);
 
-        } catch (ComputerException | InputValidationException e) {
-            e.printStackTrace();
+            ICompanyService companyService = CompanyService.INSTANCE;
+            List<Company> companyList = null;
+
+            companyList = companyService.fetchAll();
+
+            req.setAttribute(COMPANY_LIST, companyList);
+            RequestDispatcher view = req.getRequestDispatcher(COMPUTER_JSP);
+            view.forward(req, resp);
+
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+            // TODO handle exception
         }
 
-        ICompanyService companyService = CompanyService.INSTANCE;
-        List<Company> companyList = companyService.fetchAll();
-
-        req.setAttribute(COMPANY_LIST, companyList);
-        RequestDispatcher view = req.getRequestDispatcher(COMPUTER_JSP);
-        view.forward(req, resp);
     }
 }

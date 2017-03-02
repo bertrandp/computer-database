@@ -1,9 +1,8 @@
 package fr.ebiz.cdb.service;
 
 
+import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.model.Company;
-import fr.ebiz.cdb.service.exception.CompanyException;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 
 import java.util.List;
 
@@ -17,15 +16,14 @@ public interface ICompanyService {
      *
      * @return the list of company
      */
-    List<Company> fetchAll();
+    List<Company> fetchAll() throws DAOException;
 
     /**
      * Retrieve the company for the given id.
      *
      * @param companyId the id of the computer
      * @return the computer for the given id
-     * @throws InputValidationException exception raised when id is not valid
-     * @throws CompanyException         exception raised when company is not found
+     * @throws DAOException exception raised when id is not valid
      */
-    Company fetchById(Integer companyId) throws InputValidationException, CompanyException;
+    Company fetchById(Integer companyId) throws DAOException;
 }

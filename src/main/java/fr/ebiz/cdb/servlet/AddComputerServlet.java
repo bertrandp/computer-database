@@ -1,16 +1,14 @@
 package fr.ebiz.cdb.servlet;
 
 import fr.ebiz.cdb.dao.mapper.ComputerMapper;
+import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.exception.CompanyException;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.impl.CompanyService;
 import fr.ebiz.cdb.service.impl.ComputerService;
-import fr.ebiz.cdb.service.validation.ComputerValidator;
 import fr.ebiz.cdb.servlet.utils.ServletHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +45,12 @@ public class AddComputerServlet extends HttpServlet {
         IComputerService computerService = ComputerService.INSTANCE;
         Computer computer = ComputerMapper.mapToComputer(computerDTO);
 
-        computerService.add(computer);
+        try {
+            computerService.add(computer);
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+            // TODO handle exception
+        }
 
         resp.sendRedirect(DASHBOARD);
     }
@@ -56,7 +59,14 @@ public class AddComputerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         ICompanyService companyService = CompanyService.INSTANCE;
-        List<Company> companyList = companyService.fetchAll();
+        List<Company> companyList = null;
+
+        try {
+            companyList = companyService.fetchAll();
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+            // TODO handle exception
+        }
 
         request.setAttribute(COMPANY_LIST, companyList);
 

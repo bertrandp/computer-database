@@ -1,6 +1,7 @@
 package fr.ebiz.cdb.cli.ui;
 
 
+import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.service.IComputerService;
@@ -46,7 +47,11 @@ public class PagedListComputerPage {
 
         ComputerPagerDTO pager = new ComputerPagerDTO.Builder().currentPage(page).limit(limit).build();
         ComputerPagerDTO pageValid = ComputerValidator.validate(pager);
-        pageValid = computerService.fetchComputerList(pageValid);
+        try {
+            pageValid = computerService.fetchComputerList(pageValid);
+        } catch (DAOException e) {
+            System.out.println(e);
+        }
         for (ComputerDTO computer : (List<ComputerDTO>) pageValid.getList()) {
             System.out.println("|\t" + computer.getId() + "\t\t" + computer.getName());
         }

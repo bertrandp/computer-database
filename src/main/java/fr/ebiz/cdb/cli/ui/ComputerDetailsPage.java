@@ -1,9 +1,8 @@
 package fr.ebiz.cdb.cli.ui;
 
+import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.exception.ComputerException;
-import fr.ebiz.cdb.service.exception.InputValidationException;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,7 @@ import java.util.Scanner;
  */
 public class ComputerDetailsPage {
 
-    private static Logger logger = LoggerFactory.getLogger(ComputerDetailsPage.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ComputerDetailsPage.class);
 
     /**
      * Display the details of a computer.
@@ -39,9 +38,9 @@ public class ComputerDetailsPage {
             System.out.println("|\t" + computer.getIntroduced() + "\t\t\t" + computer.getDiscontinued() + "\t\t\t\t" + computer.getCompanyName());
             System.out.println("---------------------------------------------------------------------------------");
 
-        } catch (ComputerException | InputValidationException e) {
-            logger.error("*** Error : " + e.getMessage());
-            display();
+        } catch (DAOException e) {
+            LOGGER.error(e.getMessage());
+            // TODO handle exception
         }
 
         MenuPage.display();

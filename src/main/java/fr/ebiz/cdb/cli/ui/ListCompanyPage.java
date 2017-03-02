@@ -1,6 +1,7 @@
 package fr.ebiz.cdb.cli.ui;
 
 
+import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.impl.CompanyService;
@@ -25,7 +26,12 @@ public class ListCompanyPage {
         System.out.println("");
 
         ICompanyService companyService = CompanyService.INSTANCE;
-        List<Company> listCompany = companyService.fetchAll();
+        List<Company> listCompany = null;
+        try {
+            listCompany = companyService.fetchAll();
+        } catch (DAOException e) {
+            System.out.println(e);
+        }
 
         System.out.println("---------------------------------------------------------");
         System.out.println("|\t" + "n°" + "\t\tName");
