@@ -25,6 +25,12 @@ public class DAOException extends Exception {
         super(s);
     }
 
+    /**
+     * Exception related to the database.
+     *
+     * @param throwable the exception raised
+     * @param message   the error message
+     */
     public DAOException(String message, Throwable throwable) {
         super(message, throwable);
     }

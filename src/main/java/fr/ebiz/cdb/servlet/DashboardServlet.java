@@ -27,13 +27,12 @@ public class DashboardServlet extends HttpServlet {
     public static final String LIMIT = "limit";
     public static final String PAGE = "page";
     public static final String PAGER = "pager";
-    public static final String ERROR_MESSAGE = "errorMessage";
     public static final String DASHBOARD_JSP = "/WEB-INF/jsp/dashboard.jsp";
     public static final String SEARCH = "search";
     public static final String SELECTION = "selection";
     public static final String ORDER = "order";
     public static final String COLUMN = "column";
-    private static Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,12 +42,11 @@ public class DashboardServlet extends HttpServlet {
         ComputerPagerDTO pageValid = ComputerValidator.validate(page);
         LOGGER.debug("validate(page) " + pageValid);
         IComputerService computerService = ComputerService.INSTANCE;
-        ComputerPagerDTO pageToSend = null;
+        ComputerPagerDTO pageToSend;
         try {
             pageToSend = computerService.fetchComputerList(pageValid);
         } catch (DAOException e) {
-            LOGGER.error(e.getMessage());
-            // TODO handle exception
+            throw new ServletException(e);
         }
 
         request.setAttribute(PAGER, pageToSend);
@@ -66,13 +64,18 @@ public class DashboardServlet extends HttpServlet {
         try {
             computerService.delete(idList);
         } catch (DAOException e) {
-            LOGGER.error(e.getMessage());
-            // TODO handle exception
+            throw new ServletException(e);
         }
 
         doGet(req, resp);
     }
 
+    /**
+     * Parse the request and retrieve the list of computer id.
+     *
+     * @param req the http request
+     * @return the list of computer id
+     */
     private List<Integer> parseIdList(HttpServletRequest req) {
         String ids = req.getParameter(SELECTION);
         String[] stringList = ids.split(",");
@@ -84,9 +87,10 @@ public class DashboardServlet extends HttpServlet {
     }
 
     /**
-     * Parse the parameters of the request.
+     * Parse the parameters of the request and build the computerPagerDTO.
      *
      * @param request the http request
+     * @return the computerPagerDTO
      */
     private ComputerPagerDTO parseRequest(HttpServletRequest request) {
 

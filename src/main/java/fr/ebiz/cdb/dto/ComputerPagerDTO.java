@@ -15,6 +15,11 @@ public class ComputerPagerDTO {
     private ORDER order;
     private COLUMN column;
 
+    /**
+     * ComputerPagerDTO constructor.
+     *
+     * @param builder the builder
+     */
     private ComputerPagerDTO(Builder builder) {
         setList(builder.list);
         setCount(builder.count);
@@ -109,44 +114,78 @@ public class ComputerPagerDTO {
         private ORDER order;
         private COLUMN column;
 
+        /**
+         *
+         */
         public Builder() {
         }
 
+        /**
+         * @param val val
+         * @return builder
+         */
         public Builder list(List<ComputerDTO> val) {
             list = val;
             return this;
         }
 
+        /**
+         * @param val val
+         * @return builder
+         */
         public Builder count(int val) {
             count = val;
             return this;
         }
 
+        /**
+         * @param val val
+         * @return builder
+         */
         public Builder currentPage(int val) {
             currentPage = val;
             return this;
         }
 
+        /**
+         * @param val val
+         * @return builder
+         */
         public Builder limit(int val) {
             limit = val;
             return this;
         }
 
+        /**
+         * @param val val
+         * @return builder
+         */
         public Builder search(String val) {
             search = val;
             return this;
         }
 
+        /**
+         * @param val val
+         * @return builder
+         */
         public Builder order(ORDER val) {
             order = val;
             return this;
         }
 
+        /**
+         * @param val val
+         * @return builder
+         */
         public Builder column(COLUMN val) {
             column = val;
             return this;
         }
 
+        /**
+         * @return the computerPagerDTO
+         */
         public ComputerPagerDTO build() {
             return new ComputerPagerDTO(this);
         }

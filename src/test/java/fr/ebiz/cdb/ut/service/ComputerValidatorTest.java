@@ -6,16 +6,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.time.LocalDate;
-
 import static fr.ebiz.cdb.service.validation.ComputerValidator.DATE_FORMAT_IS_INVALID;
 import static fr.ebiz.cdb.service.validation.ComputerValidator.DATE_IS_NULL;
-import static fr.ebiz.cdb.service.validation.ComputerValidator.DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE;
-import static fr.ebiz.cdb.service.validation.ComputerValidator.DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE;
-import static fr.ebiz.cdb.service.validation.ComputerValidator.INTRODUCED_DATE_DOES_NOT_EXISTS;
 import static fr.ebiz.cdb.service.validation.ComputerValidator.NAME_IS_EMPTY;
 import static fr.ebiz.cdb.service.validation.ComputerValidator.NAME_IS_TOO_LONG;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by bpestre on 22/02/17.
@@ -44,7 +39,7 @@ public class ComputerValidatorTest {
         assertTrue(ComputerValidator.validateName("Valid name"));
     }*/
 
-    @Test
+    /*@Test
     public void throwExceptionWhenValidateDiscontinuedDateWithSameDates() throws InputValidationException {
         thrown.expect(InputValidationException.class);
         thrown.expectMessage(DISCONTINUED_DATE_IS_SAME_AS_INTRODUCED_DATE);
@@ -68,7 +63,7 @@ public class ComputerValidatorTest {
     @Test
     public void validateDiscontinuedDateWithValidDate() throws InputValidationException {
         assertTrue(ComputerValidator.validateDiscontinuedDate(LocalDate.now(), LocalDate.MIN));
-    }
+    }*/
 
     @Test
     public void throwExceptionWhenValidateDateWithInvalidDate() throws InputValidationException {
@@ -78,9 +73,7 @@ public class ComputerValidatorTest {
     }
 
     @Test
-    public void throwExceptionWhenValidateDateWithNull() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(DATE_IS_NULL);
+    public void validateDateWithNull() throws InputValidationException {
         ComputerValidator.validateDate(null);
     }
 

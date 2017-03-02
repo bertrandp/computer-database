@@ -39,6 +39,7 @@ public enum ComputerDAO implements IComputerDAO {
     private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id ) VALUES (?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
     private static final String SQL_DELETE = "DELETE FROM computer WHERE id = ?";
+    private static final String SQL_DELETE_BY_COMPANY_ID = "DELETE FROM computer WHERE company_id = ?";
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 
     @Override
@@ -121,6 +122,22 @@ public enum ComputerDAO implements IComputerDAO {
             if (status == 0) {
                 throw new DAOException(ERROR_DELETING_THE_COMPUTER);
             }
+        } catch (SQLException e) {
+            connection.rollback();
+            LOGGER.info(TRANSACTION_ROLLED_BACK);
+            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean deleteByCompanyId(Integer id, Connection connection) throws SQLException, DAOException {
+
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE_BY_COMPANY_ID, true, id)
+        ) {
+            preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             connection.rollback();
             LOGGER.info(TRANSACTION_ROLLED_BACK);

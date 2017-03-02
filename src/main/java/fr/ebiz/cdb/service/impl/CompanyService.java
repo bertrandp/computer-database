@@ -3,7 +3,9 @@ package fr.ebiz.cdb.service.impl;
 
 import fr.ebiz.cdb.dao.ConnectionPool;
 import fr.ebiz.cdb.dao.ICompanyDAO;
+import fr.ebiz.cdb.dao.IComputerDAO;
 import fr.ebiz.cdb.dao.impl.CompanyDAO;
+import fr.ebiz.cdb.dao.impl.ComputerDAO;
 import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.service.ICompanyService;
@@ -66,6 +68,26 @@ public enum CompanyService implements ICompanyService {
 
             return company;
 
+        } catch (SQLException e) {
+            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public boolean delete(Integer id) throws DAOException {
+
+        try (Connection connection = connectionPool.getConnection()) {
+
+            // delete computers by company id
+            IComputerDAO computerDAO = ComputerDAO.INSTANCE;
+            computerDAO.deleteByCompanyId(id, connection);
+
+            // delete company
+            companyDAO.delete(id, connection);
+
+            connection.commit();
+
+            return true;
         } catch (SQLException e) {
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }

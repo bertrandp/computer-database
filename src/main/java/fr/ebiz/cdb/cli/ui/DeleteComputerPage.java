@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class DeleteComputerPage {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(DeleteComputerPage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteComputerPage.class);
 
     /**
      * Display the page to delete a computer.

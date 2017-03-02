@@ -51,7 +51,8 @@ public class DAOHelper {
     /**
      * Read the property file.
      *
-     * @return the properties
+     * @throws DAOConfigurationException exception raised when there is error reading the file
+     * * @return the properties
      */
     public static Properties readPropertiesFile() throws DAOConfigurationException {
 
@@ -67,6 +68,13 @@ public class DAOHelper {
         return properties;
     }
 
+    /**
+     * Build sql query for ORDER BY.
+     *
+     * @param order the sorting order
+     * @param column the selected
+     * @return the query
+     */
     public static String buildOrderByQuery(ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column) {
         String query = ORDER_BY;
         switch (column) {

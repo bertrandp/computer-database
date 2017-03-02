@@ -9,6 +9,8 @@ import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.CompanyService;
 import fr.ebiz.cdb.service.impl.ComputerService;
+import fr.ebiz.cdb.service.validation.ComputerValidator;
+import fr.ebiz.cdb.service.validation.InputValidationException;
 import fr.ebiz.cdb.servlet.utils.ServletHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,16 +45,15 @@ public class EditComputerServlet extends HttpServlet {
         ComputerDTO computerDTO = ServletHelper.parseRequest(req);
         LOGGER.debug("EditComputerServlet doPost parameters : " + computerDTO);
 
-        ServletHelper.validateInput(computerDTO, req, resp);
-
-        IComputerService computerService = ComputerService.INSTANCE;
-        Computer computer = ComputerMapper.mapToComputer(computerDTO);
-
         try {
+            ComputerValidator.validate(computerDTO);
+
+            IComputerService computerService = ComputerService.INSTANCE;
+            Computer computer = ComputerMapper.mapToComputer(computerDTO);
+
             computerService.update(computer);
-        } catch (DAOException e) {
-            LOGGER.error(e.getMessage());
-            // TODO handle exception
+        } catch (DAOException | InputValidationException e) {
+            throw new ServletException(e);
         }
 
         resp.sendRedirect(DASHBOARD);
@@ -69,17 +70,14 @@ public class EditComputerServlet extends HttpServlet {
             req.setAttribute(COMPUTER, computer);
 
             ICompanyService companyService = CompanyService.INSTANCE;
-            List<Company> companyList = null;
-
-            companyList = companyService.fetchAll();
+            List<Company> companyList = companyService.fetchAll();
 
             req.setAttribute(COMPANY_LIST, companyList);
             RequestDispatcher view = req.getRequestDispatcher(COMPUTER_JSP);
             view.forward(req, resp);
 
         } catch (DAOException e) {
-            LOGGER.error(e.getMessage());
-            // TODO handle exception
+            throw new ServletException(e);
         }
 
     }

@@ -15,8 +15,10 @@ public interface ICompanyDAO {
     /**
      * Retrieve the list of Company.
      *
-     * @param connection
+     * @param connection the connection to the datasource
      * @return the list of Company
+     * @throws DAOException exception raised if there is an error with DAO
+     * @throws SQLException exception raised if there is a issue during the transaction
      */
     List<Company> fetchAll(Connection connection) throws SQLException, DAOException;
 
@@ -24,9 +26,21 @@ public interface ICompanyDAO {
      * Retrieve the Company for the given id.
      *
      * @param id         the id of the Company
-     * @param connection
+     * @param connection the connection to the datasource
      * @return the Company for the given id
+     * @throws DAOException exception raised if there is an error with DAO
+     * @throws SQLException exception raised if there is a issue during the transaction
      */
     Company fetch(int id, Connection connection) throws SQLException, DAOException;
 
+    /**
+     * Delete the company for the given id.
+     *
+     * @param id the id of the company
+     * @param connection the connection to the datasource
+     * @return true if the company is deleted
+     * @throws DAOException exception raised if there is an error with DAO
+     * @throws SQLException exception raised if there is a issue during the transaction
+     */
+    boolean delete(Integer id, Connection connection) throws DAOException, SQLException;
 }

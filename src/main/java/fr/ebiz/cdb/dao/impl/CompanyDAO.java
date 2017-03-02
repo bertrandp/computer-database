@@ -23,8 +23,10 @@ public enum CompanyDAO implements ICompanyDAO {
 
     public static final String DATABASE_CONNECTION_ERROR = "Database connection error: ";
     public static final String TRANSACTION_ROLLED_BACK = "Transaction rolled back";
+    public static final String ERROR_DELETING_COMPANY = "Error deleting company";
     private static final String SQL_SELECT = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
+    private static final String SQL_DELETE = "DELETE FROM company WHERE id = ?";
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAO.class);
 
     @Override
@@ -63,4 +65,21 @@ public enum CompanyDAO implements ICompanyDAO {
         return company;
     }
 
+    @Override
+    public boolean delete(Integer id, Connection connection) throws DAOException, SQLException {
+
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, id)
+        ) {
+            int status = preparedStatement.executeUpdate();
+            if (status == 0) {
+                throw new DAOException(ERROR_DELETING_COMPANY);
+            }
+        } catch (SQLException e) {
+            connection.rollback();
+            LOGGER.info(TRANSACTION_ROLLED_BACK);
+            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        }
+
+        return true;
+    }
 }

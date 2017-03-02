@@ -9,6 +9,8 @@ import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.CompanyService;
 import fr.ebiz.cdb.service.impl.ComputerService;
+import fr.ebiz.cdb.service.validation.ComputerValidator;
+import fr.ebiz.cdb.service.validation.InputValidationException;
 import fr.ebiz.cdb.servlet.utils.ServletHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,16 +42,15 @@ public class AddComputerServlet extends HttpServlet {
         ComputerDTO computerDTO = ServletHelper.parseRequest(req);
         LOGGER.debug("AddComputerServlet doPost parameters : " + computerDTO);
 
-        ServletHelper.validateInput(computerDTO, req, resp);
-
-        IComputerService computerService = ComputerService.INSTANCE;
-        Computer computer = ComputerMapper.mapToComputer(computerDTO);
-
         try {
+            ComputerValidator.validate(computerDTO);
+
+            IComputerService computerService = ComputerService.INSTANCE;
+            Computer computer = ComputerMapper.mapToComputer(computerDTO);
+
             computerService.add(computer);
-        } catch (DAOException e) {
-            LOGGER.error(e.getMessage());
-            // TODO handle exception
+        } catch (DAOException | InputValidationException e) {
+            throw new ServletException(e);
         }
 
         resp.sendRedirect(DASHBOARD);
@@ -59,13 +60,12 @@ public class AddComputerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         ICompanyService companyService = CompanyService.INSTANCE;
-        List<Company> companyList = null;
+        List<Company> companyList;
 
         try {
             companyList = companyService.fetchAll();
         } catch (DAOException e) {
-            LOGGER.error(e.getMessage());
-            // TODO handle exception
+            throw new ServletException(e);
         }
 
         request.setAttribute(COMPANY_LIST, companyList);

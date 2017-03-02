@@ -20,6 +20,8 @@ public class ComputerDTO {
 
     /**
      * ComputerDTO constructor.
+     *
+     * @param builder the computerDTO builder
      */
     private ComputerDTO(Builder builder) {
         id = builder.id;
@@ -86,39 +88,69 @@ public class ComputerDTO {
         private Integer companyId;
         private String companyName;
 
+        /**
+         *
+         */
         public Builder() {
         }
 
+        /**
+         * @param val val
+         * @return the builder
+         */
         public Builder id(Integer val) {
             id = val;
             return this;
         }
 
+        /**
+         * @param val val
+         * @return the builder
+         */
         public Builder name(String val) {
             name = val == null || val.trim().isEmpty() ? null : val.trim();
             return this;
         }
 
+        /**
+         * @param val val
+         * @return the builder
+         */
         public Builder introduced(String val) {
             introduced = val == null || val.trim().isEmpty() ? null : val.trim();
             return this;
         }
 
+        /**
+         * @param val val
+         * @return the builder
+         */
         public Builder discontinued(String val) {
             discontinued = val == null || val.trim().isEmpty() ? null : val.trim();
             return this;
         }
 
+        /**
+         * @param val val
+         * @return the builder
+         */
         public Builder companyId(Integer val) {
             companyId = val;
             return this;
         }
 
+        /**
+         * @param val val
+         * @return the builder
+         */
         public Builder companyName(String val) {
             companyName = val == null || val.trim().isEmpty() ? null : val.trim();
             return this;
         }
 
+        /**
+         * @return the computerDTO
+         */
         public ComputerDTO build() {
             return new ComputerDTO(this);
         }

@@ -100,6 +100,12 @@ public class ComputerMapper {
         return null;
     }
 
+    /**
+     * Map the ComputerDTO to a Computer.
+     *
+     * @param computerDTO the computerDTO to map
+     * @return the computer
+     */
     public static Computer mapToComputer(ComputerDTO computerDTO) {
         Computer computer = new Computer();
         computer.setId(computerDTO.getId());

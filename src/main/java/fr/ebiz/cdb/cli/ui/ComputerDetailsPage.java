@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class ComputerDetailsPage {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(ComputerDetailsPage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDetailsPage.class);
 
     /**
      * Display the details of a computer.

@@ -26,6 +26,7 @@ public class MenuPage {
         System.out.println("* 5 : Update a computer ");
         System.out.println("* 6 : Delete a computer ");
         System.out.println("* 7 : List computers (40/page) ");
+        System.out.println("* 8 : Delete a company ");
         System.out.println("* 0 : Exit ");
         System.out.println("* ");
         Scanner sc = new Scanner(System.in);
@@ -36,7 +37,7 @@ public class MenuPage {
             case "0":
                 break;
             case "2":
-                ListCompanyPage.display(false);
+                ListCompanyPage.display(true);
                 break;
             case "3":
                 ComputerDetailsPage.display();
@@ -52,6 +53,9 @@ public class MenuPage {
                 break;
             case "7":
                 PagedListComputerPage.display();
+                break;
+            case "8":
+                DeleteCompanyPage.display();
                 break;
             default:
                 logger.error(" *** Error : Wrong entry (the entry must be a number from 0 to 6)");

@@ -19,7 +19,7 @@ import java.util.Scanner;
  */
 public class UpdateComputerPage {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(UpdateComputerPage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateComputerPage.class);
 
     /**
      * Display the page to update a computer.
