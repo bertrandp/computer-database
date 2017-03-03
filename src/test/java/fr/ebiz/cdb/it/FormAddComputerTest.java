@@ -1,5 +1,6 @@
-package fr.ebiz.cdb.it.selenium;
+package fr.ebiz.cdb.it;
 
+import fr.ebiz.cdb.it.utils.ITHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,8 +9,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import static fr.ebiz.cdb.it.DashboardPaginationTest.BASE_URL;
+import static fr.ebiz.cdb.it.DashboardPaginationTest.SELENIUM_PROPERTIES;
+import static fr.ebiz.cdb.it.DashboardPaginationTest.WEBDRIVER_GECKO_DRIVER;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -24,9 +29,11 @@ public class FormAddComputerTest {
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("webdriver.gecko.driver", "src/test/resources/fr/ebiz/cdb/selenium/geckodriver");
+
+        Properties seleniumProperties = ITHelper.readPropertiesFile(SELENIUM_PROPERTIES);
+        System.setProperty(WEBDRIVER_GECKO_DRIVER, seleniumProperties.getProperty(WEBDRIVER_GECKO_DRIVER));
         driver = new FirefoxDriver();
-        baseUrl = "http://localhost:8080/";
+        baseUrl = seleniumProperties.getProperty(BASE_URL);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
