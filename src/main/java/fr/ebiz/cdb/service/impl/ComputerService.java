@@ -1,5 +1,6 @@
 package fr.ebiz.cdb.service.impl;
 
+import fr.ebiz.cdb.dao.ConnectionManager;
 import fr.ebiz.cdb.dao.ConnectionPool;
 import fr.ebiz.cdb.dao.IComputerDAO;
 import fr.ebiz.cdb.dao.impl.ComputerDAO;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static fr.ebiz.cdb.dao.impl.CompanyDAO.DATABASE_CONNECTION_ERROR;
+import static fr.ebiz.cdb.dao.impl.CompanyDAO.TRANSACTION_ROLLED_BACK;
 
 /**
  * Created by ebiz on 14/02/17.
@@ -27,14 +29,12 @@ public enum ComputerService implements IComputerService {
 
     public static final String COMPUTER_NOT_FOUND = "Computer not found";
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
-    private ConnectionPool connectionPool;
     private IComputerDAO computerDAO;
 
     /**
      * Computer service constructor.
      */
     ComputerService() {
-        this.connectionPool = ConnectionPool.INSTANCE;
         this.computerDAO = ComputerDAO.INSTANCE;
     }
 
@@ -46,9 +46,10 @@ public enum ComputerService implements IComputerService {
     @Override
     public ComputerDTO getDTO(Integer id) throws DAOException {
 
+        Connection connection = ConnectionManager.getConnection();
         ComputerDTO computer;
-        try (Connection connection = connectionPool.getConnection()) {
-            computer = computerDAO.fetchDTOById(id, connection);
+        try {
+            computer = computerDAO.fetchDTOById(id);
             connection.commit();
 
             if (computer == null) {
@@ -59,16 +60,23 @@ public enum ComputerService implements IComputerService {
 
         } catch (SQLException e) {
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        } finally {
+            try {
+                ConnectionManager.closeConnection();
+            } catch (SQLException e) {
+                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+            }
         }
     }
 
     @Override
     public boolean add(Computer computer) throws DAOException {
 
-        try (Connection connection = connectionPool.getConnection()) {
+        Connection connection = ConnectionManager.getConnection();
+        try {
 
             // Add the computer
-            computerDAO.add(computer, connection);
+            computerDAO.add(computer);
 
             // Commit the transaction
             connection.commit();
@@ -76,16 +84,22 @@ public enum ComputerService implements IComputerService {
             return true;
         } catch (SQLException e) {
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        } finally {
+            try {
+                ConnectionManager.closeConnection();
+            } catch (SQLException e) {
+                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+            }
         }
     }
 
     @Override
     public boolean update(Computer computer) throws DAOException {
 
-        try (Connection connection = connectionPool.getConnection()) {
-
+        Connection connection = ConnectionManager.getConnection();
+        try {
             // Add the computer
-            computerDAO.update(computer, connection);
+            computerDAO.update(computer);
 
             // Commit the transaction
             connection.commit();
@@ -93,31 +107,44 @@ public enum ComputerService implements IComputerService {
             return true;
         } catch (SQLException e) {
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        } finally {
+            try {
+                ConnectionManager.closeConnection();
+            } catch (SQLException e) {
+                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+            }
         }
     }
 
     @Override
     public boolean delete(List<Integer> idList) throws DAOException {
 
-        try (Connection connection = connectionPool.getConnection()) {
+        Connection connection = ConnectionManager.getConnection();
+        try {
             for (Integer id : idList) {
-                computerDAO.delete(id, connection);
+                computerDAO.delete(id);
             }
             connection.commit();
 
             return true;
         } catch (SQLException e) {
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        } finally {
+            try {
+                ConnectionManager.closeConnection();
+            } catch (SQLException e) {
+                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+            }
         }
     }
 
     @Override
-    public ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) throws DAOException {
+    public ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) throws DAOException, SQLException {
 
-        try (Connection connection = connectionPool.getConnection()) {
-
+        Connection connection = ConnectionManager.getConnection();
+        try {
             // Count the number of computers
-            page.setCount(computerDAO.count(page.getSearch(), connection));
+            page.setCount(computerDAO.count(page.getSearch()));
 
             int pageToValidate = page.getCurrentPage();
 
@@ -126,14 +153,17 @@ public enum ComputerService implements IComputerService {
             // fetch computerDTO page
             int offset = (page.getCurrentPage() - 1) * page.getLimit();
             //page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), connection));
-            page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), page.getOrder(), page.getColumn(), connection));
+            page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), page.getOrder(), page.getColumn()));
 
             connection.commit();
 
             return page;
 
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        } catch (DAOException | SQLException e) {
+            connection.rollback();
+            throw new DAOException(TRANSACTION_ROLLED_BACK, e);
+        } finally {
+            ConnectionManager.closeConnection();
         }
     }
 

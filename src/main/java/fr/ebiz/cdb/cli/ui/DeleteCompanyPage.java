@@ -4,6 +4,7 @@ import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.impl.CompanyService;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -32,7 +33,7 @@ public class DeleteCompanyPage {
                     ICompanyService companyService = CompanyService.INSTANCE;
                     try {
                         companyService.delete(Integer.valueOf(id.trim()));
-                    } catch (DAOException e) {
+                    } catch (DAOException | SQLException e) {
                         System.out.println(e.getMessage());
                     }
             }

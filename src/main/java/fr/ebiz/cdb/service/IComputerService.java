@@ -7,6 +7,7 @@ import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Computer;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -57,7 +58,7 @@ public interface IComputerService {
      * @return the computerPagerDTO with the list of computer
      * @throws DAOException exception raised if there is an error with DAO
      */
-    ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) throws DAOException;
+    ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) throws DAOException, SQLException;
 
     /**
      * Set the computerDAO.

@@ -4,6 +4,7 @@ package fr.ebiz.cdb.service;
 import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.model.Company;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -35,5 +36,5 @@ public interface ICompanyService {
      * @return true if the company is deleted
      * @throws DAOException exception raised if there is an error with DAO
      */
-    boolean delete(Integer id) throws DAOException;
+    boolean delete(Integer id) throws DAOException, SQLException;
 }

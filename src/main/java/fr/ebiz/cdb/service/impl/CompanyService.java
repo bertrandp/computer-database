@@ -1,6 +1,7 @@
 package fr.ebiz.cdb.service.impl;
 
 
+import fr.ebiz.cdb.dao.ConnectionManager;
 import fr.ebiz.cdb.dao.ConnectionPool;
 import fr.ebiz.cdb.dao.ICompanyDAO;
 import fr.ebiz.cdb.dao.IComputerDAO;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static fr.ebiz.cdb.dao.impl.CompanyDAO.DATABASE_CONNECTION_ERROR;
+import static fr.ebiz.cdb.dao.impl.CompanyDAO.TRANSACTION_ROLLED_BACK;
 
 /**
  * Created by ebiz on 14/02/17.
@@ -27,39 +29,44 @@ public enum CompanyService implements ICompanyService {
 
     public static final String COMPANY_NOT_FOUND = "Company not found";
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
-    private ConnectionPool connectionPool;
     private ICompanyDAO companyDAO;
 
     /**
      * Company constructor. Fetch the instance of ConnectionPool.
      */
     CompanyService() {
-        this.connectionPool = ConnectionPool.INSTANCE;
         this.companyDAO = CompanyDAO.INSTANCE;
     }
 
     @Override
     public List<Company> fetchAll() throws DAOException {
-        try (Connection connection = connectionPool.getConnection()) {
 
-            List<Company> list = companyDAO.fetchAll(connection);
+        Connection connection = ConnectionManager.getConnection();
 
+        try  {
+            List<Company> list = companyDAO.fetchAll();
             connection.commit();
 
             return list;
 
         } catch (SQLException e) {
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        } finally {
+            try {
+                ConnectionManager.closeConnection();
+            } catch (SQLException e) {
+                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+            }
         }
     }
 
     @Override
     public Company fetchById(Integer companyId) throws DAOException {
 
-        try (Connection connection = connectionPool.getConnection()) {
+        Connection connection = ConnectionManager.getConnection();
 
-            Company company = companyDAO.fetch(companyId, connection);
-
+        try {
+            Company company = companyDAO.fetch(companyId);
             connection.commit();
 
             if (company == null) {
@@ -70,26 +77,37 @@ public enum CompanyService implements ICompanyService {
 
         } catch (SQLException e) {
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        } finally {
+            try {
+                ConnectionManager.closeConnection();
+            } catch (SQLException e) {
+                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+            }
         }
     }
 
     @Override
-    public boolean delete(Integer id) throws DAOException {
+    public boolean delete(Integer id) throws SQLException, DAOException {
 
-        try (Connection connection = connectionPool.getConnection()) {
+        Connection connection = ConnectionManager.getConnection();
+
+        try {
 
             // delete computers by company id
             IComputerDAO computerDAO = ComputerDAO.INSTANCE;
-            computerDAO.deleteByCompanyId(id, connection);
+            computerDAO.deleteByCompanyId(id);
 
             // delete company
-            companyDAO.delete(id, connection);
+            companyDAO.delete(id);
 
             connection.commit();
 
             return true;
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        } catch (DAOException | SQLException e) {
+            connection.rollback();
+            throw new DAOException(TRANSACTION_ROLLED_BACK, e);
+        } finally {
+            ConnectionManager.closeConnection();
         }
     }
 }

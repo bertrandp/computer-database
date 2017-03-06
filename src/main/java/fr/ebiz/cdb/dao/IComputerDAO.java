@@ -24,7 +24,7 @@ public interface IComputerDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    Computer fetchById(int id, Connection connection) throws SQLException, DAOException;
+    Computer fetchById(int id) throws SQLException, DAOException;
 
     /**
      * Retrieve the computerDTO for the given id.
@@ -35,7 +35,7 @@ public interface IComputerDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    ComputerDTO fetchDTOById(Integer id, Connection connection) throws SQLException, DAOException;
+    ComputerDTO fetchDTOById(Integer id) throws SQLException, DAOException;
 
     /**
      * Add a computer.
@@ -46,7 +46,7 @@ public interface IComputerDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean add(Computer computer, Connection connection) throws SQLException, DAOException;
+    boolean add(Computer computer) throws SQLException, DAOException;
 
     /**
      * Update a computer.
@@ -57,7 +57,7 @@ public interface IComputerDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean update(Computer computer, Connection connection) throws SQLException, DAOException;
+    boolean update(Computer computer) throws SQLException, DAOException;
 
     /**
      * Delete a computer.
@@ -68,7 +68,7 @@ public interface IComputerDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean delete(int computerId, Connection connection) throws SQLException, DAOException;
+    boolean delete(int computerId) throws SQLException, DAOException;
 
     /**
      * Delete all the computers for the given company id.
@@ -79,7 +79,7 @@ public interface IComputerDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean deleteByCompanyId(Integer id, Connection connection) throws SQLException, DAOException;
+    boolean deleteByCompanyId(Integer id) throws SQLException, DAOException;
 
     /**
      * Retrieve a list of computerDTO with a specific limit and offset.
@@ -94,7 +94,7 @@ public interface IComputerDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column, Connection connection) throws SQLException, DAOException;
+    List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column) throws SQLException, DAOException;
 
     /**
      * Retrieve the number of computers.
@@ -105,7 +105,7 @@ public interface IComputerDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    int count(String search, Connection connection) throws SQLException, DAOException;
+    int count(String search) throws SQLException, DAOException;
 
 
 }

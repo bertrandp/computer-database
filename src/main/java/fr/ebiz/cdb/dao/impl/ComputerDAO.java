@@ -1,5 +1,6 @@
 package fr.ebiz.cdb.dao.impl;
 
+import fr.ebiz.cdb.dao.ConnectionManager;
 import fr.ebiz.cdb.dao.IComputerDAO;
 import fr.ebiz.cdb.dao.mapper.ComputerMapper;
 import fr.ebiz.cdb.dao.utils.DAOException;
@@ -43,16 +44,15 @@ public enum ComputerDAO implements IComputerDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 
     @Override
-    public Computer fetchById(int id, Connection connection) throws SQLException, DAOException {
+    public Computer fetchById(int id) throws SQLException, DAOException {
         Computer computer;
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + WHERE_ID, true, id);
+
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_SELECT + WHERE_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             computer = ComputerMapper.mapToComputer(resultSet);
         } catch (SQLException e) {
-            connection.rollback();
-            LOGGER.info(TRANSACTION_ROLLED_BACK);
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
@@ -60,16 +60,14 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public ComputerDTO fetchDTOById(Integer id, Connection connection) throws SQLException, DAOException {
+    public ComputerDTO fetchDTOById(Integer id) throws SQLException, DAOException {
         ComputerDTO computer;
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + WHERE_ID, true, id);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_SELECT + WHERE_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             computer = ComputerMapper.mapToComputerDTO(resultSet);
         } catch (SQLException e) {
-            connection.rollback();
-            LOGGER.info(TRANSACTION_ROLLED_BACK);
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
@@ -77,17 +75,15 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public boolean add(Computer computer, Connection connection) throws SQLException, DAOException {
+    public boolean add(Computer computer) throws SQLException, DAOException {
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_INSERT, true, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId())
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_INSERT, true, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId())
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
                 throw new DAOException(ERROR_CREATING_THE_COMPUTER);
             }
         } catch (SQLException e) {
-            connection.rollback();
-            LOGGER.info(TRANSACTION_ROLLED_BACK);
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
@@ -95,17 +91,15 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public boolean update(Computer computer, Connection connection) throws SQLException, DAOException {
+    public boolean update(Computer computer) throws SQLException, DAOException {
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_UPDATE, true, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId(), computer.getId())
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_UPDATE, true, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId(), computer.getId())
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
                 throw new DAOException(ERROR_UPDATING_THE_COMPUTER);
             }
         } catch (SQLException e) {
-            connection.rollback();
-            LOGGER.info(TRANSACTION_ROLLED_BACK);
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
@@ -114,17 +108,15 @@ public enum ComputerDAO implements IComputerDAO {
 
 
     @Override
-    public boolean delete(int computerId, Connection connection) throws SQLException, DAOException {
+    public boolean delete(int computerId) throws SQLException, DAOException {
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, computerId)
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_DELETE, true, computerId)
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
                 throw new DAOException(ERROR_DELETING_THE_COMPUTER);
             }
         } catch (SQLException e) {
-            connection.rollback();
-            LOGGER.info(TRANSACTION_ROLLED_BACK);
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
@@ -132,15 +124,13 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public boolean deleteByCompanyId(Integer id, Connection connection) throws SQLException, DAOException {
+    public boolean deleteByCompanyId(Integer id) throws SQLException, DAOException {
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE_BY_COMPANY_ID, true, id)
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_DELETE_BY_COMPANY_ID, true, id)
         ) {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            connection.rollback();
-            LOGGER.info(TRANSACTION_ROLLED_BACK);
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
@@ -148,20 +138,18 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column, Connection connection) throws SQLException, DAOException {
+    public List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column) throws SQLException, DAOException {
         List<ComputerDTO> list;
 
         String like = search == null ? "%" : "%" + search + "%";
 
         String orderByQuery = DAOHelper.buildOrderByQuery(order, column);
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT + LIKE + orderByQuery + LIMIT_OFFSET, true, like, like, limit, offset);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_SELECT + LIKE + orderByQuery + LIMIT_OFFSET, true, like, like, limit, offset);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             list = ComputerMapper.mapToComputerDTOList(resultSet);
         } catch (SQLException e) {
-            connection.rollback();
-            LOGGER.info(TRANSACTION_ROLLED_BACK);
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
@@ -169,32 +157,28 @@ public enum ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public int count(String search, Connection connection) throws SQLException, DAOException {
+    public int count(String search) throws SQLException, DAOException {
         int count = 0;
 
         if (search == null) {
-            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_COUNT, true);
+            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_COUNT, true);
                  ResultSet resultSet = preparedStatement.executeQuery()
             ) {
                 if (resultSet.next()) {
                     count = resultSet.getInt(TOTAL);
                 }
             } catch (SQLException e) {
-                LOGGER.error(e.getMessage());
-                connection.rollback();
-                throw new SQLException(e);
+                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
             }
         } else {
             String like = "%" + search + "%";
-            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, COUNT_WITH_SEARCH + LIKE, true, like, like);
+            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), COUNT_WITH_SEARCH + LIKE, true, like, like);
                  ResultSet resultSet = preparedStatement.executeQuery()
             ) {
                 if (resultSet.next()) {
                     count = resultSet.getInt(TOTAL);
                 }
             } catch (SQLException e) {
-                connection.rollback();
-                LOGGER.info(TRANSACTION_ROLLED_BACK);
                 throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
             }
         }

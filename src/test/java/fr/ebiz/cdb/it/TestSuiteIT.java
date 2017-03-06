@@ -35,8 +35,7 @@ public class TestSuiteIT {
 
     private static void cleanUpDb() {
 
-        try {
-            Connection con = ConnectionPool.INSTANCE.getConnection();
+        try (Connection con = ConnectionPool.INSTANCE.getConnection()){
 
             ScriptRunner sr = new ScriptRunner(con, false, false);
 

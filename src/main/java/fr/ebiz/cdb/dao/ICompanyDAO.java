@@ -20,7 +20,7 @@ public interface ICompanyDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    List<Company> fetchAll(Connection connection) throws SQLException, DAOException;
+    List<Company> fetchAll() throws DAOException;
 
     /**
      * Retrieve the Company for the given id.
@@ -31,7 +31,7 @@ public interface ICompanyDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    Company fetch(int id, Connection connection) throws SQLException, DAOException;
+    Company fetch(int id) throws DAOException;
 
     /**
      * Delete the company for the given id.
@@ -42,5 +42,5 @@ public interface ICompanyDAO {
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean delete(Integer id, Connection connection) throws DAOException, SQLException;
+    boolean delete(Integer id) throws DAOException, SQLException;
 }

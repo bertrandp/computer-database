@@ -1,5 +1,7 @@
 package fr.ebiz.cdb.dao.impl;
 
+import com.sun.corba.se.pept.transport.ConnectionCache;
+import fr.ebiz.cdb.dao.ConnectionManager;
 import fr.ebiz.cdb.dao.ICompanyDAO;
 import fr.ebiz.cdb.dao.mapper.CompanyMapper;
 import fr.ebiz.cdb.dao.utils.DAOException;
@@ -30,17 +32,14 @@ public enum CompanyDAO implements ICompanyDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAO.class);
 
     @Override
-    public List<Company> fetchAll(Connection connection) throws SQLException, DAOException {
+    public List<Company> fetchAll() throws DAOException {
         List<Company> list;
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT, true);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_SELECT, true);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             list = CompanyMapper.mapToCompanyList(resultSet);
-
         } catch (SQLException e) {
-            connection.rollback();
-            LOGGER.info(TRANSACTION_ROLLED_BACK);
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
@@ -48,17 +47,14 @@ public enum CompanyDAO implements ICompanyDAO {
     }
 
     @Override
-    public Company fetch(int id, Connection connection) throws SQLException, DAOException {
+    public Company fetch(int id) throws DAOException {
         Company company;
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_SELECT_BY_ID, true, id);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_SELECT_BY_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             company = CompanyMapper.mapToCompany(resultSet);
-
         } catch (SQLException e) {
-            connection.rollback();
-            LOGGER.info(TRANSACTION_ROLLED_BACK);
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
@@ -66,7 +62,9 @@ public enum CompanyDAO implements ICompanyDAO {
     }
 
     @Override
-    public boolean delete(Integer id, Connection connection) throws DAOException, SQLException {
+    public boolean delete(Integer id) throws DAOException, SQLException {
+
+        Connection connection = ConnectionManager.getConnection();
 
         try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, id)
         ) {
@@ -75,8 +73,6 @@ public enum CompanyDAO implements ICompanyDAO {
                 throw new DAOException(ERROR_DELETING_COMPANY);
             }
         } catch (SQLException e) {
-            connection.rollback();
-            LOGGER.info(TRANSACTION_ROLLED_BACK);
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 

@@ -8,6 +8,7 @@ import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.service.validation.ComputerValidator;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -49,7 +50,7 @@ public class PagedListComputerPage {
         ComputerPagerDTO pageValid = ComputerValidator.validate(pager);
         try {
             pageValid = computerService.fetchComputerList(pageValid);
-        } catch (DAOException e) {
+        } catch (DAOException | SQLException e) {
             System.out.println(e);
         }
         for (ComputerDTO computer : (List<ComputerDTO>) pageValid.getList()) {
