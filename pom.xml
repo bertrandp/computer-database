@@ -22,6 +22,7 @@
                 </configuration>
             </plugin>
 
+            <!--Unit Testing-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -35,20 +36,21 @@
                     <dependency>
                         <groupId>org.apache.maven.surefire</groupId>
                         <artifactId>surefire-junit47</artifactId>
-                        <version>2.19.1</version>
+                        <version>${surefire-junit47.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
 
+            <!--Integration Testing-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.19.1</version>
+                <version>${surefire-junit47.version}</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.surefire</groupId>
                         <artifactId>surefire-junit47</artifactId>
-                        <version>2.19.1</version>
+                        <version>${surefire-junit47.version}</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -66,6 +68,7 @@
                 </executions>
             </plugin>
 
+            <!--Checkstyle-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -91,51 +94,61 @@
 
 
     <dependencies>
+
+        <!--Logging-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j-api.version}</version>
         </dependency>
-
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback-classic.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
+        <!--MySQL Driver-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-connector-java.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
+        <!--JEE-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>${jstl.version}</version>
         </dependency>
 
+        <!--Connection Pool-->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${HikariCP.version}</version>
+        </dependency>
+
+        <!--Testing-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium-java.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-mockito-release-full</artifactId>
@@ -143,23 +156,17 @@
             <classifier>full</classifier>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.maven.surefire</groupId>
             <artifactId>surefire-junit47</artifactId>
-            <version>2.19.1</version>
+            <version>${surefire-junit47.version}</version>
+            <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>${HikariCP.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.ibatis</groupId>
             <artifactId>ibatis-sqlmap</artifactId>
-            <version>2.3.0</version>
+            <version>${ibatis-sqlmap.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -178,7 +185,8 @@
         <selenium-java.version>3.1.0</selenium-java.version>
         <powermock-mockito-release-full.version>1.5</powermock-mockito-release-full.version>
         <HikariCP.version>2.6.0</HikariCP.version>
+        <ibatis-sqlmap.version>2.3.0</ibatis-sqlmap.version>
+        <surefire-junit47.version>2.19.1</surefire-junit47.version>
     </properties>
-
 
 </project>
