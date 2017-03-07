@@ -51,6 +51,7 @@ public enum ConnectionPool {
         config.addDataSourceProperty(CACHE_PREP_STMTS, "true");
         config.addDataSourceProperty(PREP_STMT_CACHE_SIZE, "250");
         config.addDataSourceProperty(PREP_STMT_CACHE_SQL_LIMIT, "2048");
+        config.setMaximumPoolSize(25);
         config.setAutoCommit(false);
 
         ds = new HikariDataSource(config);

@@ -14,11 +14,12 @@ public class ConnectionManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
 
+    public static final String FAILED_TO_GET_CONNECTION_PROM_THE_POOL = "Failed to get connection prom the pool";
     private static ThreadLocal<Connection> connection = ThreadLocal.withInitial(() -> {
         try {
             return ConnectionPool.INSTANCE.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(FAILED_TO_GET_CONNECTION_PROM_THE_POOL);
             return null;
         }
     });
