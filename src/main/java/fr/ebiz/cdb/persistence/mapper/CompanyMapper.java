@@ -1,4 +1,4 @@
-package fr.ebiz.cdb.dao.mapper;
+package fr.ebiz.cdb.persistence.mapper;
 
 import fr.ebiz.cdb.model.Company;
 

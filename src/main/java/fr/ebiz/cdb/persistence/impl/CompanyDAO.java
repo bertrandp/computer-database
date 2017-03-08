@@ -1,11 +1,11 @@
-package fr.ebiz.cdb.dao.impl;
+package fr.ebiz.cdb.persistence.impl;
 
-import fr.ebiz.cdb.dao.ConnectionManager;
-import fr.ebiz.cdb.dao.ICompanyDAO;
-import fr.ebiz.cdb.dao.mapper.CompanyMapper;
-import fr.ebiz.cdb.dao.utils.DAOException;
-import fr.ebiz.cdb.dao.utils.DAOHelper;
 import fr.ebiz.cdb.model.Company;
+import fr.ebiz.cdb.persistence.ConnectionManager;
+import fr.ebiz.cdb.persistence.ICompanyDAO;
+import fr.ebiz.cdb.persistence.mapper.CompanyMapper;
+import fr.ebiz.cdb.persistence.utils.DAOException;
+import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

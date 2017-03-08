@@ -1,4 +1,4 @@
-package fr.ebiz.cdb.dto;
+package fr.ebiz.cdb.model.dto;
 
 /**
  * Created by bpestre on 21/02/17.

@@ -1,13 +1,13 @@
 package fr.ebiz.cdb.service.impl;
 
 
-import fr.ebiz.cdb.dao.ConnectionManager;
-import fr.ebiz.cdb.dao.ICompanyDAO;
-import fr.ebiz.cdb.dao.IComputerDAO;
-import fr.ebiz.cdb.dao.impl.CompanyDAO;
-import fr.ebiz.cdb.dao.impl.ComputerDAO;
-import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.model.Company;
+import fr.ebiz.cdb.persistence.ConnectionManager;
+import fr.ebiz.cdb.persistence.ICompanyDAO;
+import fr.ebiz.cdb.persistence.IComputerDAO;
+import fr.ebiz.cdb.persistence.impl.CompanyDAO;
+import fr.ebiz.cdb.persistence.impl.ComputerDAO;
+import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +16,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import static fr.ebiz.cdb.dao.impl.CompanyDAO.DATABASE_CONNECTION_ERROR;
-import static fr.ebiz.cdb.dao.impl.CompanyDAO.TRANSACTION_ROLLED_BACK;
+import static fr.ebiz.cdb.persistence.impl.CompanyDAO.DATABASE_CONNECTION_ERROR;
+import static fr.ebiz.cdb.persistence.impl.CompanyDAO.TRANSACTION_ROLLED_BACK;
 
 /**
  * Created by ebiz on 14/02/17.

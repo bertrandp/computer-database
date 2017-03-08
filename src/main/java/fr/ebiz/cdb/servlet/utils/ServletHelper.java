@@ -1,6 +1,6 @@
 package fr.ebiz.cdb.servlet.utils;
 
-import fr.ebiz.cdb.dto.ComputerDTO;
+import fr.ebiz.cdb.model.dto.ComputerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

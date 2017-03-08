@@ -1,6 +1,6 @@
 package fr.ebiz.cdb.it.utils;
 
-import fr.ebiz.cdb.dao.utils.DAOConfigurationException;
+import fr.ebiz.cdb.persistence.utils.DAOConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

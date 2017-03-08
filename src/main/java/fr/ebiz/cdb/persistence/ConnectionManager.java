@@ -1,4 +1,4 @@
-package fr.ebiz.cdb.dao;
+package fr.ebiz.cdb.persistence;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

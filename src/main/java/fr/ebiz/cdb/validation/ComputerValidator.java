@@ -1,12 +1,13 @@
-package fr.ebiz.cdb.service.validation;
+package fr.ebiz.cdb.validation;
 
 
-import fr.ebiz.cdb.dto.ComputerDTO;
-import fr.ebiz.cdb.dto.ComputerPagerDTO;
+import fr.ebiz.cdb.model.dto.ComputerDTO;
+import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ebiz on 16/02/17.
@@ -23,6 +24,7 @@ public class ComputerValidator {
     public static final int MIN_LIMIT = 10;
     public static final int DEFAULT_LIMIT = 50;
     public static final int MIN_PAGE = 1;
+    public static final String REGEX = "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$";
     private static final int MAX_LENGTH = 255;
 
     /**
@@ -133,44 +135,59 @@ public class ComputerValidator {
      * Validate the computerDTO parameters.
      *
      * @param computerDTO the computerDTO to validate
-     * @throws InputValidationException exception raised if a parameter is invalid
+     * @return the list of errors
      */
-    public static void validate(ComputerDTO computerDTO) throws InputValidationException {
-        validateName(computerDTO.getName());
-        validateDate(computerDTO.getIntroduced());
-        validateDate(computerDTO.getDiscontinued());
-        validateDiscontinuedDate(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
+    public static List<String> validate(ComputerDTO computerDTO) {
+        List<String> errorList = new ArrayList<>();
+        String error;
+        error = validateName(computerDTO.getName());
+        if (error != null) {
+            errorList.add(error);
+        }
+        error = validateDate(computerDTO.getIntroduced());
+        if (error != null) {
+            errorList.add(error);
+        }
+        error = validateDate(computerDTO.getDiscontinued());
+        if (error != null) {
+            errorList.add(error);
+        }
+        error = validateDiscontinuedDate(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
+        if (error != null) {
+            errorList.add(error);
+        }
+
+        return errorList;
     }
 
     /**
      * Validate the given name.
      *
      * @param name the name to validate
-     * @throws InputValidationException exception raised if the name is invalid
+     * @return the error message if the name is invalid else null
      */
-    public static void validateName(String name) throws InputValidationException {
+    public static String validateName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new InputValidationException(NAME_IS_EMPTY);
+            return NAME_IS_EMPTY;
         } else if (name.length() >= MAX_LENGTH) {
-            throw new InputValidationException(NAME_IS_TOO_LONG);
+            return NAME_IS_TOO_LONG;
         }
+        return null;
     }
 
     /**
      * Validate the given date.
      *
      * @param date the date to validate
-     * @throws InputValidationException exception raised if the date is invalid
+     * @return the error message if the name is invalid else null
      */
-    public static void validateDate(String date) throws InputValidationException {
+    public static String validateDate(String date) {
         if (date != null) {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-                LocalDate.parse(date, formatter);
-            } catch (DateTimeParseException e) {
-                throw new InputValidationException(DATE_FORMAT_IS_INVALID);
+            if (!date.matches(REGEX)) {
+                return DATE_FORMAT_IS_INVALID;
             }
         }
+        return null;
     }
 
     /**
@@ -178,17 +195,18 @@ public class ComputerValidator {
      *
      * @param introduced   the introduced date to compare to
      * @param discontinued the discontinued date to validate
-     * @throws InputValidationException exception raised if the discontinued date is invalid
+     * @return the error message if the name is invalid else null
      */
-    public static void validateDiscontinuedDate(String introduced, String discontinued) throws InputValidationException {
+    public static String validateDiscontinuedDate(String introduced, String discontinued) {
         if (introduced != null && discontinued != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
             LocalDate introducedLD = LocalDate.parse(introduced, formatter);
             LocalDate discontinuedLD = LocalDate.parse(discontinued, formatter);
             if (introducedLD.isEqual(discontinuedLD) || introducedLD.isAfter(discontinuedLD)) {
-                throw new InputValidationException(DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE);
+                return DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE;
             }
         }
+        return null;
     }
 
 }

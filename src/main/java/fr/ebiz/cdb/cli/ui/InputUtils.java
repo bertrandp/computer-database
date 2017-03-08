@@ -1,7 +1,7 @@
 package fr.ebiz.cdb.cli.ui;
 
 
-import fr.ebiz.cdb.dto.ComputerDTO;
+import fr.ebiz.cdb.model.dto.ComputerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import static fr.ebiz.cdb.service.validation.ComputerValidator.DATE_FORMAT;
+import static fr.ebiz.cdb.validation.ComputerValidator.DATE_FORMAT;
 
 /**
  * Created by ebiz on 16/02/17.

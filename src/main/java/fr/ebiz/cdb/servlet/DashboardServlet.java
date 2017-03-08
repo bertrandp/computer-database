@@ -1,10 +1,10 @@
 package fr.ebiz.cdb.servlet;
 
-import fr.ebiz.cdb.dao.utils.DAOException;
-import fr.ebiz.cdb.dto.ComputerPagerDTO;
+import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
+import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.ComputerService;
-import fr.ebiz.cdb.service.validation.ComputerValidator;
+import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,13 +1,13 @@
-package fr.ebiz.cdb.dao.impl;
+package fr.ebiz.cdb.persistence.impl;
 
-import fr.ebiz.cdb.dao.ConnectionManager;
-import fr.ebiz.cdb.dao.IComputerDAO;
-import fr.ebiz.cdb.dao.mapper.ComputerMapper;
-import fr.ebiz.cdb.dao.utils.DAOException;
-import fr.ebiz.cdb.dao.utils.DAOHelper;
-import fr.ebiz.cdb.dto.ComputerDTO;
-import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Computer;
+import fr.ebiz.cdb.model.dto.ComputerDTO;
+import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
+import fr.ebiz.cdb.persistence.ConnectionManager;
+import fr.ebiz.cdb.persistence.IComputerDAO;
+import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
+import fr.ebiz.cdb.persistence.utils.DAOException;
+import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static fr.ebiz.cdb.dao.impl.CompanyDAO.DATABASE_CONNECTION_ERROR;
+import static fr.ebiz.cdb.persistence.impl.CompanyDAO.DATABASE_CONNECTION_ERROR;
 
 /**
  * Created by ebiz on 15/02/17.

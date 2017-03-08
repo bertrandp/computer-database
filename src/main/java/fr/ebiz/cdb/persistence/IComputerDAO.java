@@ -1,10 +1,10 @@
-package fr.ebiz.cdb.dao;
+package fr.ebiz.cdb.persistence;
 
 
-import fr.ebiz.cdb.dao.utils.DAOException;
-import fr.ebiz.cdb.dto.ComputerDTO;
-import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Computer;
+import fr.ebiz.cdb.model.dto.ComputerDTO;
+import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
+import fr.ebiz.cdb.persistence.utils.DAOException;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -1,14 +1,13 @@
 package fr.ebiz.cdb.cli.ui;
 
 
-import fr.ebiz.cdb.dao.mapper.ComputerMapper;
-import fr.ebiz.cdb.dao.utils.DAOException;
-import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.model.Computer;
+import fr.ebiz.cdb.model.dto.ComputerDTO;
+import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
+import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.ComputerService;
-import fr.ebiz.cdb.service.validation.ComputerValidator;
-import fr.ebiz.cdb.service.validation.InputValidationException;
+import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +56,7 @@ public class UpdateComputerPage {
 
                 MenuPage.display();
 
-            } catch (InputValidationException | DAOException e) {
+            } catch (DAOException e) {
                 LOGGER.error(e.getMessage());
                 // TODO handle exception
             }

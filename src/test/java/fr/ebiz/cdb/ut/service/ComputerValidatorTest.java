@@ -1,24 +1,25 @@
 package fr.ebiz.cdb.ut.service;
 
-import fr.ebiz.cdb.dto.ComputerDTO;
-import fr.ebiz.cdb.dto.ComputerPagerDTO;
-import fr.ebiz.cdb.service.validation.ComputerValidator;
-import fr.ebiz.cdb.service.validation.InputValidationException;
+import fr.ebiz.cdb.model.dto.ComputerDTO;
+import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
+import fr.ebiz.cdb.validation.ComputerValidator;
+import fr.ebiz.cdb.validation.InputValidationException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static fr.ebiz.cdb.dto.ComputerPagerDTO.COLUMN.INTRODUCED;
-import static fr.ebiz.cdb.dto.ComputerPagerDTO.COLUMN.NAME;
-import static fr.ebiz.cdb.dto.ComputerPagerDTO.ORDER.ASC;
-import static fr.ebiz.cdb.dto.ComputerPagerDTO.ORDER.DESC;
-import static fr.ebiz.cdb.service.validation.ComputerValidator.DATE_FORMAT_IS_INVALID;
-import static fr.ebiz.cdb.service.validation.ComputerValidator.DEFAULT_LIMIT;
-import static fr.ebiz.cdb.service.validation.ComputerValidator.DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE;
-import static fr.ebiz.cdb.service.validation.ComputerValidator.MIN_PAGE;
-import static fr.ebiz.cdb.service.validation.ComputerValidator.NAME_IS_EMPTY;
-import static fr.ebiz.cdb.service.validation.ComputerValidator.NAME_IS_TOO_LONG;
+import static fr.ebiz.cdb.model.dto.ComputerPagerDTO.COLUMN.INTRODUCED;
+import static fr.ebiz.cdb.model.dto.ComputerPagerDTO.COLUMN.NAME;
+import static fr.ebiz.cdb.model.dto.ComputerPagerDTO.ORDER.ASC;
+import static fr.ebiz.cdb.model.dto.ComputerPagerDTO.ORDER.DESC;
+import static fr.ebiz.cdb.validation.ComputerValidator.DATE_FORMAT_IS_INVALID;
+import static fr.ebiz.cdb.validation.ComputerValidator.DEFAULT_LIMIT;
+import static fr.ebiz.cdb.validation.ComputerValidator.DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE;
+import static fr.ebiz.cdb.validation.ComputerValidator.MIN_PAGE;
+import static fr.ebiz.cdb.validation.ComputerValidator.NAME_IS_EMPTY;
+import static fr.ebiz.cdb.validation.ComputerValidator.NAME_IS_TOO_LONG;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by bpestre on 22/02/17.
@@ -30,48 +31,40 @@ public class ComputerValidatorTest {
 
     // validateName
     @Test
-    public void throwExceptionWhenValidateNameWithEmptyData() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(NAME_IS_EMPTY);
-        ComputerValidator.validateName("  ");
+    public void validateNameWithEmptyData() {
+        assertEquals(NAME_IS_EMPTY, ComputerValidator.validateName("  "));
     }
 
     @Test
-    public void throwExceptionWhenValidateNameWithInvalidData() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(NAME_IS_TOO_LONG);
-        ComputerValidator.validateName("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz ");
+    public void validateNameWithInvalidData() {
+        assertEquals(NAME_IS_TOO_LONG, ComputerValidator.validateName("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz "));
     }
 
     @Test
-    public void validateNameWithValidData() throws InputValidationException {
-        ComputerValidator.validateName("valid name");
+    public void validateNameWithValidData() {
+        assertNull(ComputerValidator.validateName("valid name"));
     }
 
     // validateDate
     @Test
-    public void throwExceptionWhenValidateDateWithInvalidData() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(DATE_FORMAT_IS_INVALID);
-        ComputerValidator.validateDate("invalid date");
+    public void validateDateWithInvalidData() {
+        assertEquals(DATE_FORMAT_IS_INVALID, ComputerValidator.validateDate("invalid date"));
     }
 
     @Test
-    public void validateDateWithValidData() throws InputValidationException {
-        ComputerValidator.validateDate("2000-01-01");
+    public void validateDateWithValidData() {
+        assertNull(ComputerValidator.validateDate("2000-01-01"));
     }
 
     // validateDiscontinuedDate
     @Test
-    public void throwExceptionWhenValidateDiscontinuedDateWithInvalidDate() throws InputValidationException {
-        thrown.expect(InputValidationException.class);
-        thrown.expectMessage(DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE);
-        ComputerValidator.validateDiscontinuedDate("2000-02-01", "2000-01-01");
+    public void validateDiscontinuedDateWithInvalidDate() {
+        assertEquals(DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE, ComputerValidator.validateDiscontinuedDate("2000-02-01", "2000-01-01"));
     }
 
     @Test
-    public void validateDiscontinuedDateWithValidDate() throws InputValidationException {
-        ComputerValidator.validateDiscontinuedDate("2000-01-01", "2000-01-02");
+    public void validateDiscontinuedDateWithValidDate() {
+        assertNull(ComputerValidator.validateDiscontinuedDate("2000-01-01", "2000-01-02"));
     }
 
     // validateColumn

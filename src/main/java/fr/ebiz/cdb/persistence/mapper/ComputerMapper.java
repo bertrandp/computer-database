@@ -1,8 +1,8 @@
-package fr.ebiz.cdb.dao.mapper;
+package fr.ebiz.cdb.persistence.mapper;
 
-import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
+import fr.ebiz.cdb.model.dto.ComputerDTO;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.ebiz.cdb.service.validation.ComputerValidator.DATE_FORMAT;
+import static fr.ebiz.cdb.validation.ComputerValidator.DATE_FORMAT;
 
 /**
  * Created by bpestre on 23/02/17.

@@ -1,18 +1,17 @@
 package fr.ebiz.cdb.cli.ui;
 
 
-import fr.ebiz.cdb.dao.mapper.ComputerMapper;
-import fr.ebiz.cdb.dao.utils.DAOException;
-import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.model.Computer;
+import fr.ebiz.cdb.model.dto.ComputerDTO;
+import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
+import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.ComputerService;
-import fr.ebiz.cdb.service.validation.ComputerValidator;
-import fr.ebiz.cdb.service.validation.InputValidationException;
+import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static fr.ebiz.cdb.service.validation.ComputerValidator.DATE_FORMAT;
+import static fr.ebiz.cdb.validation.ComputerValidator.DATE_FORMAT;
 
 /**
  * Created by ebiz on 16/02/17.
@@ -48,7 +47,7 @@ public class CreateComputerPage {
 
             computerService.add(computer);
 
-        } catch (DAOException | InputValidationException e) {
+        } catch (DAOException e) {
             logger.error("*** Error : " + e.getMessage());
             display();
         }

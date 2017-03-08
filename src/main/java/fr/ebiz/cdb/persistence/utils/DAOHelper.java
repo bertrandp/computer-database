@@ -1,6 +1,6 @@
-package fr.ebiz.cdb.dao.utils;
+package fr.ebiz.cdb.persistence.utils;
 
-import fr.ebiz.cdb.dto.ComputerPagerDTO;
+import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

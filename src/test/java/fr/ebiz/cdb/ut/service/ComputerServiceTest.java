@@ -1,6 +1,6 @@
 package fr.ebiz.cdb.ut.service;
 
-import fr.ebiz.cdb.dao.IComputerDAO;
+import fr.ebiz.cdb.persistence.IComputerDAO;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import org.junit.Before;

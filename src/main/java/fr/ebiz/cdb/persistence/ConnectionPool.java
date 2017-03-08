@@ -1,9 +1,9 @@
-package fr.ebiz.cdb.dao;
+package fr.ebiz.cdb.persistence;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import fr.ebiz.cdb.dao.utils.DAOConfigurationException;
-import fr.ebiz.cdb.dao.utils.DAOHelper;
+import fr.ebiz.cdb.persistence.utils.DAOConfigurationException;
+import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

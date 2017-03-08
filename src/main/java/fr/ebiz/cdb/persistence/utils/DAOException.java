@@ -1,4 +1,4 @@
-package fr.ebiz.cdb.dao.utils;
+package fr.ebiz.cdb.persistence.utils;
 
 import java.sql.SQLException;
 

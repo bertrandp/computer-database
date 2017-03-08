@@ -1,17 +1,16 @@
 package fr.ebiz.cdb.servlet;
 
-import fr.ebiz.cdb.dao.mapper.ComputerMapper;
-import fr.ebiz.cdb.dao.utils.DAOException;
-import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
+import fr.ebiz.cdb.model.dto.ComputerDTO;
+import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
+import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.CompanyService;
 import fr.ebiz.cdb.service.impl.ComputerService;
-import fr.ebiz.cdb.service.validation.ComputerValidator;
-import fr.ebiz.cdb.service.validation.InputValidationException;
 import fr.ebiz.cdb.servlet.utils.ServletHelper;
+import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,13 +45,18 @@ public class EditComputerServlet extends HttpServlet {
         LOGGER.debug("EditComputerServlet doPost parameters : " + computerDTO);
 
         try {
-            ComputerValidator.validate(computerDTO);
 
-            IComputerService computerService = ComputerService.INSTANCE;
-            Computer computer = ComputerMapper.mapToComputer(computerDTO);
+            List<String> errors = ComputerValidator.validate(computerDTO);
+            if (!errors.isEmpty()) {
+                IComputerService computerService = ComputerService.INSTANCE;
+                Computer computer = ComputerMapper.mapToComputer(computerDTO);
 
-            computerService.update(computer);
-        } catch (DAOException | InputValidationException e) {
+                computerService.update(computer);
+            } else {
+                throw new ServletException(errors.toString());
+            }
+
+        } catch (DAOException e) {
             throw new ServletException(e);
         }
 

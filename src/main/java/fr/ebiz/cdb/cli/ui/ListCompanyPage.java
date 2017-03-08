@@ -1,8 +1,8 @@
 package fr.ebiz.cdb.cli.ui;
 
 
-import fr.ebiz.cdb.dao.utils.DAOException;
 import fr.ebiz.cdb.model.Company;
+import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.impl.CompanyService;
 
