@@ -2,7 +2,6 @@ package fr.ebiz.cdb.service.impl;
 
 
 import fr.ebiz.cdb.dao.ConnectionManager;
-import fr.ebiz.cdb.dao.ConnectionPool;
 import fr.ebiz.cdb.dao.ICompanyDAO;
 import fr.ebiz.cdb.dao.IComputerDAO;
 import fr.ebiz.cdb.dao.impl.CompanyDAO;
@@ -43,7 +42,7 @@ public enum CompanyService implements ICompanyService {
 
         Connection connection = ConnectionManager.getConnection();
 
-        try  {
+        try {
             List<Company> list = companyDAO.fetchAll();
             connection.commit();
 

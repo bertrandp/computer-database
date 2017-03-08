@@ -52,7 +52,7 @@ public class DAOHelper {
      * Read the property file.
      *
      * @throws DAOConfigurationException exception raised when there is error reading the file
-     * * @return the properties
+     *                                   * @return the properties
      */
     public static Properties readPropertiesFile() throws DAOConfigurationException {
 
@@ -71,7 +71,7 @@ public class DAOHelper {
     /**
      * Build sql query for ORDER BY.
      *
-     * @param order the sorting order
+     * @param order  the sorting order
      * @param column the selected
      * @return the query
      */

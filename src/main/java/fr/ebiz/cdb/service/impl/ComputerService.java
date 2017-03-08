@@ -1,7 +1,6 @@
 package fr.ebiz.cdb.service.impl;
 
 import fr.ebiz.cdb.dao.ConnectionManager;
-import fr.ebiz.cdb.dao.ConnectionPool;
 import fr.ebiz.cdb.dao.IComputerDAO;
 import fr.ebiz.cdb.dao.impl.ComputerDAO;
 import fr.ebiz.cdb.dao.utils.DAOException;

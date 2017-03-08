@@ -6,7 +6,6 @@ import fr.ebiz.cdb.dto.ComputerDTO;
 import fr.ebiz.cdb.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.model.Computer;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -18,8 +17,7 @@ public interface IComputerDAO {
     /**
      * Retrieve the computer for the given id.
      *
-     * @param id         the id of the computer
-     * @param connection the connection to the datasource
+     * @param id the id of the computer
      * @return the computer for the given id
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
@@ -29,8 +27,7 @@ public interface IComputerDAO {
     /**
      * Retrieve the computerDTO for the given id.
      *
-     * @param id         the id of the computer
-     * @param connection the connection to the datasource
+     * @param id the id of the computer
      * @return the computer for the given id
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
@@ -40,8 +37,7 @@ public interface IComputerDAO {
     /**
      * Add a computer.
      *
-     * @param computer   the computer to add
-     * @param connection the connection to the datasource
+     * @param computer the computer to add
      * @return <tt>true</tt> if the computer is added
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
@@ -51,8 +47,7 @@ public interface IComputerDAO {
     /**
      * Update a computer.
      *
-     * @param computer   the computer to update
-     * @param connection the connection to the datasource
+     * @param computer the computer to update
      * @return <tt>true</tt> if the computer is updated
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
@@ -63,7 +58,6 @@ public interface IComputerDAO {
      * Delete a computer.
      *
      * @param computerId the id of the computer to delete
-     * @param connection the connection to the datasource
      * @return <tt>true</tt> if the computer is deleted
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
@@ -74,7 +68,6 @@ public interface IComputerDAO {
      * Delete all the computers for the given company id.
      *
      * @param id the id of the company
-     * @param connection the connection to the datasource
      * @return <tt>true</tt> if the computers are deleted
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
@@ -84,12 +77,11 @@ public interface IComputerDAO {
     /**
      * Retrieve a list of computerDTO with a specific limit and offset.
      *
-     * @param limit      the number of computer to retrieve
-     * @param offset     the index of the first computer of the list
-     * @param search     the filter for the search
-     * @param order     the order of the sort
-     * @param column    the column of the sort
-     * @param connection the connection to the datasource
+     * @param limit  the number of computer to retrieve
+     * @param offset the index of the first computer of the list
+     * @param search the filter for the search
+     * @param order  the order of the sort
+     * @param column the column of the sort
      * @return the list of computerDTO
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction
@@ -99,8 +91,7 @@ public interface IComputerDAO {
     /**
      * Retrieve the number of computers.
      *
-     * @param search     the filter for the search
-     * @param connection the connection to the datasource
+     * @param search the filter for the search
      * @return the number of computers
      * @throws DAOException exception raised if there is an error with DAO
      * @throws SQLException exception raised if there is a issue during the transaction

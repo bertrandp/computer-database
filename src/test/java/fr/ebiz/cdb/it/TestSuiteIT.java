@@ -2,7 +2,6 @@ package fr.ebiz.cdb.it;
 
 import com.ibatis.common.jdbc.ScriptRunner;
 import fr.ebiz.cdb.dao.ConnectionManager;
-import fr.ebiz.cdb.dao.ConnectionPool;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;

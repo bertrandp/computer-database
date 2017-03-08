@@ -1,6 +1,5 @@
 package fr.ebiz.cdb.dao.impl;
 
-import com.sun.corba.se.pept.transport.ConnectionCache;
 import fr.ebiz.cdb.dao.ConnectionManager;
 import fr.ebiz.cdb.dao.ICompanyDAO;
 import fr.ebiz.cdb.dao.mapper.CompanyMapper;

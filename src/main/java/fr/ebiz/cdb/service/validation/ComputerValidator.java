@@ -21,9 +21,9 @@ public class ComputerValidator {
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final int MAX_LIMIT = 100;
     public static final int MIN_LIMIT = 10;
-    private static final int MAX_LENGTH = 255;
     public static final int DEFAULT_LIMIT = 50;
     public static final int MIN_PAGE = 1;
+    private static final int MAX_LENGTH = 255;
 
     /**
      * Validate the page parameters and set them to valid values.

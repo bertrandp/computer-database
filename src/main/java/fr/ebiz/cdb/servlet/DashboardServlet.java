@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by bpestre on 20/02/17.
@@ -30,7 +28,7 @@ public class DashboardServlet extends HttpServlet {
     public static final String PAGER = "pager";
     public static final String DASHBOARD_JSP = "/WEB-INF/jsp/dashboard.jsp";
     public static final String SEARCH = "search";
-    public static final String SELECTION = "selection";
+
     public static final String ORDER = "order";
     public static final String COLUMN = "column";
     private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
@@ -54,37 +52,6 @@ public class DashboardServlet extends HttpServlet {
 
         RequestDispatcher view = request.getRequestDispatcher(DASHBOARD_JSP);
         view.forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        List<Integer> idList = parseIdList(req);
-        LOGGER.debug(" IDs of computers to delete : " + idList);
-        IComputerService computerService = ComputerService.INSTANCE;
-        try {
-            computerService.delete(idList);
-        } catch (DAOException e) {
-            throw new ServletException(e);
-        }
-
-        doGet(req, resp);
-    }
-
-    /**
-     * Parse the request and retrieve the list of computer id.
-     *
-     * @param req the http request
-     * @return the list of computer id
-     */
-    private List<Integer> parseIdList(HttpServletRequest req) {
-        String ids = req.getParameter(SELECTION);
-        String[] stringList = ids.split(",");
-        List<Integer> idList = new ArrayList<>();
-        for (String stringId : stringList) {
-            idList.add(Integer.valueOf(stringId));
-        }
-        return idList;
     }
 
     /**

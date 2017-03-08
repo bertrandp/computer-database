@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Map;
 
 /**
  * Created by bpestre on 06/03/17.
@@ -23,10 +22,15 @@ public class ConnectionManager {
         }
     });
 
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         return connection.get();
     }
 
+    /**
+     * Remove de connection from the ThreadLocal and close it.
+     *
+     * @throws SQLException exception raised if there is an error when closing the connection
+     */
     public static void closeConnection() throws SQLException {
         connection.get().close();
         connection.remove();

@@ -1,16 +1,12 @@
 package fr.ebiz.cdb.it.utils;
 
 import fr.ebiz.cdb.dao.utils.DAOConfigurationException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by ebiz on 15/02/17.
@@ -25,7 +21,7 @@ public class ITHelper {
      * Read the property file.
      *
      * @throws DAOConfigurationException exception raised when there is error reading the file
-     * * @return the properties
+     *                                   * @return the properties
      */
     public static Properties readPropertiesFile(String filename) {
 

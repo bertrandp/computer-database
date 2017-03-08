@@ -13,14 +13,12 @@ import static fr.ebiz.cdb.dto.ComputerPagerDTO.COLUMN.NAME;
 import static fr.ebiz.cdb.dto.ComputerPagerDTO.ORDER.ASC;
 import static fr.ebiz.cdb.dto.ComputerPagerDTO.ORDER.DESC;
 import static fr.ebiz.cdb.service.validation.ComputerValidator.DATE_FORMAT_IS_INVALID;
-import static fr.ebiz.cdb.service.validation.ComputerValidator.DATE_IS_NULL;
 import static fr.ebiz.cdb.service.validation.ComputerValidator.DEFAULT_LIMIT;
 import static fr.ebiz.cdb.service.validation.ComputerValidator.DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE;
 import static fr.ebiz.cdb.service.validation.ComputerValidator.MIN_PAGE;
 import static fr.ebiz.cdb.service.validation.ComputerValidator.NAME_IS_EMPTY;
 import static fr.ebiz.cdb.service.validation.ComputerValidator.NAME_IS_TOO_LONG;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by bpestre on 22/02/17.
@@ -68,12 +66,12 @@ public class ComputerValidatorTest {
     public void throwExceptionWhenValidateDiscontinuedDateWithInvalidDate() throws InputValidationException {
         thrown.expect(InputValidationException.class);
         thrown.expectMessage(DISCONTINUED_DATE_IS_BEFORE_INTRODUCED_DATE);
-        ComputerValidator.validateDiscontinuedDate("2000-02-01","2000-01-01");
+        ComputerValidator.validateDiscontinuedDate("2000-02-01", "2000-01-01");
     }
 
     @Test
     public void validateDiscontinuedDateWithValidDate() throws InputValidationException {
-        ComputerValidator.validateDiscontinuedDate("2000-01-01","2000-01-02");
+        ComputerValidator.validateDiscontinuedDate("2000-01-01", "2000-01-02");
     }
 
     // validateColumn
@@ -129,7 +127,7 @@ public class ComputerValidatorTest {
     // validateCurrentPageMax
     @Test
     public void validateValidateCurrentPageMaxWithInvalidData() {
-        assertEquals(4, ComputerValidator.validateCurrentPageMax(100,30,12));
+        assertEquals(4, ComputerValidator.validateCurrentPageMax(100, 30, 12));
     }
 
     //
