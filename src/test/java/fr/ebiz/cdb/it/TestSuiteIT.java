@@ -1,6 +1,7 @@
 package fr.ebiz.cdb.it;
 
 import com.ibatis.common.jdbc.ScriptRunner;
+import fr.ebiz.cdb.dao.ConnectionManager;
 import fr.ebiz.cdb.dao.ConnectionPool;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -35,9 +36,12 @@ public class TestSuiteIT {
 
     private static void cleanUpDb() {
 
-        try (Connection con = ConnectionPool.INSTANCE.getConnection()){
+        Connection connection = ConnectionManager.getConnection();
 
-            ScriptRunner sr = new ScriptRunner(con, false, false);
+        try {
+
+            ScriptRunner sr = new ScriptRunner(connection, false, false);
+            connection.commit();
 
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             File file = new File(classLoader.getResource("db/1-SCHEMA.sql").getFile());
@@ -54,6 +58,12 @@ public class TestSuiteIT {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                ConnectionManager.closeConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
