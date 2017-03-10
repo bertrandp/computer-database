@@ -11,6 +11,8 @@
 
     <build>
 
+        <finalName>computerdatabase</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
