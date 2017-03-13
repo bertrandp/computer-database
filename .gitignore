@@ -1,4 +1,6 @@
 /.idea/
-computerdatabase.iml
+computer-database.iml
+src/main/main.iml
+src/test/test.iml
 /target/
 logFile.log

@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -67,13 +66,12 @@ public class DAOHelper {
             throw new DAOConfigurationException(ERROR_LOADING_PROPERTIES_FILE, e);
         }
 
-        try(InputStream input = new FileInputStream("/home/ec2-user" + PROPERTIES)) {
+        try (InputStream input = new FileInputStream("/home/ec2-user" + PROPERTIES)) {
             properties.load(input);
             logger.info("Found property file in /home/ec2-user, overriding properties");
         } catch (IOException e) {
             // do nothing
         }
-        
         return properties;
     }
 
