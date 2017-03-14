@@ -31,13 +31,6 @@ public class ITHelper {
             logger.error(ERROR_LOADING_FILE);
         }
 
-        try (InputStream input = new FileInputStream("/home/" + filename)) {
-            properties.load(input);
-            logger.info("Found property file in /home , overriding properties");
-        } catch (IOException e) {
-            // do nothing
-        }
-
         return properties;
     }
 
