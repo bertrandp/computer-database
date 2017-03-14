@@ -15,7 +15,6 @@ import java.util.Properties;
 public class ITHelper {
 
     public static final String ERROR_LOADING_FILE = "Error loading file";
-    private static final String PROPERTIES = "dao.properties";
     private static Logger logger = LoggerFactory.getLogger(ITHelper.class);
 
     /**
@@ -32,7 +31,7 @@ public class ITHelper {
             logger.error(ERROR_LOADING_FILE);
         }
 
-        try (InputStream input = new FileInputStream("/home/" + PROPERTIES)) {
+        try (InputStream input = new FileInputStream("/home/" + filename)) {
             properties.load(input);
             logger.info("Found property file in /home , overriding properties");
         } catch (IOException e) {
