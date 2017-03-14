@@ -4,6 +4,7 @@ import fr.ebiz.cdb.persistence.utils.DAOConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -19,9 +20,6 @@ public class ITHelper {
 
     /**
      * Read the property file.
-     *
-     * @throws DAOConfigurationException exception raised when there is error reading the file
-     *                                   * @return the properties
      */
     public static Properties readPropertiesFile(String filename) {
 
@@ -32,6 +30,13 @@ public class ITHelper {
             properties.load(propertiesFile);
         } catch (IOException e) {
             logger.error(ERROR_LOADING_FILE);
+        }
+
+        try (InputStream input = new FileInputStream("/home/" + PROPERTIES)) {
+            properties.load(input);
+            logger.info("Found property file in /home , overriding properties");
+        } catch (IOException e) {
+            // do nothing
         }
 
         return properties;
