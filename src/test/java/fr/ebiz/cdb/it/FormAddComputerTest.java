@@ -39,7 +39,7 @@ public class FormAddComputerTest {
 
     @Test
     public void testFormAddComputer() throws Exception {
-        driver.get(baseUrl + "dashboard");
+        driver.get(baseUrl + "/dashboard");
         driver.findElement(By.id("addComputer")).click();
         driver.findElement(By.id("computerName")).clear();
         driver.findElement(By.id("computerName")).sendKeys("test");

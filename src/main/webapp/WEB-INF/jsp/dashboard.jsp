@@ -34,13 +34,13 @@
                 </form>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" id="addComputer" href="/add-computer">Add Computer</a>
+                <a class="btn btn-success" id="addComputer" href="${pageContext.request.contextPath}/add-computer">Add Computer</a>
                 <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
             </div>
         </div>
     </div>
 
-    <form id="deleteForm" action="delete-computer" method="POST">
+    <form id="deleteForm" action="${pageContext.request.contextPath}/delete-computer" method="POST">
         <input type="hidden" name="selection" value="">
     </form>
 
