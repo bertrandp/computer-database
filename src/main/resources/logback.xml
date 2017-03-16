@@ -23,7 +23,12 @@
         </encoder>
     </appender>
 
-    <root level="debug" additivity="false">
+
+    <logger name="org.springframework">
+        <level value="INFO" />
+    </logger>
+
+    <root level="debug">
         <appender-ref ref="STDOUT"/>
     </root>
 

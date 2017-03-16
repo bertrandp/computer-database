@@ -11,6 +11,8 @@ import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,20 +24,27 @@ import static fr.ebiz.cdb.persistence.impl.CompanyDAO.TRANSACTION_ROLLED_BACK;
 /**
  * Created by ebiz on 14/02/17.
  */
-public enum CompanyService implements ICompanyService {
+@Component
+public class CompanyService implements ICompanyService {
 
-    INSTANCE;
 
     public static final String COMPANY_NOT_FOUND = "Company not found";
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
+
+    @Autowired
     private ICompanyDAO companyDAO;
 
-    /**
-     * Company constructor. Fetch the instance of ConnectionPool.
-     */
-    CompanyService() {
-        this.companyDAO = CompanyDAO.INSTANCE;
+    @Autowired
+    private IComputerDAO computerDAO;
+
+    public void setCompanyDAO(ICompanyDAO companyDAO) {
+        this.companyDAO = companyDAO;
     }
+
+    public void setComputerDAO(IComputerDAO computerDAO) {
+        this.computerDAO = computerDAO;
+    }
+
 
     @Override
     public List<Company> fetchAll() throws DAOException {
@@ -93,7 +102,6 @@ public enum CompanyService implements ICompanyService {
         try {
 
             // delete computers by company id
-            IComputerDAO computerDAO = ComputerDAO.INSTANCE;
             computerDAO.deleteByCompanyId(id);
 
             // delete company
@@ -108,5 +116,6 @@ public enum CompanyService implements ICompanyService {
         } finally {
             ConnectionManager.closeConnection();
         }
+
     }
 }

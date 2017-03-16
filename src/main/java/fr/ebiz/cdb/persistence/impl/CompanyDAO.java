@@ -8,6 +8,7 @@ import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,9 +19,8 @@ import java.util.List;
 /**
  * Created by bpestre on 14/02/17.
  */
-public enum CompanyDAO implements ICompanyDAO {
-
-    INSTANCE;
+@Component
+public class CompanyDAO implements ICompanyDAO {
 
     public static final String DATABASE_CONNECTION_ERROR = "Database connection error: ";
     public static final String TRANSACTION_ROLLED_BACK = "Transaction rolled back";

@@ -1,6 +1,8 @@
 package fr.ebiz.cdb.cli.launcher;
 
 import fr.ebiz.cdb.cli.ui.UserInterfaceCLI;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by bpestre on 17/02/17.
@@ -14,7 +16,11 @@ public class LauncherCLI {
      */
     public static void main(String[] args) {
 
-        UserInterfaceCLI.start();
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-config.xml");
+
+        UserInterfaceCLI userInterfaceCLI = (UserInterfaceCLI) applicationContext.getBean("userInterfaceCLI");
+
+        userInterfaceCLI.start();
 
     }
 

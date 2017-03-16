@@ -13,8 +13,11 @@ import fr.ebiz.cdb.servlet.utils.ServletHelper;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +41,18 @@ public class EditComputerServlet extends HttpServlet {
     private static final String COMPUTER = "computer";
     private static final String COMPUTER_JSP = "/WEB-INF/jsp/editComputer.jsp";
 
+    @Autowired
+    private IComputerService computerService;
+
+    @Autowired
+    private ICompanyService companyService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    }
+
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -47,8 +62,7 @@ public class EditComputerServlet extends HttpServlet {
         try {
 
             List<String> errors = ComputerValidator.validate(computerDTO);
-            if (!errors.isEmpty()) {
-                IComputerService computerService = ComputerService.INSTANCE;
+            if (errors.isEmpty()) {
                 Computer computer = ComputerMapper.mapToComputer(computerDTO);
 
                 computerService.update(computer);
@@ -68,12 +82,10 @@ public class EditComputerServlet extends HttpServlet {
 
         String id = req.getParameter(ID);
 
-        IComputerService computerService = ComputerService.INSTANCE;
         try {
             ComputerDTO computer = computerService.getDTO(Integer.valueOf(id));
             req.setAttribute(COMPUTER, computer);
 
-            ICompanyService companyService = CompanyService.INSTANCE;
             List<Company> companyList = companyService.fetchAll();
 
             req.setAttribute(COMPANY_LIST, companyList);

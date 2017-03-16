@@ -3,6 +3,8 @@ package fr.ebiz.cdb.cli.ui;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.impl.CompanyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -10,14 +12,18 @@ import java.util.Scanner;
 /**
  * Created by bpestre on 02/03/17.
  */
+@Component
 public class DeleteCompanyPage {
 
+    @Autowired
+    private ICompanyService companyService;
     /**
      *
      */
-    public static void display() {
+    public void display() {
 
-        ListCompanyPage.display(false);
+        new ListCompanyPage().display(false);
+
         System.out.println("Specify the id of the computer to delete :");
         Scanner sc = new Scanner(System.in);
         String id = sc.nextLine();
@@ -30,7 +36,6 @@ public class DeleteCompanyPage {
 
             switch (input) {
                 case "yes":
-                    ICompanyService companyService = CompanyService.INSTANCE;
                     try {
                         companyService.delete(Integer.valueOf(id.trim()));
                     } catch (DAOException | SQLException e) {

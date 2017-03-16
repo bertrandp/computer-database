@@ -5,25 +5,35 @@ import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
 import fr.ebiz.cdb.persistence.utils.DAOException;
+import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import static fr.ebiz.cdb.validation.ComputerValidator.DATE_FORMAT;
 
 /**
  * Created by ebiz on 16/02/17.
  */
+@Component
 public class CreateComputerPage {
 
     private static Logger logger = LoggerFactory.getLogger(CreateComputerPage.class);
 
+    @Autowired
+    private IComputerService computerService;
+
+    @Autowired
+    private MenuPage menuPage;
+
     /**
      * Display the page to create a computer.
      */
-    static void display() {
+    void display() {
 
         ComputerDTO newComputer = new ComputerDTO();
         System.out.println("* Create a computer ");
@@ -42,7 +52,6 @@ public class CreateComputerPage {
 
             ComputerValidator.validate(computerDTO);
 
-            IComputerService computerService = ComputerService.INSTANCE;
             Computer computer = ComputerMapper.mapToComputer(computerDTO);
 
             computerService.add(computer);
@@ -52,7 +61,7 @@ public class CreateComputerPage {
             display();
         }
 
-        MenuPage.display();
+        menuPage.display();
     }
 
     /**

@@ -7,8 +7,11 @@ import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +23,7 @@ import java.sql.SQLException;
 /**
  * Created by bpestre on 20/02/17.
  */
+
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
@@ -33,6 +37,14 @@ public class DashboardServlet extends HttpServlet {
     public static final String COLUMN = "column";
     private static final Logger LOGGER = LoggerFactory.getLogger(DashboardServlet.class);
 
+    @Autowired
+    private IComputerService computerService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -40,7 +52,7 @@ public class DashboardServlet extends HttpServlet {
         LOGGER.debug("parseRequest(request) " + page);
         ComputerPagerDTO pageValid = ComputerValidator.validate(page);
         LOGGER.debug("validate(page) " + pageValid);
-        IComputerService computerService = ComputerService.INSTANCE;
+        //IComputerService computerService = ComputerService.INSTANCE;
         ComputerPagerDTO pageToSend;
         try {
             pageToSend = computerService.fetchComputerList(pageValid);

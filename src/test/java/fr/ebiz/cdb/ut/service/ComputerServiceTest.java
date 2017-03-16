@@ -23,11 +23,11 @@ public class ComputerServiceTest {
     @Mock
     private IComputerDAO mockComputerDAO;
 
-    @Before
-    public void setUp() {
-        computerService = ComputerService.INSTANCE;
-        computerService.setComputerDAO(mockComputerDAO);
-    }
+//    @Before
+//    public void setUp() {
+//        //computerService = ComputerService.INSTANCE;
+//        computerService.setComputerDAO(mockComputerDAO);
+//    }
 
     // TODO fix this test, mock connection
     /*@Test

@@ -5,12 +5,13 @@ import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.persistence.ConnectionManager;
 import fr.ebiz.cdb.persistence.IComputerDAO;
-import fr.ebiz.cdb.persistence.impl.ComputerDAO;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,22 +23,16 @@ import static fr.ebiz.cdb.persistence.impl.CompanyDAO.TRANSACTION_ROLLED_BACK;
 /**
  * Created by ebiz on 14/02/17.
  */
-public enum ComputerService implements IComputerService {
+@Component
+public class ComputerService implements IComputerService {
 
-    INSTANCE;
 
     public static final String COMPUTER_NOT_FOUND = "Computer not found";
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
+
+    @Autowired
     private IComputerDAO computerDAO;
 
-    /**
-     * Computer service constructor.
-     */
-    ComputerService() {
-        this.computerDAO = ComputerDAO.INSTANCE;
-    }
-
-    @Override
     public void setComputerDAO(IComputerDAO computerDAO) {
         this.computerDAO = computerDAO;
     }

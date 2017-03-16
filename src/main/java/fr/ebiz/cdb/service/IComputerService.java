@@ -61,11 +61,4 @@ public interface IComputerService {
      */
     ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) throws DAOException, SQLException;
 
-    /**
-     * Set the computerDAO.
-     *
-     * @param computerDAO the computerDAO
-     */
-    void setComputerDAO(IComputerDAO computerDAO);
-
 }

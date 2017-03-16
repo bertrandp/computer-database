@@ -13,8 +13,11 @@ import fr.ebiz.cdb.servlet.utils.ServletHelper;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,6 +38,20 @@ public class AddComputerServlet extends HttpServlet {
     private static final String ADD_COMPUTER_JSP = "/WEB-INF/jsp/addComputer.jsp";
     private static final Logger LOGGER = LoggerFactory.getLogger(AddComputerServlet.class);
 
+
+    @Autowired
+    private IComputerService computerService;
+
+    @Autowired
+    private ICompanyService companyService;
+
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    }
+
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -44,8 +61,7 @@ public class AddComputerServlet extends HttpServlet {
         try {
 
             List<String> errors = ComputerValidator.validate(computerDTO);
-            if (!errors.isEmpty()) {
-                IComputerService computerService = ComputerService.INSTANCE;
+            if (errors.isEmpty()) {
                 Computer computer = ComputerMapper.mapToComputer(computerDTO);
 
                 computerService.add(computer);
@@ -63,7 +79,6 @@ public class AddComputerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        ICompanyService companyService = CompanyService.INSTANCE;
         List<Company> companyList;
 
         try {

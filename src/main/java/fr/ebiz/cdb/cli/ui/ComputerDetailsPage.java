@@ -6,26 +6,38 @@ import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 /**
  * Created by ebiz on 16/02/17.
  */
+@Component
 public class ComputerDetailsPage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDetailsPage.class);
 
+    @Autowired
+    private IComputerService computerService;
+
+    @Autowired
+    private MenuPage menuPage;
+
     /**
      * Display the details of a computer.
      */
-    static void display() {
+    void display() {
+
+
 
         Scanner sc = new Scanner(System.in);
         System.out.println("* Specify the computer's id :");
         String id = sc.nextLine();
 
-        IComputerService computerService = ComputerService.INSTANCE;
         ComputerDTO computer;
         try {
             computer = computerService.getDTO(Integer.valueOf(id));
@@ -40,9 +52,8 @@ public class ComputerDetailsPage {
 
         } catch (DAOException e) {
             LOGGER.error(e.getMessage());
-            // TODO handle exception
         }
 
-        MenuPage.display();
+        menuPage.display();
     }
 }

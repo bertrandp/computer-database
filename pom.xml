@@ -110,6 +110,12 @@
             <version>${logback-classic.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j-api.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <!--MySQL Driver-->
         <dependency>
@@ -137,6 +143,25 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>${HikariCP.version}</version>
+        </dependency>
+
+        <!--Spring-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <!--Testing-->
@@ -190,6 +215,7 @@
         <HikariCP.version>2.6.0</HikariCP.version>
         <ibatis-sqlmap.version>2.3.0</ibatis-sqlmap.version>
         <surefire-junit47.version>2.19.1</surefire-junit47.version>
+        <spring.version>4.3.7.RELEASE</spring.version>
     </properties>
 
 </project>

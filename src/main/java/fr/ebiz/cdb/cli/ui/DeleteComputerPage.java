@@ -7,6 +7,8 @@ import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,20 +16,26 @@ import java.util.Scanner;
 /**
  * Created by ebiz on 16/02/17.
  */
+@Component
 public class DeleteComputerPage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteComputerPage.class);
 
+    @Autowired
+    private IComputerService computerService;
+
+    @Autowired
+    private MenuPage menuPage;
+
     /**
      * Display the page to delete a computer.
      */
-    static void display() {
+    void display() {
         Scanner sc = new Scanner(System.in);
         System.out.println("* Specify the computer's id :");
         String id = sc.nextLine();
 
         if (!id.trim().isEmpty()) {
-            IComputerService computerService = ComputerService.INSTANCE;
             ComputerDTO computer;
             try {
                 computer = computerService.getDTO(Integer.valueOf(id));
@@ -39,10 +47,10 @@ public class DeleteComputerPage {
                     case "yes":
 
                         computerService.delete(new ArrayList<>(computer.getId()));
-                        MenuPage.display();
+                        menuPage.display();
                         break;
                     default:
-                        MenuPage.display();
+                        menuPage.display();
                         break;
                 }
             } catch (DAOException e) {

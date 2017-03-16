@@ -10,26 +10,35 @@ import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 /**
  * Created by ebiz on 16/02/17.
  */
+@Component
 public class UpdateComputerPage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateComputerPage.class);
 
+    @Autowired
+    private IComputerService computerService;
+
+    @Autowired
+    private MenuPage menuPage;
+
     /**
      * Display the page to update a computer.
      */
-    static void display() {
+    void display() {
         Scanner sc = new Scanner(System.in);
         System.out.println("* Specify the computer's id :");
         String id = sc.nextLine();
 
         if (!id.trim().isEmpty()) {
-            IComputerService computerService = ComputerService.INSTANCE;
+
             ComputerDTO computer;
             try {
 
@@ -54,7 +63,7 @@ public class UpdateComputerPage {
 
                 computerService.update(computerToAdd);
 
-                MenuPage.display();
+                menuPage.display();
 
             } catch (DAOException e) {
                 LOGGER.error(e.getMessage());

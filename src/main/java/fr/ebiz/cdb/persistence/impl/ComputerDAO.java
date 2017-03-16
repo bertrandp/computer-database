@@ -10,6 +10,8 @@ import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,11 +21,10 @@ import java.util.List;
 import static fr.ebiz.cdb.persistence.impl.CompanyDAO.DATABASE_CONNECTION_ERROR;
 
 /**
- * Created by ebiz on 15/02/17.
+ * Created by Bertrand Pestre on 15/02/17.
  */
-public enum ComputerDAO implements IComputerDAO {
-
-    INSTANCE;
+@Component
+public class ComputerDAO implements IComputerDAO {
 
     public static final String ERROR_CREATING_THE_COMPUTER = "Error creating the computer";
     public static final String ERROR_UPDATING_THE_COMPUTER = "Error updating the computer";

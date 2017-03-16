@@ -5,27 +5,35 @@ import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.impl.CompanyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Created by ebiz on 16/02/17.
  */
+@Component
 public class ListCompanyPage {
+
+    @Autowired
+    private ICompanyService companyService;
+
+    @Autowired
+    private MenuPage menuPage;
 
     /**
      * Display the page of the list of company.
      *
      * @param withMenu whether the menu should be displayed after the list or not
      */
-    static void display(boolean withMenu) {
+    void display(boolean withMenu) {
         System.out.println("");
         System.out.println("*********************");
         System.out.println("*     Companies     *");
         System.out.println("*********************");
         System.out.println("");
 
-        ICompanyService companyService = CompanyService.INSTANCE;
         List<Company> listCompany = null;
         try {
             listCompany = companyService.fetchAll();
@@ -41,7 +49,7 @@ public class ListCompanyPage {
         }
 
         if (withMenu) {
-            MenuPage.display();
+            menuPage.display();
         }
     }
 

@@ -1,16 +1,23 @@
 package fr.ebiz.cdb.cli.ui;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 /**
  * Created by ebiz on 15/02/17.
  */
+@Component
 public class UserInterfaceCLI {
+
+    @Autowired
+    private MenuPage menuPage;
 
     /**
      * Start the CLI.
      */
-    public static void start() {
+    public void start() {
         init();
-        MenuPage.display();
+        menuPage.display();
     }
 
     /**

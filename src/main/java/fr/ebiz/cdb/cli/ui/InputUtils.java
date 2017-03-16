@@ -26,7 +26,7 @@ public class InputUtils {
      * @return the input
      */
     static String inputCompanyId(ComputerDTO computer) {
-        ListCompanyPage.display(false);
+        new ListCompanyPage().display(false);
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {

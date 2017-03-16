@@ -2,20 +2,41 @@ package fr.ebiz.cdb.cli.ui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 /**
  * Created by ebiz on 16/02/17.
  */
+@Component
 public class MenuPage {
 
     private static Logger logger = LoggerFactory.getLogger(MenuPage.class);
 
+    @Autowired
+    private ListCompanyPage listCompanyPage;
+    @Autowired
+    private ComputerDetailsPage computerDetailsPage;
+    @Autowired
+    private CreateComputerPage createComputerPage;
+    @Autowired
+    private UpdateComputerPage updateComputerPage;
+    @Autowired
+    private DeleteComputerPage deleteComputerPage;
+    @Autowired
+    private PagedListComputerPage pagedListComputerPage;
+    @Autowired
+    private DeleteCompanyPage deleteCompanyPage;
+
+
+
     /**
      * Display the menu of the CLI.
      */
-    static void display() {
+    void display() {
+
         System.out.println("");
         System.out.println("*");
         System.out.println("**  Computer Database Application : Menu ");
@@ -37,25 +58,25 @@ public class MenuPage {
             case "0":
                 break;
             case "2":
-                ListCompanyPage.display(true);
+                listCompanyPage.display(true);
                 break;
             case "3":
-                ComputerDetailsPage.display();
+                computerDetailsPage.display();
                 break;
             case "4":
-                CreateComputerPage.display();
+                createComputerPage.display();
                 break;
             case "5":
-                UpdateComputerPage.display();
+                updateComputerPage.display();
                 break;
             case "6":
-                DeleteComputerPage.display();
+                deleteComputerPage.display();
                 break;
             case "7":
-                PagedListComputerPage.display();
+                pagedListComputerPage.display();
                 break;
             case "8":
-                DeleteCompanyPage.display();
+                deleteCompanyPage.display();
                 break;
             default:
                 logger.error(" *** Error : Wrong entry (the entry must be a number from 0 to 6)");

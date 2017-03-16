@@ -4,9 +4,12 @@ package fr.ebiz.cdb.cli.ui;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.persistence.utils.DAOException;
+import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,12 +18,20 @@ import java.util.Scanner;
 /**
  * Created by ebiz on 16/02/17.
  */
+@Component
 public class PagedListComputerPage {
+
+
+    @Autowired
+    private IComputerService computerService;
+
+    @Autowired
+    private MenuPage menuPage;
 
     /**
      * Display page title.
      */
-    static void display() {
+    void display() {
 
         System.out.flush();
         System.out.println("*********************");
@@ -37,14 +48,10 @@ public class PagedListComputerPage {
      * @param page  the current page
      * @param limit the limit
      */
-    private static void displayComputerPage(int page, int limit) {
+    private void displayComputerPage(int page, int limit) {
         System.out.println("---------------------------------------------------------");
         System.out.println("|\t" + "n°" + "\t\tName");
         System.out.println("---------------------------------------------------------");
-
-        IComputerService computerService = ComputerService.INSTANCE;
-
-        //ComputerPagerDTO pager = computerService.getPagedComputerDTOList(String.valueOf(page), String.valueOf(limit), null);
 
         ComputerPagerDTO pager = new ComputerPagerDTO.Builder().currentPage(page).limit(limit).build();
         ComputerPagerDTO pageValid = ComputerValidator.validate(pager);
@@ -63,7 +70,7 @@ public class PagedListComputerPage {
         String input = sc.nextLine();
         switch (input.trim()) {
             case "0":
-                MenuPage.display();
+                menuPage.display();
                 break;
             case "1":
                 displayComputerPage(pageValid.getCurrentPage() - 1, pageValid.getLimit());

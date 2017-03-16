@@ -5,7 +5,10 @@ import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.service.impl.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,12 +29,20 @@ public class DeleteComputerServlet extends HttpServlet {
     public static final String SELECTION = "selection";
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteComputerServlet.class);
 
+    @Autowired
+    private IComputerService computerService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         List<Integer> idList = parseIdList(req);
         LOGGER.debug(" IDs of computers to delete : " + idList);
-        IComputerService computerService = ComputerService.INSTANCE;
+
         try {
             computerService.delete(idList);
         } catch (DAOException e) {
