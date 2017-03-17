@@ -7,8 +7,6 @@ import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.impl.CompanyService;
-import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.servlet.utils.ServletHelper;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;

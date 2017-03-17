@@ -5,9 +5,7 @@ import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
 import fr.ebiz.cdb.persistence.utils.DAOException;
-import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,40 +27,6 @@ public class CreateComputerPage {
 
     @Autowired
     private MenuPage menuPage;
-
-    /**
-     * Display the page to create a computer.
-     */
-    void display() {
-
-        ComputerDTO newComputer = new ComputerDTO();
-        System.out.println("* Create a computer ");
-        String name = writeName(newComputer);
-        String introduced = writeIntroduced(newComputer);
-        String discontinued = writeDiscontinued(newComputer);
-        String companyId = writeCompany(newComputer);
-
-        try {
-            ComputerDTO computerDTO = new ComputerDTO.Builder()
-                    .name(name)
-                    .introduced(introduced)
-                    .discontinued(discontinued)
-                    .companyId(Integer.valueOf(companyId))
-                    .build();
-
-            ComputerValidator.validate(computerDTO);
-
-            Computer computer = ComputerMapper.mapToComputer(computerDTO);
-
-            computerService.add(computer);
-
-        } catch (DAOException e) {
-            logger.error("*** Error : " + e.getMessage());
-            display();
-        }
-
-        menuPage.display();
-    }
 
     /**
      * Create the name of the computer.
@@ -109,5 +73,39 @@ public class CreateComputerPage {
         System.out.println("* Company : ");
         System.out.println("* (optional) ");
         return InputUtils.inputCompanyId(newComputer);
+    }
+
+    /**
+     * Display the page to create a computer.
+     */
+    void display() {
+
+        ComputerDTO newComputer = new ComputerDTO();
+        System.out.println("* Create a computer ");
+        String name = writeName(newComputer);
+        String introduced = writeIntroduced(newComputer);
+        String discontinued = writeDiscontinued(newComputer);
+        String companyId = writeCompany(newComputer);
+
+        try {
+            ComputerDTO computerDTO = new ComputerDTO.Builder()
+                    .name(name)
+                    .introduced(introduced)
+                    .discontinued(discontinued)
+                    .companyId(Integer.valueOf(companyId))
+                    .build();
+
+            ComputerValidator.validate(computerDTO);
+
+            Computer computer = ComputerMapper.mapToComputer(computerDTO);
+
+            computerService.add(computer);
+
+        } catch (DAOException e) {
+            logger.error("*** Error : " + e.getMessage());
+            display();
+        }
+
+        menuPage.display();
     }
 }

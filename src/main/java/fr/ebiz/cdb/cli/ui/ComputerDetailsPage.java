@@ -3,12 +3,9 @@ package fr.ebiz.cdb.cli.ui;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.impl.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -31,7 +28,6 @@ public class ComputerDetailsPage {
      * Display the details of a computer.
      */
     void display() {
-
 
 
         Scanner sc = new Scanner(System.in);

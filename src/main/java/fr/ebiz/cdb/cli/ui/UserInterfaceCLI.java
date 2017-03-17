@@ -13,14 +13,6 @@ public class UserInterfaceCLI {
     private MenuPage menuPage;
 
     /**
-     * Start the CLI.
-     */
-    public void start() {
-        init();
-        menuPage.display();
-    }
-
-    /**
      * Display welcome message.
      */
     private static void init() {
@@ -28,6 +20,14 @@ public class UserInterfaceCLI {
         System.out.println("******************************************");
         System.out.println("*     Computer Database Application      *");
         System.out.println("******************************************");
+    }
+
+    /**
+     * Start the CLI.
+     */
+    public void start() {
+        init();
+        menuPage.display();
     }
 
 }

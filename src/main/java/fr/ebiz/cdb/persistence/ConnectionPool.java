@@ -2,17 +2,12 @@ package fr.ebiz.cdb.persistence;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import fr.ebiz.cdb.persistence.utils.DAOConfigurationException;
-import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
 
 /**
  * Singleton class that handles the connection with the database.

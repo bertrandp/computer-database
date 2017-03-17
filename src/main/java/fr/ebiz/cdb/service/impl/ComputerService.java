@@ -45,7 +45,6 @@ public class ComputerService implements IComputerService {
         ComputerDTO computer;
         try {
             computer = computerDAO.fetchDTOById(id);
-            //connection.commit();
 
             if (computer == null) {
                 throw new DAOException(COMPUTER_NOT_FOUND);
@@ -70,11 +69,7 @@ public class ComputerService implements IComputerService {
         Connection connection = connectionManager.getConnection();
         try {
 
-            // Add the computer
             computerDAO.add(computer);
-
-            // Commit the transaction
-            //connection.commit();
 
             return true;
         } catch (SQLException e) {
@@ -93,11 +88,8 @@ public class ComputerService implements IComputerService {
 
         Connection connection = connectionManager.getConnection();
         try {
-            // Add the computer
-            computerDAO.update(computer);
 
-            // Commit the transaction
-            //connection.commit();
+            computerDAO.update(computer);
 
             return true;
         } catch (SQLException e) {
@@ -119,8 +111,6 @@ public class ComputerService implements IComputerService {
             for (Integer id : idList) {
                 computerDAO.delete(id);
             }
-            //connection.commit();
-
             return true;
         } catch (SQLException e) {
             throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
@@ -134,7 +124,7 @@ public class ComputerService implements IComputerService {
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) throws DAOException, SQLException {
 
         Connection connection = connectionManager.getConnection();
@@ -154,12 +144,9 @@ public class ComputerService implements IComputerService {
             //page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), connection));
             page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), page.getOrder(), page.getColumn()));
 
-            //connection.commit();
-
             return page;
 
         } catch (DAOException | SQLException e) {
-            //connection.rollback();
             throw new DAOException(TRANSACTION_ROLLED_BACK, e);
         } finally {
             connectionManager.closeConnection();

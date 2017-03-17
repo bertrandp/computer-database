@@ -2,7 +2,6 @@ package fr.ebiz.cdb.cli.ui;
 
 import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
-import fr.ebiz.cdb.service.impl.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +19,7 @@ public class DeleteCompanyPage {
 
     @Autowired
     private ListCompanyPage listCompanyPage;
+
     /**
      *
      */

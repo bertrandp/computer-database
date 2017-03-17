@@ -4,7 +4,6 @@ package fr.ebiz.cdb.service;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
-import fr.ebiz.cdb.persistence.IComputerDAO;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 
 import java.sql.SQLException;

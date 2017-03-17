@@ -24,6 +24,9 @@ import java.sql.SQLException;
 @Suite.SuiteClasses({DashboardPaginationTest.class, FormAddComputerTest.class, OrderByTest.class, SortTest.class})
 public class TestSuiteIT {
 
+    @Autowired
+    private ConnectionManager connectionManager;
+
     @BeforeClass
     public void setUp() {
         cleanUpDb();
@@ -33,9 +36,6 @@ public class TestSuiteIT {
     public void tearDown() {
         cleanUpDb();
     }
-
-    @Autowired
-    private ConnectionManager connectionManager;
 
     private void cleanUpDb() {
 

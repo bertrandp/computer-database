@@ -5,8 +5,6 @@ import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.persistence.ConnectionManager;
 import fr.ebiz.cdb.persistence.ICompanyDAO;
 import fr.ebiz.cdb.persistence.IComputerDAO;
-import fr.ebiz.cdb.persistence.impl.CompanyDAO;
-import fr.ebiz.cdb.persistence.impl.ComputerDAO;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import org.slf4j.Logger;
@@ -49,12 +47,9 @@ public class CompanyService implements ICompanyService {
 
         try {
             List<Company> list = companyDAO.fetchAll();
-            //connection.commit();
 
             return list;
 
-//        } catch (SQLException e) {
-//            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         } finally {
             try {
                 connectionManager.closeConnection();
@@ -71,16 +66,12 @@ public class CompanyService implements ICompanyService {
 
         try {
             Company company = companyDAO.fetch(companyId);
-            //connection.commit();
 
             if (company == null) {
                 throw new DAOException(COMPANY_NOT_FOUND);
             }
 
             return company;
-
-        //} catch (SQLException e) {
-        //    throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         } finally {
             try {
                 connectionManager.closeConnection();
@@ -97,18 +88,9 @@ public class CompanyService implements ICompanyService {
         Connection connection = connectionManager.getConnection();
 
         try {
-
             connection.setAutoCommit(false);
-
-            // delete computers by company id
             computerDAO.deleteByCompanyId(id);
-
-
-            // delete company
             companyDAO.delete(id);
-
-            //connection.commit();
-
             return true;
         } catch (DAOException | SQLException e) {
             throw new DAOException(TRANSACTION_ROLLED_BACK, e);

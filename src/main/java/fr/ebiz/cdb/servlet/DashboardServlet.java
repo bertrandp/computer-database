@@ -3,7 +3,6 @@ package fr.ebiz.cdb.servlet;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.impl.ComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +51,7 @@ public class DashboardServlet extends HttpServlet {
         LOGGER.debug("parseRequest(request) " + page);
         ComputerPagerDTO pageValid = ComputerValidator.validate(page);
         LOGGER.debug("validate(page) " + pageValid);
-        //IComputerService computerService = ComputerService.INSTANCE;
+
         ComputerPagerDTO pageToSend;
         try {
             pageToSend = computerService.fetchComputerList(pageValid);

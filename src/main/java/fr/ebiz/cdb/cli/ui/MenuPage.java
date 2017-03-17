@@ -31,7 +31,6 @@ public class MenuPage {
     private DeleteCompanyPage deleteCompanyPage;
 
 
-
     /**
      * Display the menu of the CLI.
      */

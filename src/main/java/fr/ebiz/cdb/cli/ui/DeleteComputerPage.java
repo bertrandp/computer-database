@@ -4,7 +4,6 @@ package fr.ebiz.cdb.cli.ui;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.service.impl.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
