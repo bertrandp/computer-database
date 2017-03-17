@@ -17,12 +17,15 @@ public class DeleteCompanyPage {
 
     @Autowired
     private ICompanyService companyService;
+
+    @Autowired
+    private ListCompanyPage listCompanyPage;
     /**
      *
      */
     public void display() {
 
-        new ListCompanyPage().display(false);
+        listCompanyPage.display(false);
 
         System.out.println("Specify the id of the computer to delete :");
         Scanner sc = new Scanner(System.in);

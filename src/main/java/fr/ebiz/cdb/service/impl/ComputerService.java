@@ -139,6 +139,9 @@ public class ComputerService implements IComputerService {
 
         Connection connection = connectionManager.getConnection();
         try {
+
+            connection.setAutoCommit(false);
+
             // Count the number of computers
             page.setCount(computerDAO.count(page.getSearch()));
 

@@ -91,15 +91,18 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional
     public boolean delete(Integer id) throws SQLException, DAOException {
 
         Connection connection = connectionManager.getConnection();
 
         try {
 
+            connection.setAutoCommit(false);
+
             // delete computers by company id
             computerDAO.deleteByCompanyId(id);
+
 
             // delete company
             companyDAO.delete(id);
