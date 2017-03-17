@@ -6,6 +6,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,18 +25,21 @@ import java.sql.SQLException;
 public class TestSuiteIT {
 
     @BeforeClass
-    public static void setUp() {
+    public void setUp() {
         cleanUpDb();
     }
 
     @AfterClass
-    public static void tearDown() {
+    public void tearDown() {
         cleanUpDb();
     }
 
-    private static void cleanUpDb() {
+    @Autowired
+    private ConnectionManager connectionManager;
 
-        Connection connection = ConnectionManager.getConnection();
+    private void cleanUpDb() {
+
+        Connection connection = connectionManager.getConnection();
 
         try {
 
@@ -59,7 +63,7 @@ public class TestSuiteIT {
             e.printStackTrace();
         } finally {
             try {
-                ConnectionManager.closeConnection();
+                connectionManager.closeConnection();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

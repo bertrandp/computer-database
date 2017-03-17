@@ -10,6 +10,7 @@ import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -42,12 +43,15 @@ public class ComputerDAO implements IComputerDAO {
     private static final String SQL_DELETE_BY_COMPANY_ID = "DELETE FROM computer WHERE company_id = ?";
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 
+    @Autowired
+    private ConnectionManager connectionManager;
+
     @Override
     public Computer fetchById(int id) throws SQLException, DAOException {
         Computer computer;
 
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_SELECT + WHERE_ID, true, id);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_SELECT + WHERE_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             computer = ComputerMapper.mapToComputer(resultSet);
@@ -62,7 +66,7 @@ public class ComputerDAO implements IComputerDAO {
     public ComputerDTO fetchDTOById(Integer id) throws SQLException, DAOException {
         ComputerDTO computer;
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_SELECT + WHERE_ID, true, id);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_SELECT + WHERE_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             computer = ComputerMapper.mapToComputerDTO(resultSet);
@@ -76,7 +80,7 @@ public class ComputerDAO implements IComputerDAO {
     @Override
     public boolean add(Computer computer) throws SQLException, DAOException {
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_INSERT, true, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId())
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_INSERT, true, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId())
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
@@ -92,7 +96,7 @@ public class ComputerDAO implements IComputerDAO {
     @Override
     public boolean update(Computer computer) throws SQLException, DAOException {
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_UPDATE, true, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId(), computer.getId())
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_UPDATE, true, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId(), computer.getId())
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
@@ -109,7 +113,7 @@ public class ComputerDAO implements IComputerDAO {
     @Override
     public boolean delete(int computerId) throws SQLException, DAOException {
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_DELETE, true, computerId)
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_DELETE, true, computerId)
         ) {
             int status = preparedStatement.executeUpdate();
             if (status == 0) {
@@ -125,7 +129,7 @@ public class ComputerDAO implements IComputerDAO {
     @Override
     public boolean deleteByCompanyId(Integer id) throws SQLException, DAOException {
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_DELETE_BY_COMPANY_ID, true, id)
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_DELETE_BY_COMPANY_ID, true, id)
         ) {
             preparedStatement.executeUpdate();
 
@@ -144,7 +148,7 @@ public class ComputerDAO implements IComputerDAO {
 
         String orderByQuery = DAOHelper.buildOrderByQuery(order, column);
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_SELECT + LIKE + orderByQuery + LIMIT_OFFSET, true, like, like, limit, offset);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_SELECT + LIKE + orderByQuery + LIMIT_OFFSET, true, like, like, limit, offset);
              ResultSet resultSet = preparedStatement.executeQuery()
         ) {
             list = ComputerMapper.mapToComputerDTOList(resultSet);
@@ -160,7 +164,7 @@ public class ComputerDAO implements IComputerDAO {
         int count = 0;
 
         if (search == null) {
-            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_COUNT, true);
+            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_COUNT, true);
                  ResultSet resultSet = preparedStatement.executeQuery()
             ) {
                 if (resultSet.next()) {
@@ -171,7 +175,7 @@ public class ComputerDAO implements IComputerDAO {
             }
         } else {
             String like = "%" + search + "%";
-            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), COUNT_WITH_SEARCH + LIKE, true, like, like);
+            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), COUNT_WITH_SEARCH + LIKE, true, like, like);
                  ResultSet resultSet = preparedStatement.executeQuery()
             ) {
                 if (resultSet.next()) {

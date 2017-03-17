@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -37,31 +38,26 @@ public class CompanyService implements ICompanyService {
     @Autowired
     private IComputerDAO computerDAO;
 
-    public void setCompanyDAO(ICompanyDAO companyDAO) {
-        this.companyDAO = companyDAO;
-    }
-
-    public void setComputerDAO(IComputerDAO computerDAO) {
-        this.computerDAO = computerDAO;
-    }
+    @Autowired
+    private ConnectionManager connectionManager;
 
 
     @Override
     public List<Company> fetchAll() throws DAOException {
 
-        Connection connection = ConnectionManager.getConnection();
+        Connection connection = connectionManager.getConnection();
 
         try {
             List<Company> list = companyDAO.fetchAll();
-            connection.commit();
+            //connection.commit();
 
             return list;
 
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+//        } catch (SQLException e) {
+//            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         } finally {
             try {
-                ConnectionManager.closeConnection();
+                connectionManager.closeConnection();
             } catch (SQLException e) {
                 throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
             }
@@ -71,11 +67,11 @@ public class CompanyService implements ICompanyService {
     @Override
     public Company fetchById(Integer companyId) throws DAOException {
 
-        Connection connection = ConnectionManager.getConnection();
+        Connection connection = connectionManager.getConnection();
 
         try {
             Company company = companyDAO.fetch(companyId);
-            connection.commit();
+            //connection.commit();
 
             if (company == null) {
                 throw new DAOException(COMPANY_NOT_FOUND);
@@ -83,11 +79,11 @@ public class CompanyService implements ICompanyService {
 
             return company;
 
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        //} catch (SQLException e) {
+        //    throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         } finally {
             try {
-                ConnectionManager.closeConnection();
+                connectionManager.closeConnection();
             } catch (SQLException e) {
                 throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
             }
@@ -95,9 +91,10 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
+    @Transactional(rollbackFor=Exception.class)
     public boolean delete(Integer id) throws SQLException, DAOException {
 
-        Connection connection = ConnectionManager.getConnection();
+        Connection connection = connectionManager.getConnection();
 
         try {
 
@@ -107,14 +104,13 @@ public class CompanyService implements ICompanyService {
             // delete company
             companyDAO.delete(id);
 
-            connection.commit();
+            //connection.commit();
 
             return true;
         } catch (DAOException | SQLException e) {
-            connection.rollback();
             throw new DAOException(TRANSACTION_ROLLED_BACK, e);
         } finally {
-            ConnectionManager.closeConnection();
+            connectionManager.closeConnection();
         }
 
     }

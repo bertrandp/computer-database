@@ -8,6 +8,7 @@ import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -30,11 +31,14 @@ public class CompanyDAO implements ICompanyDAO {
     private static final String SQL_DELETE = "DELETE FROM company WHERE id = ?";
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAO.class);
 
+    @Autowired
+    private ConnectionManager connectionManager;
+
     @Override
     public List<Company> fetchAll() throws DAOException {
         List<Company> list;
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_SELECT, true);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_SELECT, true);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             list = CompanyMapper.mapToCompanyList(resultSet);
@@ -49,7 +53,7 @@ public class CompanyDAO implements ICompanyDAO {
     public Company fetch(int id) throws DAOException {
         Company company;
 
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(ConnectionManager.getConnection(), SQL_SELECT_BY_ID, true, id);
+        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_SELECT_BY_ID, true, id);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             company = CompanyMapper.mapToCompany(resultSet);
@@ -63,7 +67,7 @@ public class CompanyDAO implements ICompanyDAO {
     @Override
     public boolean delete(Integer id) throws DAOException, SQLException {
 
-        Connection connection = ConnectionManager.getConnection();
+        Connection connection = connectionManager.getConnection();
 
         try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, id)
         ) {

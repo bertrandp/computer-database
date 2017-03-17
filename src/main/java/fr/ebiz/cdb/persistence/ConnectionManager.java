@@ -2,27 +2,37 @@ package fr.ebiz.cdb.persistence;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
  * Created by bpestre on 06/03/17.
  */
+@Component
 public class ConnectionManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
 
-    private static ThreadLocal<Connection> connection = ThreadLocal.withInitial(() -> {
+//    @Autowired
+//    private ConnectionPool connectionPool;
+
+    @Autowired
+    private DataSource dataSource;
+
+    private ThreadLocal<Connection> connection = ThreadLocal.withInitial(() -> {
         try {
-            return ConnectionPool.INSTANCE.getConnection();
+            return dataSource.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to get connection from datasource");
             return null;
         }
     });
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         return connection.get();
     }
 
@@ -31,7 +41,7 @@ public class ConnectionManager {
      *
      * @throws SQLException exception raised if there is an error when closing the connection
      */
-    public static void closeConnection() throws SQLException {
+    public void closeConnection() throws SQLException {
         connection.get().close();
         connection.remove();
     }

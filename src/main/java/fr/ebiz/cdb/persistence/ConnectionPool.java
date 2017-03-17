@@ -6,7 +6,10 @@ import fr.ebiz.cdb.persistence.utils.DAOConfigurationException;
 import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -17,13 +20,12 @@ import java.util.Properties;
  * <p>
  * Created by bpestre on 14/02/17.
  */
-public enum ConnectionPool {
 
-    INSTANCE;
+public class ConnectionPool {
 
-    public static final String CACHE_PREP_STMTS = "cachePrepStmts";
-    public static final String PREP_STMT_CACHE_SIZE = "prepStmtCacheSize";
-    public static final String PREP_STMT_CACHE_SQL_LIMIT = "prepStmtCacheSqlLimit";
+    private static final String CACHE_PREP_STMTS = "cachePrepStmts";
+    private static final String PREP_STMT_CACHE_SIZE = "prepStmtCacheSize";
+    private static final String PREP_STMT_CACHE_SQL_LIMIT = "prepStmtCacheSqlLimit";
     private static final String PROPERTY_URL = "url";
     private static final String PROPERTY_DRIVER = "driver";
     private static final String PROPERTY_USERNAME = "username";
@@ -31,23 +33,27 @@ public enum ConnectionPool {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionPool.class);
     private static HikariDataSource ds;
 
+
+    private DataSource dataSource;
+
     /**
      * ConnectionPool constructor. Fetch the database connection properties and instantiate the driver.
      */
-    static {
+    public ConnectionPool() {
 
-        Properties properties = null;
-        try {
-            properties = DAOHelper.readPropertiesFile();
-        } catch (DAOConfigurationException e) {
-            LOGGER.error(e.getMessage());
-        }
+//        Properties properties = null;
+//        try {
+//            properties = DAOHelper.readPropertiesFile();
+//        } catch (DAOConfigurationException e) {
+//            LOGGER.error(e.getMessage());
+//        }
 
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(properties.getProperty(PROPERTY_URL));
-        config.setUsername(properties.getProperty(PROPERTY_USERNAME));
-        config.setPassword(properties.getProperty(PROPERTY_PASSWORD));
-        config.setDriverClassName(properties.getProperty(PROPERTY_DRIVER));
+        config.setDataSource(dataSource);
+//        config.setJdbcUrl(properties.getProperty(PROPERTY_URL));
+//        config.setUsername(properties.getProperty(PROPERTY_USERNAME));
+//        config.setPassword(properties.getProperty(PROPERTY_PASSWORD));
+//        config.setDriverClassName(properties.getProperty(PROPERTY_DRIVER));
         config.addDataSourceProperty(CACHE_PREP_STMTS, "true");
         config.addDataSourceProperty(PREP_STMT_CACHE_SIZE, "250");
         config.addDataSourceProperty(PREP_STMT_CACHE_SQL_LIMIT, "2048");
