@@ -54,7 +54,6 @@ public class TestSuiteIT {
         try {
 
             ScriptRunner sr = new ScriptRunner(connection, false, false);
-            connection.commit();
 
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             File file = new File(classLoader.getResource("db/1-SCHEMA.sql").getFile());
