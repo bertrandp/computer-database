@@ -17,7 +17,7 @@ public interface ICompanyService {
      * @return the list of company
      * @throws DAOException exception raised if there is an error with DAO
      */
-    List<Company> fetchAll() throws DAOException;
+    List<Company> fetchAll();
 
     /**
      * Retrieve the company for the given id.
@@ -35,5 +35,5 @@ public interface ICompanyService {
      * @return true if the company is deleted
      * @throws DAOException exception raised if there is an error with DAO
      */
-    boolean delete(Integer id) throws DAOException;
+    boolean delete(Integer id);
 }

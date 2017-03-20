@@ -1,13 +1,11 @@
 package fr.ebiz.cdb.servlet;
 
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.RequestDispatcher;
@@ -23,7 +21,6 @@ import java.io.IOException;
  * Created by bpestre on 20/02/17.
  */
 
-@Controller
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
@@ -53,12 +50,7 @@ public class DashboardServlet extends HttpServlet {
         ComputerPagerDTO pageValid = ComputerValidator.validate(page);
         LOGGER.debug("validate(page) " + pageValid);
 
-        ComputerPagerDTO pageToSend;
-        try {
-            pageToSend = computerService.fetchComputerList(pageValid);
-        } catch (DAOException e) {
-            throw new ServletException(e);
-        }
+        ComputerPagerDTO pageToSend = computerService.fetchComputerList(pageValid);
 
         request.setAttribute(PAGER, pageToSend);
 

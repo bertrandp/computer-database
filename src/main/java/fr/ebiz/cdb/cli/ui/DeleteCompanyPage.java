@@ -1,6 +1,5 @@
 package fr.ebiz.cdb.cli.ui;
 
-import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,11 +37,8 @@ public class DeleteCompanyPage {
 
             switch (input) {
                 case "yes":
-                    try {
-                        companyService.delete(Integer.valueOf(id.trim()));
-                    } catch (DAOException e) {
-                        System.out.println(e.getMessage());
-                    }
+                    companyService.delete(Integer.valueOf(id.trim()));
+
             }
 
         }

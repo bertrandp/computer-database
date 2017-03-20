@@ -28,20 +28,23 @@ public class UpdateComputerPage {
     @Autowired
     private MenuPage menuPage;
 
+    @Autowired
+    private InputUtils inputUtils;
+
     /**
      * Display the current company name of the given computer and ask for an update.
      *
      * @param computer the computer to update
      * @return the input
      */
-    private static String updateCompany(ComputerDTO computer) {
+    private String updateCompany(ComputerDTO computer) {
         if (computer.getCompanyName() != null) {
             System.out.println("* Company Name : " + computer.getCompanyName());
         } else {
             System.out.println("* Company Name : undefined");
         }
         System.out.println("* Specify the new id of the company company or press Enter ");
-        return InputUtils.inputCompanyId(computer);
+        return inputUtils.inputCompanyId(computer);
     }
 
     /**
@@ -50,10 +53,10 @@ public class UpdateComputerPage {
      * @param computer the computer to update
      * @return the input
      */
-    private static String updateDiscontinuedDate(ComputerDTO computer) {
+    private String updateDiscontinuedDate(ComputerDTO computer) {
         System.out.println("* Discontinued Date : " + computer.getDiscontinued());
         System.out.println("* Specify the new discontinued date or press Enter ");
-        return InputUtils.inputDiscontinuedDate(computer);
+        return inputUtils.inputDiscontinuedDate(computer);
     }
 
     /**
@@ -62,10 +65,10 @@ public class UpdateComputerPage {
      * @param computer the computer to update
      * @return the input
      */
-    private static String updateIntroducedDate(ComputerDTO computer) {
+    private String updateIntroducedDate(ComputerDTO computer) {
         System.out.println("* Introduced Date : " + computer.getIntroduced());
         System.out.println("* Specify the new introduced date or press Enter ");
-        return InputUtils.inputIntroducedDate(computer);
+        return inputUtils.inputIntroducedDate(computer);
     }
 
     /**
@@ -74,10 +77,10 @@ public class UpdateComputerPage {
      * @param computer the computer to update
      * @return the input
      */
-    private static String updateName(ComputerDTO computer) {
+    private String updateName(ComputerDTO computer) {
         System.out.println("* Name : " + computer.getName());
         System.out.println("* Specify the new name or press Enter to keep this name ");
-        return InputUtils.inputName(computer);
+        return inputUtils.inputName(computer);
     }
 
     /**

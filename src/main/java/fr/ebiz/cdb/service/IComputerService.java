@@ -29,7 +29,7 @@ public interface IComputerService {
      * @return true if the computer is added
      * @throws DAOException exception raised if there is an error with DAO
      */
-    boolean add(Computer computer) throws DAOException;
+    boolean add(Computer computer);
 
     /**
      * Update the given computer.
@@ -38,7 +38,7 @@ public interface IComputerService {
      * @return true if the computer is updated
      * @throws DAOException exception raised if there is an error with DAO
      */
-    boolean update(Computer computer) throws DAOException;
+    boolean update(Computer computer);
 
     /**
      * Delete the given computer.
@@ -47,7 +47,7 @@ public interface IComputerService {
      * @return true if the computers are deleted
      * @throws DAOException exception raised if there is an error with DAO
      */
-    boolean delete(List<Integer> idList) throws DAOException;
+    boolean delete(List<Integer> idList);
 
     /**
      * Fill the list of computer for the given computerPagerDTO.
@@ -56,6 +56,6 @@ public interface IComputerService {
      * @return the computerPagerDTO with the list of computer
      * @throws DAOException exception raised if there is an error with DAO
      */
-    ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) throws DAOException;
+    ComputerPagerDTO fetchComputerList(ComputerPagerDTO page);
 
 }

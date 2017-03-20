@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -44,8 +45,9 @@ public class DeleteComputerPage {
                 String input = sc.nextLine();
                 switch (input) {
                     case "yes":
-
-                        computerService.delete(new ArrayList<>(computer.getId()));
+                        List<Integer> idList = new ArrayList<>();
+                        idList.add(computer.getId());
+                        computerService.delete(idList);
                         menuPage.display();
                         break;
                     default:

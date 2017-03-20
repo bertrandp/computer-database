@@ -12,7 +12,6 @@ import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.RequestDispatcher;
@@ -33,7 +32,7 @@ import static fr.ebiz.cdb.servlet.utils.ServletHelper.ID;
 /**
  * Created by bpestre on 24/02/17.
  */
-@Controller
+
 @WebServlet("/edit-computer")
 public class EditComputerServlet extends HttpServlet {
 
@@ -59,19 +58,15 @@ public class EditComputerServlet extends HttpServlet {
         ComputerDTO computerDTO = ServletHelper.parseRequest(req);
         LOGGER.debug("EditComputerServlet doPost parameters : " + computerDTO);
 
-        try {
+        List<String> errors = ComputerValidator.validate(computerDTO);
+        if (errors.isEmpty()) {
+            Computer computer = ComputerMapper.mapToComputer(computerDTO);
 
-            List<String> errors = ComputerValidator.validate(computerDTO);
-            if (errors.isEmpty()) {
-                Computer computer = ComputerMapper.mapToComputer(computerDTO);
-
-                computerService.update(computer);
-            } else {
-                throw new ServletException(errors.toString());
+            if (!computerService.update(computer)) {
+                throw new ServletException("Failed to update computer");
             }
-
-        } catch (DAOException e) {
-            throw new ServletException(e);
+        } else {
+            throw new ServletException(errors.toString());
         }
 
         resp.sendRedirect(DASHBOARD);

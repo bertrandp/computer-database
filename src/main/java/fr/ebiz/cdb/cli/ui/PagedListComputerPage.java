@@ -3,7 +3,6 @@ package fr.ebiz.cdb.cli.ui;
 
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +51,10 @@ public class PagedListComputerPage {
 
         ComputerPagerDTO pager = new ComputerPagerDTO.Builder().currentPage(page).limit(limit).build();
         ComputerPagerDTO pageValid = ComputerValidator.validate(pager);
-        try {
-            pageValid = computerService.fetchComputerList(pageValid);
-        } catch (DAOException e) {
-            System.out.println(e);
-        }
+
+
+        pageValid = computerService.fetchComputerList(pageValid);
+
         for (ComputerDTO computer : (List<ComputerDTO>) pageValid.getList()) {
             System.out.println("|\t" + computer.getId() + "\t\t" + computer.getName());
         }

@@ -1,20 +1,15 @@
 package fr.ebiz.cdb.persistence.impl;
 
 import fr.ebiz.cdb.model.Company;
-import fr.ebiz.cdb.persistence.ConnectionManager;
 import fr.ebiz.cdb.persistence.ICompanyDAO;
 import fr.ebiz.cdb.persistence.mapper.CompanyMapper;
-import fr.ebiz.cdb.persistence.utils.DAOException;
-import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -23,62 +18,31 @@ import java.util.List;
 @Repository
 public class CompanyDAO implements ICompanyDAO {
 
-    public static final String DATABASE_CONNECTION_ERROR = "Database connection error: ";
-    public static final String TRANSACTION_ROLLED_BACK = "Transaction rolled back";
-    public static final String ERROR_DELETING_COMPANY = "Error deleting company";
     private static final String SQL_SELECT = "SELECT * FROM company";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
     private static final String SQL_DELETE = "DELETE FROM company WHERE id = ?";
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAO.class);
 
+    private JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private ConnectionManager connectionManager;
-
-    @Override
-    public List<Company> fetchAll() throws DAOException {
-        List<Company> list;
-
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_SELECT, true);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            list = CompanyMapper.mapToCompanyList(resultSet);
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
-        }
-
-        return list;
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public Company fetch(int id) throws DAOException {
-        Company company;
-
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_SELECT_BY_ID, true, id);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            company = CompanyMapper.mapToCompany(resultSet);
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
-        }
-
-        return company;
+    public List<Company> fetchAll() {
+        return jdbcTemplate.query(SQL_SELECT, new CompanyMapper());
     }
 
     @Override
-    public boolean delete(Integer id) throws DAOException {
-
-        Connection connection = connectionManager.getConnection();
-
-        try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connection, SQL_DELETE, true, id)
-        ) {
-            int status = preparedStatement.executeUpdate();
-            if (status == 0) {
-                throw new DAOException(ERROR_DELETING_COMPANY);
-            }
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
-        }
-
-        return true;
+    public Company fetch(int id) {
+        return jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, Company.class, id);
     }
+
+    @Override
+    public boolean delete(Integer id) {
+        return jdbcTemplate.update(SQL_DELETE, id) != 0;
+    }
+
 }

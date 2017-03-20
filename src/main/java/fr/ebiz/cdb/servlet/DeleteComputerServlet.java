@@ -1,11 +1,9 @@
 package fr.ebiz.cdb.servlet;
 
-import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.ServletConfig;
@@ -23,7 +21,7 @@ import static fr.ebiz.cdb.servlet.utils.ServletHelper.DASHBOARD;
 /**
  * Created by bpestre on 08/03/17.
  */
-@Controller
+
 @WebServlet("/delete-computer")
 public class DeleteComputerServlet extends HttpServlet {
 
@@ -44,10 +42,8 @@ public class DeleteComputerServlet extends HttpServlet {
         List<Integer> idList = parseIdList(req);
         LOGGER.debug(" IDs of computers to delete : " + idList);
 
-        try {
-            computerService.delete(idList);
-        } catch (DAOException e) {
-            throw new ServletException(e);
+        if (!computerService.delete(idList)) {
+            throw new ServletException("Failed to delete computer(s)");
         }
 
         resp.sendRedirect(DASHBOARD);

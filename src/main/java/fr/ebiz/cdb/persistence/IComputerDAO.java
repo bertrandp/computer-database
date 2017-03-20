@@ -2,7 +2,6 @@ package fr.ebiz.cdb.persistence;
 
 
 import fr.ebiz.cdb.model.Computer;
-import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 
@@ -18,18 +17,8 @@ public interface IComputerDAO {
      *
      * @param id the id of the computer
      * @return the computer for the given id
-     * @throws DAOException exception raised if there is an error with DAO
      */
-    Computer fetchById(int id) throws DAOException;
-
-    /**
-     * Retrieve the computerDTO for the given id.
-     *
-     * @param id the id of the computer
-     * @return the computer for the given id
-     * @throws DAOException exception raised if there is an error with DAO
-     */
-    ComputerDTO fetchDTOById(Integer id) throws DAOException;
+    Computer fetchById(int id);
 
     /**
      * Add a computer.
@@ -38,7 +27,7 @@ public interface IComputerDAO {
      * @return <tt>true</tt> if the computer is added
      * @throws DAOException exception raised if there is an error with DAO
      */
-    boolean add(Computer computer) throws DAOException;
+    boolean add(Computer computer);
 
     /**
      * Update a computer.
@@ -47,7 +36,7 @@ public interface IComputerDAO {
      * @return <tt>true</tt> if the computer is updated
      * @throws DAOException exception raised if there is an error with DAO
      */
-    boolean update(Computer computer) throws DAOException;
+    boolean update(Computer computer);
 
     /**
      * Delete a computer.
@@ -56,7 +45,7 @@ public interface IComputerDAO {
      * @return <tt>true</tt> if the computer is deleted
      * @throws DAOException exception raised if there is an error with DAO
      */
-    boolean delete(int computerId) throws DAOException;
+    boolean delete(int computerId);
 
     /**
      * Delete all the computers for the given company id.
@@ -65,7 +54,7 @@ public interface IComputerDAO {
      * @return <tt>true</tt> if the computers are deleted
      * @throws DAOException exception raised if there is an error with DAO
      */
-    boolean deleteByCompanyId(Integer id) throws DAOException;
+    boolean deleteByCompanyId(Integer id);
 
     /**
      * Retrieve a list of computerDTO with a specific limit and offset.
@@ -78,7 +67,7 @@ public interface IComputerDAO {
      * @return the list of computerDTO
      * @throws DAOException exception raised if there is an error with DAO
      */
-    List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column) throws DAOException;
+    List<Computer> fetchPage(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column);
 
     /**
      * Retrieve the number of computers.
@@ -87,7 +76,7 @@ public interface IComputerDAO {
      * @return the number of computers
      * @throws DAOException exception raised if there is an error with DAO
      */
-    int count(String search) throws DAOException;
+    int count(String search);
 
 
 }

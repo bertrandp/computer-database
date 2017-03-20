@@ -4,7 +4,6 @@ package fr.ebiz.cdb.cli.ui;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
@@ -28,15 +27,18 @@ public class CreateComputerPage {
     @Autowired
     private MenuPage menuPage;
 
+    @Autowired
+    private InputUtils inputUtils;
+
     /**
      * Create the name of the computer.
      *
      * @param newComputer computer to create
      * @return the input
      */
-    static String writeName(ComputerDTO newComputer) {
+    String writeName(ComputerDTO newComputer) {
         System.out.println("* Name : ");
-        return InputUtils.inputName(newComputer);
+        return inputUtils.inputName(newComputer);
     }
 
     /**
@@ -45,10 +47,10 @@ public class CreateComputerPage {
      * @param newComputer computer to create
      * @return the input
      */
-    static String writeIntroduced(ComputerDTO newComputer) {
+    String writeIntroduced(ComputerDTO newComputer) {
         System.out.println("* Introduced Date (" + DATE_FORMAT + ") : ");
         System.out.println("* (optional) ");
-        return InputUtils.inputIntroducedDate(newComputer);
+        return inputUtils.inputIntroducedDate(newComputer);
     }
 
     /**
@@ -57,10 +59,10 @@ public class CreateComputerPage {
      * @param newComputer computer to create
      * @return the input
      */
-    static String writeDiscontinued(ComputerDTO newComputer) {
+    String writeDiscontinued(ComputerDTO newComputer) {
         System.out.println("* Discontinued Date (" + DATE_FORMAT + ") : ");
         System.out.println("* (optional) ");
-        return InputUtils.inputDiscontinuedDate(newComputer);
+        return inputUtils.inputDiscontinuedDate(newComputer);
     }
 
     /**
@@ -69,10 +71,10 @@ public class CreateComputerPage {
      * @param newComputer computer to create
      * @return the input
      */
-    static String writeCompany(ComputerDTO newComputer) {
+    String writeCompany(ComputerDTO newComputer) {
         System.out.println("* Company : ");
         System.out.println("* (optional) ");
-        return InputUtils.inputCompanyId(newComputer);
+        return inputUtils.inputCompanyId(newComputer);
     }
 
     /**
@@ -87,24 +89,19 @@ public class CreateComputerPage {
         String discontinued = writeDiscontinued(newComputer);
         String companyId = writeCompany(newComputer);
 
-        try {
-            ComputerDTO computerDTO = new ComputerDTO.Builder()
-                    .name(name)
-                    .introduced(introduced)
-                    .discontinued(discontinued)
-                    .companyId(Integer.valueOf(companyId))
-                    .build();
 
-            ComputerValidator.validate(computerDTO);
+        ComputerDTO computerDTO = new ComputerDTO.Builder()
+                .name(name)
+                .introduced(introduced)
+                .discontinued(discontinued)
+                .companyId(Integer.valueOf(companyId))
+                .build();
 
-            Computer computer = ComputerMapper.mapToComputer(computerDTO);
+        ComputerValidator.validate(computerDTO);
 
-            computerService.add(computer);
+        Computer computer = ComputerMapper.mapToComputer(computerDTO);
 
-        } catch (DAOException e) {
-            logger.error("*** Error : " + e.getMessage());
-            display();
-        }
+        computerService.add(computer);
 
         menuPage.display();
     }

@@ -4,6 +4,8 @@ package fr.ebiz.cdb.cli.ui;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,9 +17,16 @@ import static fr.ebiz.cdb.validation.ComputerValidator.DATE_FORMAT;
 /**
  * Created by ebiz on 16/02/17.
  */
+@Component
 public class InputUtils {
 
     private static Logger logger = LoggerFactory.getLogger(InputUtils.class);
+
+    @Autowired
+    private ListCompanyPage listCompanyPage;
+
+    @Autowired
+    private CreateComputerPage createComputerPage;
 
     /**
      * Validate the input company name.
@@ -25,13 +34,13 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    static String inputCompanyId(ComputerDTO computer) {
-        new ListCompanyPage().display(false);
+    String inputCompanyId(ComputerDTO computer) {
+        listCompanyPage.display(false);
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {
             case "":
-                CreateComputerPage.writeCompany(computer);
+                createComputerPage.writeCompany(computer);
                 break;
             default:
                 return input;
@@ -45,7 +54,7 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    static String inputDiscontinuedDate(ComputerDTO computer) {
+    String inputDiscontinuedDate(ComputerDTO computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {
@@ -63,7 +72,7 @@ public class InputUtils {
                     }*/
                 } catch (DateTimeParseException e) {
                     logger.error("* Error : Date is invalid ");
-                    CreateComputerPage.writeDiscontinued(computer);
+                    createComputerPage.writeDiscontinued(computer);
                 }
                 break;
         }
@@ -76,7 +85,7 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    static String inputIntroducedDate(ComputerDTO computer) {
+    String inputIntroducedDate(ComputerDTO computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
 
@@ -90,7 +99,7 @@ public class InputUtils {
                     return input;
                 } catch (DateTimeParseException e) {
                     logger.error("* Error : Date is invalid ");
-                    CreateComputerPage.writeIntroduced(computer);
+                    createComputerPage.writeIntroduced(computer);
                 }
                 break;
         }
@@ -103,14 +112,14 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    static String inputName(ComputerDTO computer) {
+    String inputName(ComputerDTO computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {
             case "":
                 if (computer.getName() == null) {
                     logger.error("* Error : Name is mandatory ");
-                    CreateComputerPage.writeName(computer);
+                    createComputerPage.writeName(computer);
                 }
                 break;
             default:

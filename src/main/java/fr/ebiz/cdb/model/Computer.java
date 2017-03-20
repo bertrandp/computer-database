@@ -93,7 +93,4 @@ public class Computer implements Serializable {
      * @return true if the date is greater the introduced date
      */
 
-    public boolean isGreaterThanIntroduced(LocalDate date) {
-        return introduced == null || date.isAfter(introduced);
-    }
 }
