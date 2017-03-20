@@ -6,7 +6,6 @@ import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -20,9 +19,8 @@ public interface IComputerDAO {
      * @param id the id of the computer
      * @return the computer for the given id
      * @throws DAOException exception raised if there is an error with DAO
-     * @throws SQLException exception raised if there is a issue during the transaction
      */
-    Computer fetchById(int id) throws SQLException, DAOException;
+    Computer fetchById(int id) throws DAOException;
 
     /**
      * Retrieve the computerDTO for the given id.
@@ -30,9 +28,8 @@ public interface IComputerDAO {
      * @param id the id of the computer
      * @return the computer for the given id
      * @throws DAOException exception raised if there is an error with DAO
-     * @throws SQLException exception raised if there is a issue during the transaction
      */
-    ComputerDTO fetchDTOById(Integer id) throws SQLException, DAOException;
+    ComputerDTO fetchDTOById(Integer id) throws DAOException;
 
     /**
      * Add a computer.
@@ -40,9 +37,8 @@ public interface IComputerDAO {
      * @param computer the computer to add
      * @return <tt>true</tt> if the computer is added
      * @throws DAOException exception raised if there is an error with DAO
-     * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean add(Computer computer) throws SQLException, DAOException;
+    boolean add(Computer computer) throws DAOException;
 
     /**
      * Update a computer.
@@ -50,9 +46,8 @@ public interface IComputerDAO {
      * @param computer the computer to update
      * @return <tt>true</tt> if the computer is updated
      * @throws DAOException exception raised if there is an error with DAO
-     * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean update(Computer computer) throws SQLException, DAOException;
+    boolean update(Computer computer) throws DAOException;
 
     /**
      * Delete a computer.
@@ -60,9 +55,8 @@ public interface IComputerDAO {
      * @param computerId the id of the computer to delete
      * @return <tt>true</tt> if the computer is deleted
      * @throws DAOException exception raised if there is an error with DAO
-     * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean delete(int computerId) throws SQLException, DAOException;
+    boolean delete(int computerId) throws DAOException;
 
     /**
      * Delete all the computers for the given company id.
@@ -70,9 +64,8 @@ public interface IComputerDAO {
      * @param id the id of the company
      * @return <tt>true</tt> if the computers are deleted
      * @throws DAOException exception raised if there is an error with DAO
-     * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean deleteByCompanyId(Integer id) throws SQLException, DAOException;
+    boolean deleteByCompanyId(Integer id) throws DAOException;
 
     /**
      * Retrieve a list of computerDTO with a specific limit and offset.
@@ -84,9 +77,8 @@ public interface IComputerDAO {
      * @param column the column of the sort
      * @return the list of computerDTO
      * @throws DAOException exception raised if there is an error with DAO
-     * @throws SQLException exception raised if there is a issue during the transaction
      */
-    List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column) throws SQLException, DAOException;
+    List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column) throws DAOException;
 
     /**
      * Retrieve the number of computers.
@@ -94,9 +86,8 @@ public interface IComputerDAO {
      * @param search the filter for the search
      * @return the number of computers
      * @throws DAOException exception raised if there is an error with DAO
-     * @throws SQLException exception raised if there is a issue during the transaction
      */
-    int count(String search) throws SQLException, DAOException;
+    int count(String search) throws DAOException;
 
 
 }

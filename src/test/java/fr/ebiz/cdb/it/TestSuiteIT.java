@@ -7,6 +7,9 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,24 +23,31 @@ import java.sql.SQLException;
 /**
  * Created by bpestre on 03/03/17.
  */
+@Component
 @RunWith(Suite.class)
 @Suite.SuiteClasses({DashboardPaginationTest.class, FormAddComputerTest.class, OrderByTest.class, SortTest.class})
 public class TestSuiteIT {
 
-    @Autowired
-    private ConnectionManager connectionManager;
+
+    private static ConnectionManager connectionManager;
+
 
     @BeforeClass
-    public void setUp() {
+    public static void setUp() {
+
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-config.xml");
+
+        connectionManager = (ConnectionManager) applicationContext.getBean("connectionManager");
+
         cleanUpDb();
     }
 
     @AfterClass
-    public void tearDown() {
+    public static void tearDown() {
         cleanUpDb();
     }
 
-    private void cleanUpDb() {
+    private static void cleanUpDb() {
 
         Connection connection = connectionManager.getConnection();
 

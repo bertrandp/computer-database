@@ -17,9 +17,6 @@ public class ConnectionManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
 
-//    @Autowired
-//    private ConnectionPool connectionPool;
-
     @Autowired
     private DataSource dataSource;
 
@@ -37,6 +34,22 @@ public class ConnectionManager {
     }
 
     /**
+     * Return a connection with autoCommit set to false.
+     *
+     * @return the transactional connection
+     */
+    public Connection getTransactionalConnection() {
+        Connection conn = connection.get();
+        try {
+            conn.setAutoCommit(false);
+        } catch (SQLException e) {
+            LOGGER.error("Failed to set autoCommit to false");
+            return null;
+        }
+        return conn;
+    }
+
+    /**
      * Remove de connection from the ThreadLocal and close it.
      *
      * @throws SQLException exception raised if there is an error when closing the connection
@@ -45,4 +58,5 @@ public class ConnectionManager {
         connection.get().close();
         connection.remove();
     }
+
 }

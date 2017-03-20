@@ -3,7 +3,6 @@ package fr.ebiz.cdb.persistence;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.persistence.utils.DAOException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -34,7 +33,6 @@ public interface ICompanyDAO {
      * @param id the id of the company
      * @return true if the company is deleted
      * @throws DAOException exception raised if there is an error with DAO
-     * @throws SQLException exception raised if there is a issue during the transaction
      */
-    boolean delete(Integer id) throws DAOException, SQLException;
+    boolean delete(Integer id) throws DAOException;
 }

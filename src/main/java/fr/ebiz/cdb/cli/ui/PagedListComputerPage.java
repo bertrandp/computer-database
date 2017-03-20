@@ -9,7 +9,6 @@ import fr.ebiz.cdb.validation.ComputerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -55,7 +54,7 @@ public class PagedListComputerPage {
         ComputerPagerDTO pageValid = ComputerValidator.validate(pager);
         try {
             pageValid = computerService.fetchComputerList(pageValid);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             System.out.println(e);
         }
         for (ComputerDTO computer : (List<ComputerDTO>) pageValid.getList()) {

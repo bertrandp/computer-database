@@ -10,7 +10,7 @@ import fr.ebiz.cdb.service.ICompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Connection;
@@ -23,7 +23,7 @@ import static fr.ebiz.cdb.persistence.impl.CompanyDAO.TRANSACTION_ROLLED_BACK;
 /**
  * Created by ebiz on 14/02/17.
  */
-@Component
+@Service
 public class CompanyService implements ICompanyService {
 
 
@@ -47,9 +47,7 @@ public class CompanyService implements ICompanyService {
 
         try {
             List<Company> list = companyDAO.fetchAll();
-
             return list;
-
         } finally {
             try {
                 connectionManager.closeConnection();
@@ -66,11 +64,9 @@ public class CompanyService implements ICompanyService {
 
         try {
             Company company = companyDAO.fetch(companyId);
-
             if (company == null) {
                 throw new DAOException(COMPANY_NOT_FOUND);
             }
-
             return company;
         } finally {
             try {
@@ -83,19 +79,22 @@ public class CompanyService implements ICompanyService {
 
     @Override
     @Transactional
-    public boolean delete(Integer id) throws SQLException, DAOException {
+    public boolean delete(Integer id) throws DAOException {
 
-        Connection connection = connectionManager.getConnection();
+        Connection connection = connectionManager.getTransactionalConnection();
 
         try {
-            connection.setAutoCommit(false);
             computerDAO.deleteByCompanyId(id);
             companyDAO.delete(id);
             return true;
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new DAOException(TRANSACTION_ROLLED_BACK, e);
         } finally {
-            connectionManager.closeConnection();
+            try {
+                connectionManager.closeConnection();
+            } catch (SQLException e) {
+                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+            }
         }
 
     }

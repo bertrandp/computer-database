@@ -5,7 +5,6 @@ import fr.ebiz.cdb.service.ICompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -41,7 +40,7 @@ public class DeleteCompanyPage {
                 case "yes":
                     try {
                         companyService.delete(Integer.valueOf(id.trim()));
-                    } catch (DAOException | SQLException e) {
+                    } catch (DAOException e) {
                         System.out.println(e.getMessage());
                     }
             }

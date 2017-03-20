@@ -9,7 +9,7 @@ import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by bpestre on 14/02/17.
  */
-@Component
+@Repository
 public class CompanyDAO implements ICompanyDAO {
 
     public static final String DATABASE_CONNECTION_ERROR = "Database connection error: ";
@@ -65,7 +65,7 @@ public class CompanyDAO implements ICompanyDAO {
     }
 
     @Override
-    public boolean delete(Integer id) throws DAOException, SQLException {
+    public boolean delete(Integer id) throws DAOException {
 
         Connection connection = connectionManager.getConnection();
 

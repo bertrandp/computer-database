@@ -11,7 +11,7 @@ import fr.ebiz.cdb.persistence.utils.DAOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +23,7 @@ import static fr.ebiz.cdb.persistence.impl.CompanyDAO.DATABASE_CONNECTION_ERROR;
 /**
  * Created by Bertrand Pestre on 15/02/17.
  */
-@Component
+@Repository
 public class ComputerDAO implements IComputerDAO {
 
     public static final String ERROR_CREATING_THE_COMPUTER = "Error creating the computer";
@@ -46,7 +46,7 @@ public class ComputerDAO implements IComputerDAO {
     private ConnectionManager connectionManager;
 
     @Override
-    public Computer fetchById(int id) throws SQLException, DAOException {
+    public Computer fetchById(int id) throws DAOException {
         Computer computer;
 
 
@@ -62,7 +62,7 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public ComputerDTO fetchDTOById(Integer id) throws SQLException, DAOException {
+    public ComputerDTO fetchDTOById(Integer id) throws DAOException {
         ComputerDTO computer;
 
         try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_SELECT + WHERE_ID, true, id);
@@ -77,7 +77,7 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public boolean add(Computer computer) throws SQLException, DAOException {
+    public boolean add(Computer computer) throws DAOException {
 
         try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_INSERT, true, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId())
         ) {
@@ -93,7 +93,7 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public boolean update(Computer computer) throws SQLException, DAOException {
+    public boolean update(Computer computer) throws DAOException {
 
         try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_UPDATE, true, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId(), computer.getId())
         ) {
@@ -110,7 +110,7 @@ public class ComputerDAO implements IComputerDAO {
 
 
     @Override
-    public boolean delete(int computerId) throws SQLException, DAOException {
+    public boolean delete(int computerId) throws DAOException {
 
         try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_DELETE, true, computerId)
         ) {
@@ -126,7 +126,7 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public boolean deleteByCompanyId(Integer id) throws SQLException, DAOException {
+    public boolean deleteByCompanyId(Integer id) throws DAOException {
 
         try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_DELETE_BY_COMPANY_ID, true, id)
         ) {
@@ -140,7 +140,7 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column) throws SQLException, DAOException {
+    public List<ComputerDTO> fetchPageDTO(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column) throws DAOException {
         List<ComputerDTO> list;
 
         String like = search == null ? "%" : "%" + search + "%";
@@ -159,30 +159,27 @@ public class ComputerDAO implements IComputerDAO {
     }
 
     @Override
-    public int count(String search) throws SQLException, DAOException {
+    public int count(String search) throws DAOException {
         int count = 0;
 
-        if (search == null) {
-            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_COUNT, true);
-                 ResultSet resultSet = preparedStatement.executeQuery()
-            ) {
-                if (resultSet.next()) {
-                    count = resultSet.getInt(TOTAL);
-                }
-            } catch (SQLException e) {
-                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+        try {
+            PreparedStatement preparedStatement = null;
+            if (search == null) {
+                preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), SQL_COUNT, true);
+            } else {
+                String like = "%" + search + "%";
+                preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), COUNT_WITH_SEARCH + LIKE, true, like, like);
             }
-        } else {
-            String like = "%" + search + "%";
-            try (PreparedStatement preparedStatement = DAOHelper.initPreparedStatement(connectionManager.getConnection(), COUNT_WITH_SEARCH + LIKE, true, like, like);
-                 ResultSet resultSet = preparedStatement.executeQuery()
-            ) {
-                if (resultSet.next()) {
-                    count = resultSet.getInt(TOTAL);
-                }
-            } catch (SQLException e) {
-                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt(TOTAL);
             }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         }
 
         return count;

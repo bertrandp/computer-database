@@ -11,7 +11,7 @@ import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Connection;
@@ -24,8 +24,7 @@ import static fr.ebiz.cdb.persistence.impl.CompanyDAO.TRANSACTION_ROLLED_BACK;
 /**
  * Created by ebiz on 14/02/17.
  */
-@Component
-@Transactional
+@Service
 public class ComputerService implements IComputerService {
 
 
@@ -42,18 +41,14 @@ public class ComputerService implements IComputerService {
     public ComputerDTO getDTO(Integer id) throws DAOException {
 
         Connection connection = connectionManager.getConnection();
+
         ComputerDTO computer;
         try {
             computer = computerDAO.fetchDTOById(id);
-
             if (computer == null) {
                 throw new DAOException(COMPUTER_NOT_FOUND);
             }
-
             return computer;
-
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         } finally {
             try {
                 connectionManager.closeConnection();
@@ -68,12 +63,8 @@ public class ComputerService implements IComputerService {
 
         Connection connection = connectionManager.getConnection();
         try {
-
             computerDAO.add(computer);
-
             return true;
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         } finally {
             try {
                 connectionManager.closeConnection();
@@ -88,12 +79,8 @@ public class ComputerService implements IComputerService {
 
         Connection connection = connectionManager.getConnection();
         try {
-
             computerDAO.update(computer);
-
             return true;
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         } finally {
             try {
                 connectionManager.closeConnection();
@@ -112,8 +99,6 @@ public class ComputerService implements IComputerService {
                 computerDAO.delete(id);
             }
             return true;
-        } catch (SQLException e) {
-            throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
         } finally {
             try {
                 connectionManager.closeConnection();
@@ -124,32 +109,31 @@ public class ComputerService implements IComputerService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) throws DAOException, SQLException {
+    @Transactional
+    public ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) throws DAOException {
 
-        Connection connection = connectionManager.getConnection();
+        Connection connection = connectionManager.getTransactionalConnection();
         try {
 
-            connection.setAutoCommit(false);
-
-            // Count the number of computers
             page.setCount(computerDAO.count(page.getSearch()));
 
             int pageToValidate = page.getCurrentPage();
-
             page.setCurrentPage(ComputerValidator.validateCurrentPageMax(page.getCount(), page.getLimit(), pageToValidate));
 
-            // fetch computerDTO page
+
             int offset = (page.getCurrentPage() - 1) * page.getLimit();
-            //page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), connection));
             page.setList(computerDAO.fetchPageDTO(page.getLimit(), offset, page.getSearch(), page.getOrder(), page.getColumn()));
 
             return page;
 
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new DAOException(TRANSACTION_ROLLED_BACK, e);
         } finally {
-            connectionManager.closeConnection();
+            try {
+                connectionManager.closeConnection();
+            } catch (SQLException e) {
+                throw new DAOException(DATABASE_CONNECTION_ERROR + e.getMessage(), e);
+            }
         }
     }
 

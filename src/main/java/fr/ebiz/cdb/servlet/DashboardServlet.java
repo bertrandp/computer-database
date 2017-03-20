@@ -7,6 +7,7 @@ import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.RequestDispatcher;
@@ -17,12 +18,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * Created by bpestre on 20/02/17.
  */
 
+@Controller
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
@@ -55,7 +56,7 @@ public class DashboardServlet extends HttpServlet {
         ComputerPagerDTO pageToSend;
         try {
             pageToSend = computerService.fetchComputerList(pageValid);
-        } catch (DAOException | SQLException e) {
+        } catch (DAOException e) {
             throw new ServletException(e);
         }
 
