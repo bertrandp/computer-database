@@ -2,7 +2,6 @@ package fr.ebiz.cdb.service;
 
 
 import fr.ebiz.cdb.model.Company;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ public interface ICompanyService {
      * Retrieve the list of company.
      *
      * @return the list of company
-     * @throws DAOException exception raised if there is an error with DAO
      */
     List<Company> fetchAll();
 
@@ -24,16 +22,14 @@ public interface ICompanyService {
      *
      * @param companyId the id of the computer
      * @return the computer for the given id
-     * @throws DAOException exception raised if there is an error with DAO
      */
-    Company fetchById(Integer companyId) throws DAOException;
+    Company fetchById(Integer companyId);
 
     /**
      * Delete the company for the given id and delete the computers linked to this company.
      *
      * @param id the id of the company
      * @return true if the company is deleted
-     * @throws DAOException exception raised if there is an error with DAO
      */
     boolean delete(Integer id);
 }

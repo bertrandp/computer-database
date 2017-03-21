@@ -3,7 +3,6 @@ package fr.ebiz.cdb.persistence;
 
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 
 import java.util.List;
 
@@ -25,7 +24,6 @@ public interface IComputerDAO {
      *
      * @param computer the computer to add
      * @return <tt>true</tt> if the computer is added
-     * @throws DAOException exception raised if there is an error with DAO
      */
     boolean add(Computer computer);
 
@@ -34,7 +32,6 @@ public interface IComputerDAO {
      *
      * @param computer the computer to update
      * @return <tt>true</tt> if the computer is updated
-     * @throws DAOException exception raised if there is an error with DAO
      */
     boolean update(Computer computer);
 
@@ -43,7 +40,6 @@ public interface IComputerDAO {
      *
      * @param computerId the id of the computer to delete
      * @return <tt>true</tt> if the computer is deleted
-     * @throws DAOException exception raised if there is an error with DAO
      */
     boolean delete(int computerId);
 
@@ -52,7 +48,6 @@ public interface IComputerDAO {
      *
      * @param id the id of the company
      * @return <tt>true</tt> if the computers are deleted
-     * @throws DAOException exception raised if there is an error with DAO
      */
     boolean deleteByCompanyId(Integer id);
 
@@ -65,7 +60,6 @@ public interface IComputerDAO {
      * @param order  the order of the sort
      * @param column the column of the sort
      * @return the list of computerDTO
-     * @throws DAOException exception raised if there is an error with DAO
      */
     List<Computer> fetchPage(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column);
 
@@ -74,9 +68,7 @@ public interface IComputerDAO {
      *
      * @param search the filter for the search
      * @return the number of computers
-     * @throws DAOException exception raised if there is an error with DAO
      */
     int count(String search);
-
 
 }

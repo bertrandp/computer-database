@@ -1,7 +1,6 @@
 package fr.ebiz.cdb.persistence;
 
 import fr.ebiz.cdb.model.Company;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 
 import java.util.List;
 

@@ -4,7 +4,6 @@ package fr.ebiz.cdb.service.impl;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.persistence.ICompanyDAO;
 import fr.ebiz.cdb.persistence.IComputerDAO;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.ICompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +19,6 @@ import java.util.List;
 @Service
 public class CompanyService implements ICompanyService {
 
-
-    private static final String COMPANY_NOT_FOUND = "Company not found";
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
 
     @Autowired
@@ -36,12 +33,8 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
-    public Company fetchById(Integer companyId) throws DAOException {
-        Company company = companyDAO.fetch(companyId);
-        if (company == null) {
-            throw new DAOException(COMPANY_NOT_FOUND);
-        }
-        return company;
+    public Company fetchById(Integer companyId) {
+        return companyDAO.fetch(companyId);
     }
 
     @Override

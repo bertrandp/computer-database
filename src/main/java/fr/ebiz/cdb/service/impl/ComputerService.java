@@ -5,7 +5,6 @@ import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.persistence.IComputerDAO;
 import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
@@ -22,20 +21,14 @@ import java.util.List;
 @Service
 public class ComputerService implements IComputerService {
 
-
-    private static final String COMPUTER_NOT_FOUND = "Computer not found";
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
 
     @Autowired
     private IComputerDAO computerDAO;
 
     @Override
-    public ComputerDTO getDTO(Integer id) throws DAOException {
-        Computer computer = computerDAO.fetchById(id);
-        if (computer == null) {
-            throw new DAOException(COMPUTER_NOT_FOUND);
-        }
-        return ComputerMapper.mapToComputerDTO(computer);
+    public ComputerDTO getDTO(Integer id) {
+        return ComputerMapper.mapToComputerDTO(computerDAO.fetchById(id));
     }
 
     @Override

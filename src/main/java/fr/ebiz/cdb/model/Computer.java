@@ -86,11 +86,4 @@ public class Computer implements Serializable {
                 '}';
     }
 
-    /**
-     * Compare the given LocalDate to introduced date.
-     *
-     * @param date the date to compare
-     * @return true if the date is greater the introduced date
-     */
-
 }

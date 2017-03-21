@@ -2,15 +2,18 @@ package fr.ebiz.cdb.model.dto;
 
 import java.util.List;
 
+import static fr.ebiz.cdb.validation.ComputerValidator.DEFAULT_LIMIT;
+import static fr.ebiz.cdb.validation.ComputerValidator.MIN_PAGE;
+
 /**
  * Created by bpestre on 21/02/17.
  */
 public class ComputerPagerDTO {
 
     private List<ComputerDTO> list;
-    private int count;
-    private int currentPage;
-    private int limit;
+    private Integer count;
+    private Integer currentPage;
+    private Integer limit;
     private String search;
     private ORDER order;
     private COLUMN column;
@@ -21,16 +24,16 @@ public class ComputerPagerDTO {
      * @param builder the builder
      */
     private ComputerPagerDTO(Builder builder) {
-        setList(builder.list);
-        setCount(builder.count);
-        setCurrentPage(builder.currentPage);
-        setLimit(builder.limit);
-        setSearch(builder.search);
-        setOrder(builder.order);
-        setColumn(builder.column);
+        list = builder.list;
+        count = builder.count;
+        currentPage = builder.currentPage;
+        limit = builder.limit;
+        search = builder.search;
+        order = builder.order;
+        column = builder.column;
     }
 
-    public List getList() {
+    public List<ComputerDTO> getList() {
         return list;
     }
 
@@ -38,27 +41,27 @@ public class ComputerPagerDTO {
         this.list = list;
     }
 
-    public int getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 
-    public int getCurrentPage() {
+    public Integer getCurrentPage() {
         return currentPage;
     }
 
-    public void setCurrentPage(int currentPage) {
+    public void setCurrentPage(Integer currentPage) {
         this.currentPage = currentPage;
     }
 
-    public int getLimit() {
+    public Integer getLimit() {
         return limit;
     }
 
-    public void setLimit(int limit) {
+    public void setLimit(Integer limit) {
         this.limit = limit;
     }
 
@@ -107,9 +110,9 @@ public class ComputerPagerDTO {
 
     public static final class Builder {
         private List<ComputerDTO> list;
-        private int count;
-        private int currentPage;
-        private int limit;
+        private Integer count;
+        private Integer currentPage;
+        private Integer limit;
         private String search;
         private ORDER order;
         private COLUMN column;
@@ -121,6 +124,7 @@ public class ComputerPagerDTO {
         }
 
         /**
+         *
          * @param val val
          * @return builder
          */
@@ -130,42 +134,47 @@ public class ComputerPagerDTO {
         }
 
         /**
+         *
          * @param val val
          * @return builder
          */
-        public Builder count(int val) {
+        public Builder count(Integer val) {
             count = val;
             return this;
         }
 
         /**
+         *
          * @param val val
          * @return builder
          */
-        public Builder currentPage(int val) {
-            currentPage = val;
+        public Builder currentPage(Integer val) {
+            currentPage = val == null ? MIN_PAGE : val;
             return this;
         }
 
         /**
+         *
          * @param val val
          * @return builder
          */
-        public Builder limit(int val) {
-            limit = val;
+        public Builder limit(Integer val) {
+            limit = val == null ? DEFAULT_LIMIT : val;
             return this;
         }
 
         /**
+         *
          * @param val val
          * @return builder
          */
         public Builder search(String val) {
-            search = val;
+            search = val == null || val.trim().isEmpty() ? null : val.trim();
             return this;
         }
 
         /**
+         *
          * @param val val
          * @return builder
          */
@@ -175,6 +184,7 @@ public class ComputerPagerDTO {
         }
 
         /**
+         *
          * @param val val
          * @return builder
          */
@@ -184,7 +194,8 @@ public class ComputerPagerDTO {
         }
 
         /**
-         * @return the computerPagerDTO
+         *
+         * @return builder
          */
         public ComputerPagerDTO build() {
             return new ComputerPagerDTO(this);

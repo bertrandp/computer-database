@@ -20,13 +20,13 @@ import static fr.ebiz.cdb.validation.ComputerValidator.DATE_FORMAT;
  */
 public class ComputerMapper implements RowMapper<Computer> {
 
-    public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String INTRODUCED = "introduced";
-    public static final String DISCONTINUED = "discontinued";
-    public static final String COMPANY_ID = "company_id";
-    public static final String COMPANY_NAME = "company_name";
-    public static final int DEFAULT_INT = 0;
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String INTRODUCED = "introduced";
+    private static final String DISCONTINUED = "discontinued";
+    private static final String COMPANY_ID = "company_id";
+    private static final String COMPANY_NAME = "company_name";
+    private static final int DEFAULT_INT = 0;
 
     /**
      * Map the ComputerDTO to a Computer.
@@ -105,4 +105,5 @@ public class ComputerMapper implements RowMapper<Computer> {
         computer.setCompany(new Company(resultSet.getInt(COMPANY_ID), resultSet.getString(COMPANY_NAME)));
         return computer;
     }
+
 }

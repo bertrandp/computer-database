@@ -118,7 +118,7 @@
                 </td>
                 <td>
                     <c:set var="url">
-                        <c:url value="/edit-computer">
+                        <c:url value="/computer/edit">
                             <c:param name="id" value="${computer.id}" />
                         </c:url>
                     </c:set>

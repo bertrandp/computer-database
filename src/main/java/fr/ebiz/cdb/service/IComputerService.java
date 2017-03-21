@@ -4,7 +4,6 @@ package fr.ebiz.cdb.service;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public interface IComputerService {
      * @return the computer for the given id
      * @throws DAOException exception raised when there is an error with DAO
      */
-    ComputerDTO getDTO(Integer id) throws DAOException;
+    ComputerDTO getDTO(Integer id);
 
     /**
      * Add the given computer.

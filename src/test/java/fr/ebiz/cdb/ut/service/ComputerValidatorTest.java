@@ -103,18 +103,18 @@ public class ComputerValidatorTest {
     // validateCurrentPage
     @Test
     public void validateCurrentPageWithZero() {
-        assertEquals(MIN_PAGE, ComputerValidator.validate(new ComputerPagerDTO.Builder().currentPage(0).build()).getCurrentPage());
+        assertEquals((Integer) MIN_PAGE, ComputerValidator.validate(new ComputerPagerDTO.Builder().currentPage(0).build()).getCurrentPage());
     }
 
     // validateLimit
     @Test
     public void validateLimitWithLimitTooLow() {
-        assertEquals(DEFAULT_LIMIT, ComputerValidator.validate(new ComputerPagerDTO.Builder().limit(2).build()).getLimit());
+        assertEquals((Integer) DEFAULT_LIMIT, ComputerValidator.validate(new ComputerPagerDTO.Builder().limit(2).build()).getLimit());
     }
 
     @Test
     public void validateLimitWithLimitTooBig() {
-        assertEquals(DEFAULT_LIMIT, ComputerValidator.validate(new ComputerPagerDTO.Builder().limit(512).build()).getLimit());
+        assertEquals((Integer) DEFAULT_LIMIT, ComputerValidator.validate(new ComputerPagerDTO.Builder().limit(512).build()).getLimit());
     }
 
     // validateCurrentPageMax

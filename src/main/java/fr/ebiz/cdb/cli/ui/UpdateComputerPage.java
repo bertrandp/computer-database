@@ -4,7 +4,6 @@ package fr.ebiz.cdb.cli.ui;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
@@ -94,35 +93,32 @@ public class UpdateComputerPage {
         if (!id.trim().isEmpty()) {
 
             ComputerDTO computer;
-            try {
 
-                computer = computerService.getDTO(Integer.valueOf(id));
 
-                System.out.println("* Update computer : " + computer.getName());
-                String name = updateName(computer);
-                String introduced = updateIntroducedDate(computer);
-                String discontinued = updateDiscontinuedDate(computer);
-                String companyId = updateCompany(computer);
-                ComputerDTO computerDTO = new ComputerDTO.Builder()
-                        .id(Integer.valueOf(id))
-                        .name(name)
-                        .introduced(introduced)
-                        .discontinued(discontinued)
-                        .companyId(Integer.valueOf(companyId))
-                        .build();
+            computer = computerService.getDTO(Integer.valueOf(id));
 
-                ComputerValidator.validate(computerDTO);
+            System.out.println("* Update computer : " + computer.getName());
+            String name = updateName(computer);
+            String introduced = updateIntroducedDate(computer);
+            String discontinued = updateDiscontinuedDate(computer);
+            String companyId = updateCompany(computer);
+            ComputerDTO computerDTO = new ComputerDTO.Builder()
+                    .id(Integer.valueOf(id))
+                    .name(name)
+                    .introduced(introduced)
+                    .discontinued(discontinued)
+                    .companyId(Integer.valueOf(companyId))
+                    .build();
 
-                Computer computerToAdd = ComputerMapper.mapToComputer(computerDTO);
+            ComputerValidator.validate(computerDTO);
 
-                computerService.update(computerToAdd);
+            Computer computerToAdd = ComputerMapper.mapToComputer(computerDTO);
 
-                menuPage.display();
+            computerService.update(computerToAdd);
 
-            } catch (DAOException e) {
-                LOGGER.error(e.getMessage());
-                // TODO handle exception
-            }
+            menuPage.display();
+
+
         } else {
             LOGGER.error(" *** Error : Invalid id");
             display();

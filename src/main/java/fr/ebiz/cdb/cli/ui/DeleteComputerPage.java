@@ -2,7 +2,6 @@ package fr.ebiz.cdb.cli.ui;
 
 
 import fr.ebiz.cdb.model.dto.ComputerDTO;
-import fr.ebiz.cdb.persistence.utils.DAOException;
 import fr.ebiz.cdb.service.IComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,27 +36,24 @@ public class DeleteComputerPage {
 
         if (!id.trim().isEmpty()) {
             ComputerDTO computer;
-            try {
-                computer = computerService.getDTO(Integer.valueOf(id));
-                System.out.println("* Do you really want to delete this computer : " + computer.getName());
-                sc = new Scanner(System.in);
-                System.out.println("* yes/no :");
-                String input = sc.nextLine();
-                switch (input) {
-                    case "yes":
-                        List<Integer> idList = new ArrayList<>();
-                        idList.add(computer.getId());
-                        computerService.delete(idList);
-                        menuPage.display();
-                        break;
-                    default:
-                        menuPage.display();
-                        break;
-                }
-            } catch (DAOException e) {
-                LOGGER.error(e.getMessage());
-                // TODO handle exception
+
+            computer = computerService.getDTO(Integer.valueOf(id));
+            System.out.println("* Do you really want to delete this computer : " + computer.getName());
+            sc = new Scanner(System.in);
+            System.out.println("* yes/no :");
+            String input = sc.nextLine();
+            switch (input) {
+                case "yes":
+                    List<Integer> idList = new ArrayList<>();
+                    idList.add(computer.getId());
+                    computerService.delete(idList);
+                    menuPage.display();
+                    break;
+                default:
+                    menuPage.display();
+                    break;
             }
+
         } else {
             LOGGER.error(" *** Error : Invalid id");
             display();
