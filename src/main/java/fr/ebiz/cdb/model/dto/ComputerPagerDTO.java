@@ -1,5 +1,9 @@
 package fr.ebiz.cdb.model.dto;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 import static fr.ebiz.cdb.validation.ComputerValidator.DEFAULT_LIMIT;
@@ -12,9 +16,17 @@ public class ComputerPagerDTO {
 
     private List<ComputerDTO> list;
     private Integer count;
+
+    @Min(1)
     private Integer currentPage;
+
+    @Min(10) @Max(100)
     private Integer limit;
+
+    @Size(max=500)
     private String search;
+
+
     private ORDER order;
     private COLUMN column;
 

@@ -1,5 +1,6 @@
 package fr.ebiz.cdb.controller;
 
+import com.sun.istack.internal.NotNull;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
@@ -9,14 +10,17 @@ import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.ServletException;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -27,15 +31,12 @@ import java.util.List;
 public class ComputerController {
 
     private static final String COMPANY_LIST = "companyList";
-    private static final String COMPUTER_NAME = "computerName";
-    private static final String INTRODUCED = "introduced";
-    private static final String DISCONTINUED = "discontinued";
-    private static final String COMPANY_ID = "companyId";
     private static final String ID = "id";
     private static final String SELECTION = "selection";
     private static final String REDIRECT_DASHBOARD = "redirect:/dashboard";
     private static final String COMPUTER = "computer";
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerController.class);
+    private static final String ERROR_500 = "errorpages/500";
 
     @Autowired
     private IComputerService computerService;
@@ -57,38 +58,25 @@ public class ComputerController {
     }
 
     /**
-     * Add computer request handler.
      *
-     * @param name         name
-     * @param introduced   introduced
-     * @param discontinued discontinued
-     * @param companyId    companyId
-     * @return to dashboard
-     * @throws ServletException ServletException
+     * @param computerDTO
+     * @param result
+     * @return
      */
     @PostMapping("add")
-    public String addComputer(@RequestParam(COMPUTER_NAME) String name,
-                              @RequestParam(INTRODUCED) String introduced,
-                              @RequestParam(DISCONTINUED) String discontinued,
-                              @RequestParam(COMPANY_ID) Integer companyId) throws ServletException {
+    public String addComputer(@Valid ComputerDTO computerDTO, BindingResult result) {
 
-        ComputerDTO computerDTO = new ComputerDTO.Builder()
-                .name(name)
-                .introduced(introduced)
-                .discontinued(discontinued)
-                .companyId(companyId).build();
-
-        LOGGER.debug("AddComputerServlet doPost parameters : " + computerDTO);
-
-        List<String> errors = ComputerValidator.validate(computerDTO);
-        if (errors.isEmpty()) {
-            Computer computer = ComputerMapper.mapToComputer(computerDTO);
-            if (!computerService.add(computer)) {
-                throw new ServletException("Failed to add computer");
-            }
-        } else {
-            throw new ServletException(errors.toString());
+        if(result.hasErrors()) {
+            LOGGER.error(result.getAllErrors().toString());
+            return "errorpages/500";
         }
+
+        LOGGER.debug("addComputer parameters : " + computerDTO);
+        Computer computer = ComputerMapper.mapToComputer(computerDTO);
+        if (!computerService.add(computer)) {
+            return "errorpages/500";
+        }
+
         return REDIRECT_DASHBOARD;
     }
 
@@ -110,38 +98,23 @@ public class ComputerController {
     /**
      * Edit computer request handler.
      *
-     * @param id           id
-     * @param name         name
-     * @param introduced   introduced
-     * @param discontinued discontinued
-     * @param companyId    companyId
+     * @param computerDTO           computerDTO
      * @return to dashboard
-     * @throws ServletException ServletException
      */
     @PostMapping("edit")
-    public String editComputer(@RequestParam(ID) Integer id,
-                               @RequestParam(COMPUTER_NAME) String name,
-                               @RequestParam(INTRODUCED) String introduced,
-                               @RequestParam(DISCONTINUED) String discontinued,
-                               @RequestParam(COMPANY_ID) Integer companyId) throws ServletException {
+    public String editComputer(@Valid ComputerDTO computerDTO, BindingResult result) {
 
-        ComputerDTO computerDTO = new ComputerDTO.Builder()
-                .id(id)
-                .name(name)
-                .introduced(introduced)
-                .discontinued(discontinued)
-                .companyId(companyId).build();
-
-        List<String> errors = ComputerValidator.validate(computerDTO);
-        if (errors.isEmpty()) {
-            Computer computer = ComputerMapper.mapToComputer(computerDTO);
-
-            if (!computerService.update(computer)) {
-                throw new ServletException("Failed to update computer");
-            }
-        } else {
-            throw new ServletException(errors.toString());
+        if(result.hasErrors()) {
+            LOGGER.error(result.getAllErrors().toString());
+            return "errorpages/500";
         }
+
+        LOGGER.debug("editComputer parameters : " + computerDTO);
+        Computer computer = ComputerMapper.mapToComputer(computerDTO);
+        if (!computerService.update(computer)) {
+            return "errorpages/500";
+        }
+
         return REDIRECT_DASHBOARD;
     }
 
@@ -150,14 +123,13 @@ public class ComputerController {
      *
      * @param idList idList
      * @return to dashboard
-     * @throws ServletException ServletException
      */
     @PostMapping("delete")
-    public String deleteComputers(@RequestParam(SELECTION) List<Integer> idList) throws ServletException {
+    public String deleteComputers(@RequestParam(SELECTION) List<Integer> idList) {
 
         LOGGER.debug(" IDs of computers to delete : " + idList);
         if (!computerService.delete(idList)) {
-            throw new ServletException("Failed to delete computer(s)");
+            return ERROR_500;
         }
         return REDIRECT_DASHBOARD;
     }

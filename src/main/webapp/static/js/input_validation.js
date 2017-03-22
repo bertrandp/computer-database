@@ -7,7 +7,7 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            computerName: {
+            name: {
                 validators: {
                     notEmpty: {
                         message: 'The name is required and cannot be empty'
@@ -107,4 +107,13 @@ $(document).ready(function() {
         }
     });
 
+});
+
+$('#form').submit(function () {
+    $(this)
+        .find('input[name]')
+        .filter(function () {
+            return !this.value;
+        })
+        .prop('name', '');
 });

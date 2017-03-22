@@ -1,15 +1,36 @@
 package fr.ebiz.cdb.model.dto;
 
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 /**
  * Created by bpestre on 21/02/17.
  */
+@ValidDates(introduced="introduced", discontinued="discontinued")
 public class ComputerDTO {
 
+    private static final String REGEX = "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$";
+
+    @Min(0)
     private Integer id;
+
+    @NotNull @NotEmpty @Size(max=250)
     private String name;
+
+    @Pattern(regexp = REGEX)
     private String introduced;
+
+    @Pattern(regexp = REGEX)
     private String discontinued;
+
+    @Min(0)
     private Integer companyId;
+
     private String companyName;
 
     /**
@@ -154,5 +175,17 @@ public class ComputerDTO {
         public ComputerDTO build() {
             return new ComputerDTO(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ComputerDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", introduced='" + introduced + '\'' +
+                ", discontinued='" + discontinued + '\'' +
+                ", companyId=" + companyId +
+                ", companyName='" + companyName + '\'' +
+                '}';
     }
 }

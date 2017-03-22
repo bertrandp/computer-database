@@ -25,8 +25,8 @@
                 <form action="" method="POST" id="form">
                     <fieldset>
                         <div id="form-name" class="form-group">
-                            <label for="computerName">Computer name</label>
-                            <input type="text" class="form-control" id="computerName" name="computerName"
+                            <label for="name">Computer name</label>
+                            <input type="text" class="form-control" id="name" name="name"
                                    placeholder="Computer name">
                         </div>
                         <div id="form-introduced" class="form-group">

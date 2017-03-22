@@ -18,7 +18,7 @@
 <section id="main">
     <div class="container">
         <div class="alert alert-danger">
-            Error 403: Access denied!
+            Error 400: Bad Request!
             <br/>
             <!--
                 Exception: ${pageContext.errorData.throwable.cause}
