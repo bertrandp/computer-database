@@ -13,7 +13,6 @@ public interface ICompanyDAO {
      * Retrieve the list of Company.
      *
      * @return the list of Company
-     * @throws DAOException exception raised if there is an error with DAO
      */
     List<Company> fetchAll();
 
@@ -22,7 +21,6 @@ public interface ICompanyDAO {
      *
      * @param id the id of the Company
      * @return the Company for the given id
-     * @throws DAOException exception raised if there is an error with DAO
      */
     Company fetch(int id);
 
@@ -31,7 +29,6 @@ public interface ICompanyDAO {
      *
      * @param id the id of the company
      * @return true if the company is deleted
-     * @throws DAOException exception raised if there is an error with DAO
      */
     boolean delete(Integer id);
 }

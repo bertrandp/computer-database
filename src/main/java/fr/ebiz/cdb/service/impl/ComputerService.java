@@ -1,12 +1,12 @@
 package fr.ebiz.cdb.service.impl;
 
+import fr.ebiz.cdb.cli.validation.ComputerValidator;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.persistence.IComputerDAO;
 import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +55,10 @@ public class ComputerService implements IComputerService {
 
         page.setCount(computerDAO.count(page.getSearch()));
 
-        int pageToValidate = page.getCurrentPage();
-        page.setCurrentPage(ComputerValidator.validateCurrentPageMax(page.getCount(), page.getLimit(), pageToValidate));
+        int pageToValidate = page.getPage();
+        page.setPage(ComputerValidator.validateCurrentPageMax(page.getCount(), page.getLimit(), pageToValidate));
 
-        int offset = (page.getCurrentPage() - 1) * page.getLimit();
+        int offset = (page.getPage() - 1) * page.getLimit();
         page.setList(ComputerMapper.mapToComputerDTOList(computerDAO.fetchPage(page.getLimit(), offset, page.getSearch(), page.getOrder(), page.getColumn())));
 
         return page;

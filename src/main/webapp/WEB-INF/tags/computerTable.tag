@@ -2,6 +2,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%@ attribute name="list" required="false" type="java.util.List" %>
 <%@ attribute name="order" required="false" type="java.lang.String" %>
@@ -29,17 +30,17 @@
                     <c:choose>
                         <c:when test="${order == 'ASC'}">
                             <tags:link limit="${limit}" search="${search}" order="DESC" column="NAME" var="url"/>
-                            Computer name <a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet pull-right"></span></a>
+                            <spring:message code="label.computerName" /><a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet pull-right"></span></a>
                         </c:when>
                         <c:otherwise>
                             <tags:link limit="${limit}" search="${search}" order="ASC" column="NAME" var="url"/>
-                            Computer name <a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet-alt pull-right"></span></a>
+                            <spring:message code="label.computerName" /><a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet-alt pull-right"></span></a>
                         </c:otherwise>
                     </c:choose>
                 </c:when>
                 <c:otherwise>
                     <tags:link limit="${limit}" search="${search}" order="ASC" column="NAME" var="url"/>
-                    Computer name <a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
+                    <spring:message code="label.computerName" /><a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
                 </c:otherwise>
             </c:choose>
         </th>
@@ -49,17 +50,17 @@
                     <c:choose>
                         <c:when test="${order == 'ASC'}">
                             <tags:link limit="${limit}" search="${search}" order="DESC" column="INTRODUCED" var="url"/>
-                            Introduced date <a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes pull-right"></span></a>
+                            <spring:message code="label.introducedDate" /><a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes pull-right"></span></a>
                         </c:when>
                         <c:otherwise>
                             <tags:link limit="${limit}" search="${search}" order="ASC" column="INTRODUCED" var="url"/>
-                            Introduced date <a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span></a>
+                            <spring:message code="label.introducedDate" /><a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span></a>
                         </c:otherwise>
                     </c:choose>
                 </c:when>
                 <c:otherwise>
                     <tags:link limit="${limit}" search="${search}" order="ASC" column="INTRODUCED" var="url"/>
-                    Introduced date <a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
+                    <spring:message code="label.introducedDate" /><a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
                 </c:otherwise>
             </c:choose>
         </th>
@@ -70,17 +71,17 @@
                     <c:choose>
                         <c:when test="${order == 'ASC'}">
                             <tags:link limit="${limit}" search="${search}" order="DESC" column="DISCONTINUED" var="url"/>
-                            Discontinued date <a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes pull-right"></span></a>
+                            <spring:message code="label.discontinuedDate" /><a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes pull-right"></span></a>
                         </c:when>
                         <c:otherwise>
                             <tags:link limit="${limit}" search="${search}" order="ASC" column="DISCONTINUED" var="url"/>
-                            Discontinued date <a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span></a>
+                            <spring:message code="label.discontinuedDate" /><a href="${url}" ><span class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span></a>
                         </c:otherwise>
                     </c:choose>
                 </c:when>
                 <c:otherwise>
                     <tags:link limit="${limit}" search="${search}" order="ASC" column="DISCONTINUED" var="url"/>
-                    Discontinued date <a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
+                    <spring:message code="label.discontinuedDate" /><a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
                 </c:otherwise>
             </c:choose>
         </th>
@@ -91,17 +92,17 @@
                     <c:choose>
                         <c:when test="${order == 'ASC'}">
                             <tags:link limit="${limit}" search="${search}" order="DESC" column="COMPANY_NAME" var="url"/>
-                            Company <a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet pull-right"></span></a>
+                            <spring:message code="label.company" /><a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet pull-right"></span></a>
                         </c:when>
                         <c:otherwise>
                             <tags:link limit="${limit}" search="${search}" order="ASC" column="COMPANY_NAME" var="url"/>
-                            Company <a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet-alt pull-right"></span></a>
+                            <spring:message code="label.company" /><a href="${url}" ><span class="glyphicon glyphicon-sort-by-alphabet-alt pull-right"></span></a>
                         </c:otherwise>
                     </c:choose>
                 </c:when>
                 <c:otherwise>
                     <tags:link limit="${limit}" search="${search}" order="ASC" column="COMPANY_NAME" var="url"/>
-                    Company <a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
+                    <spring:message code="label.company" /><a href="${url}" ><span class="glyphicon glyphicon-sort pull-right"></span></a>
                 </c:otherwise>
             </c:choose>
         </th>

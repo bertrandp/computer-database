@@ -2,7 +2,6 @@ package fr.ebiz.cdb.model.dto;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -20,13 +19,28 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface ValidDates {
 
+    /**
+     * @return message
+     */
     String message() default "{fr.ebiz.cdb.model.dto.validdates}";
 
+    /**
+     * @return groups
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * @return payload
+     */
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * @return introduced
+     */
     String introduced();
 
+    /**
+     * @return discontinued
+     */
     String discontinued();
 }

@@ -9,11 +9,8 @@
     <link href="${pageContext.request.contextPath}/static/css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
-<header class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="${pageContext.request.contextPath}/dashboard"> Application - Computer Database </a>
-    </div>
-</header>
+
+<%@include file="../element/header.jsp" %>
 
 <section id="main">
     <div class="container">

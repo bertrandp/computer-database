@@ -1,4 +1,4 @@
-package fr.ebiz.cdb.validation;
+package fr.ebiz.cdb.cli.validation;
 
 /**
  * Created by bpestre on 24/02/17.

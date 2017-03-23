@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.ebiz.cdb.validation.ComputerValidator.DATE_FORMAT;
+import static fr.ebiz.cdb.cli.validation.ComputerValidator.DATE_FORMAT;
 
 /**
  * Created by bpestre on 23/02/17.

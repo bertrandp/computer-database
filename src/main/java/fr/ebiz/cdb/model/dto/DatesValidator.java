@@ -1,7 +1,5 @@
 package fr.ebiz.cdb.model.dto;
 
-import org.springframework.beans.BeanUtils;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
@@ -26,8 +24,8 @@ public class DatesValidator implements ConstraintValidator<ValidDates, Object> {
     @Override
     public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
 
-        if ( o instanceof ComputerDTO) {
-            ComputerDTO computerDTO = (ComputerDTO)o;
+        if (o instanceof ComputerDTO) {
+            ComputerDTO computerDTO = (ComputerDTO) o;
             introduced = computerDTO.getIntroduced();
             discontinued = computerDTO.getDiscontinued();
         }
@@ -37,7 +35,7 @@ public class DatesValidator implements ConstraintValidator<ValidDates, Object> {
             LocalDate introducedLD = LocalDate.parse(introduced.trim(), formatter);
             LocalDate discontinuedLD = LocalDate.parse(discontinued.trim(), formatter);
 
-            if(introducedLD.isBefore(discontinuedLD)) {
+            if (introducedLD.isBefore(discontinuedLD)) {
                 return true;
             } else {
                 constraintValidatorContext.disableDefaultConstraintViolation();

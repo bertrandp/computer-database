@@ -1,20 +1,16 @@
 package fr.ebiz.cdb.controller;
 
-import com.sun.istack.internal.NotNull;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
 import fr.ebiz.cdb.service.ICompanyService;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,15 +54,16 @@ public class ComputerController {
     }
 
     /**
+     * Add a computer.
      *
-     * @param computerDTO
-     * @param result
-     * @return
+     * @param computerDTO computerDTO
+     * @param result      result
+     * @return to dashboard
      */
     @PostMapping("add")
     public String addComputer(@Valid ComputerDTO computerDTO, BindingResult result) {
 
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             LOGGER.error(result.getAllErrors().toString());
             return "errorpages/500";
         }
@@ -98,13 +95,14 @@ public class ComputerController {
     /**
      * Edit computer request handler.
      *
-     * @param computerDTO           computerDTO
+     * @param computerDTO computerDTO
+     * @param result      result
      * @return to dashboard
      */
     @PostMapping("edit")
     public String editComputer(@Valid ComputerDTO computerDTO, BindingResult result) {
 
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             LOGGER.error(result.getAllErrors().toString());
             return "errorpages/500";
         }

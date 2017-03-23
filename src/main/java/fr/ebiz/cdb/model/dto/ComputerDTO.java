@@ -11,15 +11,17 @@ import javax.validation.constraints.Size;
 /**
  * Created by bpestre on 21/02/17.
  */
-@ValidDates(introduced="introduced", discontinued="discontinued")
+@ValidDates(introduced = "introduced", discontinued = "discontinued")
 public class ComputerDTO {
 
     private static final String REGEX = "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$";
 
     @Min(0)
-    private Integer id;
+    private int id;
 
-    @NotNull @NotEmpty @Size(max=250)
+    @NotNull
+    @NotEmpty
+    @Size(max = 250)
     private String name;
 
     @Pattern(regexp = REGEX)
@@ -29,7 +31,7 @@ public class ComputerDTO {
     private String discontinued;
 
     @Min(0)
-    private Integer companyId;
+    private int companyId;
 
     private String companyName;
 
@@ -99,6 +101,18 @@ public class ComputerDTO {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    @Override
+    public String toString() {
+        return "ComputerDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", introduced='" + introduced + '\'' +
+                ", discontinued='" + discontinued + '\'' +
+                ", companyId=" + companyId +
+                ", companyName='" + companyName + '\'' +
+                '}';
     }
 
     public static final class Builder {
@@ -175,17 +189,5 @@ public class ComputerDTO {
         public ComputerDTO build() {
             return new ComputerDTO(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "ComputerDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", introduced='" + introduced + '\'' +
-                ", discontinued='" + discontinued + '\'' +
-                ", companyId=" + companyId +
-                ", companyName='" + companyName + '\'' +
-                '}';
     }
 }

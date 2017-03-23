@@ -1,4 +1,4 @@
-package fr.ebiz.cdb.validation;
+package fr.ebiz.cdb.cli.validation;
 
 
 import fr.ebiz.cdb.model.dto.ComputerDTO;
@@ -36,7 +36,7 @@ public class ComputerValidator {
     public static ComputerPagerDTO validate(ComputerPagerDTO page) {
 
         page.setLimit(validateLimit(page.getLimit()));
-        page.setCurrentPage(validateCurrentPage(page.getCurrentPage()));
+        page.setPage(validateCurrentPage(page.getPage()));
         page.setSearch(validateSearch(page.getSearch()));
         page.setOrder(validateOrder(page.getOrder()));
         page.setColumn(validateColumn(page.getColumn()));
@@ -92,9 +92,11 @@ public class ComputerValidator {
      * @param currentPage the page index to validate
      * @return the validated page index
      */
-    private static int validateCurrentPage(int currentPage) {
-        if (currentPage < MIN_PAGE) {
-            currentPage = MIN_PAGE;
+    private static int validateCurrentPage(Integer currentPage) {
+        if (currentPage != null) {
+            if (currentPage < MIN_PAGE) {
+                currentPage = MIN_PAGE;
+            }
         }
         return currentPage;
     }
@@ -105,11 +107,13 @@ public class ComputerValidator {
      * @param limit the limit to validate
      * @return the validated limit
      */
-    private static int validateLimit(int limit) {
-        if (limit < MIN_LIMIT) {
-            limit = DEFAULT_LIMIT;
-        } else if (limit > MAX_LIMIT) {
-            limit = DEFAULT_LIMIT;
+    private static int validateLimit(Integer limit) {
+        if (limit != null) {
+            if (limit < MIN_LIMIT) {
+                limit = DEFAULT_LIMIT;
+            } else if (limit > MAX_LIMIT) {
+                limit = DEFAULT_LIMIT;
+            }
         }
         return limit;
     }

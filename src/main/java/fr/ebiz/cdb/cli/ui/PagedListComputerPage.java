@@ -1,10 +1,10 @@
 package fr.ebiz.cdb.cli.ui;
 
 
+import fr.ebiz.cdb.cli.validation.ComputerValidator;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.validation.ComputerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,7 +49,7 @@ public class PagedListComputerPage {
         System.out.println("|\t" + "n°" + "\t\tName");
         System.out.println("---------------------------------------------------------");
 
-        ComputerPagerDTO pager = new ComputerPagerDTO.Builder().currentPage(page).limit(limit).build();
+        ComputerPagerDTO pager = new ComputerPagerDTO.Builder().page(page).limit(limit).build();
         ComputerPagerDTO pageValid = ComputerValidator.validate(pager);
 
 
@@ -59,7 +59,7 @@ public class PagedListComputerPage {
             System.out.println("|\t" + computer.getId() + "\t\t" + computer.getName());
         }
         System.out.println("---------------------------------------------------------");
-        System.out.println("*********** Page  " + pageValid.getCurrentPage() + "\t/ " + (pageValid.getCount() / limit + 1) + " ***************");
+        System.out.println("*********** Page  " + pageValid.getPage() + "\t/ " + (pageValid.getCount() / limit + 1) + " ***************");
         System.out.println("*** 1 : Previous      2 : Next        0 : Quit  ***");
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
@@ -68,13 +68,13 @@ public class PagedListComputerPage {
                 menuPage.display();
                 break;
             case "1":
-                displayComputerPage(pageValid.getCurrentPage() - 1, pageValid.getLimit());
+                displayComputerPage(pageValid.getPage() - 1, pageValid.getLimit());
                 break;
             case "2":
-                displayComputerPage(pageValid.getCurrentPage() + 1, pageValid.getLimit());
+                displayComputerPage(pageValid.getPage() + 1, pageValid.getLimit());
                 break;
             default:
-                displayComputerPage(pageValid.getCurrentPage(), pageValid.getLimit());
+                displayComputerPage(pageValid.getPage(), pageValid.getLimit());
                 break;
         }
 

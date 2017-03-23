@@ -1,10 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Computer Database</title>
+    <title><spring:message code="label.computerDatabase" /></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -13,29 +14,28 @@
     <link href="${pageContext.request.contextPath}/static/css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
-<header class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="${pageContext.request.contextPath}/dashboard"> Application - Computer Database </a>
-    </div>
-</header>
+
+<%@include file="element/header.jsp" %>
 
 <section id="main">
     <div class="container">
         <h1 id="homeTitle">
-            ${pager.count} Computers found
+            ${pager.count} <spring:message code="label.computersFound" />
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
                 <form id="searchForm" action="" method="GET" class="form-inline">
                     <input type="hidden" value="${pager.limit}" id="limit" name="limit"/>
-                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${pager.search}"/>
-                    <input type="submit" id="searchsubmit" value="Filter by name"
+                    <spring:message code="label.filter" var="filter"/>
+                    <spring:message code="label.search" var="search"/>
+                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="${search}" value="${pager.search}"/>
+                    <input type="submit" id="searchsubmit" value="${filter}"
                            class="btn btn-primary"/>
                 </form>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" id="addComputer" href="${pageContext.request.contextPath}/computer/add">Add Computer</a>
-                <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                <a class="btn btn-success" id="addComputer" href="${pageContext.request.contextPath}/computer/add"><spring:message code="label.addComputer" /></a>
+                <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="label.edit" /></a>
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
     <div class="container text-center">
 
         <c:set var="lastPage" value="${pager.count / pager.limit + 1}"/>
-        <tags:pagination page="${pager.currentPage}" limit="${pager.limit}" lastPage="${lastPage}" search="${pager.search}" order="${pager.order}" column="${pager.column}"/>
+        <tags:pagination page="${pager.page}" limit="${pager.limit}" lastPage="${lastPage}" search="${pager.search}" order="${pager.order}" column="${pager.column}"/>
 
     </div>
 </footer>

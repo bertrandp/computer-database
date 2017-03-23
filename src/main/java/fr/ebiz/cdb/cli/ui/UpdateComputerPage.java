@@ -1,11 +1,11 @@
 package fr.ebiz.cdb.cli.ui;
 
 
+import fr.ebiz.cdb.cli.validation.ComputerValidator;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
 import fr.ebiz.cdb.service.IComputerService;
-import fr.ebiz.cdb.validation.ComputerValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import static fr.ebiz.cdb.validation.ComputerValidator.DATE_FORMAT;
+import static fr.ebiz.cdb.cli.validation.ComputerValidator.DATE_FORMAT;
 
 /**
  * Created by ebiz on 16/02/17.
