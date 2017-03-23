@@ -4,21 +4,18 @@ import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Date;
-import java.time.LocalDate;
-
 /**
  * Created by ebiz on 15/02/17.
  */
 public class DAOHelper {
 
-    private static final String ORDER_BY = " ORDER BY ";
-    private static final String C1_NAME = "c1.name";
-    private static final String C1_INTRODUCED = "c1.introduced";
-    private static final String C1_DISCONTINUED = "c1.discontinued";
-    private static final String C2_NAME = "c2.name";
-    private static final String ASC = " ASC";
-    private static final String DESC = " DESC";
+    private static final String ORDER_BY = " order by ";
+    private static final String C1_NAME = "cptr.name";
+    private static final String C1_INTRODUCED = "cptr.introduced";
+    private static final String C1_DISCONTINUED = "cptr.discontinued";
+    private static final String C2_NAME = "cptr.company.name";
+    private static final String ASC = " asc";
+    private static final String DESC = " desc";
     private static Logger logger = LoggerFactory.getLogger(DAOHelper.class);
 
     /**
@@ -55,18 +52,4 @@ public class DAOHelper {
         return query;
     }
 
-
-    /**
-     * Convert LocalDate do database date.
-     *
-     * @param date the LocalDate to convert
-     * @return the converted date
-     */
-    public static Object convertToDatabaseColumn(LocalDate date) {
-        if (date != null) {
-            return Date.valueOf(date);
-        } else {
-            return null;
-        }
-    }
 }

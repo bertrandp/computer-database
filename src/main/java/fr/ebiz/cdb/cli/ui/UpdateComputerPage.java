@@ -36,9 +36,9 @@ public class UpdateComputerPage {
      * @param computer the computer to update
      * @return the input
      */
-    private String updateCompany(ComputerDTO computer) {
-        if (computer.getCompanyName() != null) {
-            System.out.println("* Company Name : " + computer.getCompanyName());
+    private String updateCompany(Computer computer) {
+        if (computer.getCompany().getName() != null) {
+            System.out.println("* Company Name : " + computer.getCompany().getName());
         } else {
             System.out.println("* Company Name : undefined");
         }
@@ -52,7 +52,7 @@ public class UpdateComputerPage {
      * @param computer the computer to update
      * @return the input
      */
-    private String updateDiscontinuedDate(ComputerDTO computer) {
+    private String updateDiscontinuedDate(Computer computer) {
         System.out.println("* Discontinued Date : " + computer.getDiscontinued());
         System.out.println("* Specify the new discontinued date or press Enter ");
         return inputUtils.inputDiscontinuedDate(computer);
@@ -64,7 +64,7 @@ public class UpdateComputerPage {
      * @param computer the computer to update
      * @return the input
      */
-    private String updateIntroducedDate(ComputerDTO computer) {
+    private String updateIntroducedDate(Computer computer) {
         System.out.println("* Introduced Date : " + computer.getIntroduced());
         System.out.println("* Specify the new introduced date or press Enter ");
         return inputUtils.inputIntroducedDate(computer);
@@ -76,7 +76,7 @@ public class UpdateComputerPage {
      * @param computer the computer to update
      * @return the input
      */
-    private String updateName(ComputerDTO computer) {
+    private String updateName(Computer computer) {
         System.out.println("* Name : " + computer.getName());
         System.out.println("* Specify the new name or press Enter to keep this name ");
         return inputUtils.inputName(computer);
@@ -92,10 +92,10 @@ public class UpdateComputerPage {
 
         if (!id.trim().isEmpty()) {
 
-            ComputerDTO computer;
+            Computer computer;
 
 
-            computer = computerService.getDTO(Integer.valueOf(id));
+            computer = computerService.get(Integer.valueOf(id));
 
             System.out.println("* Update computer : " + computer.getName());
             String name = updateName(computer);

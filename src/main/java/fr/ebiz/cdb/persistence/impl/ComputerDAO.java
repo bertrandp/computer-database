@@ -3,15 +3,13 @@ package fr.ebiz.cdb.persistence.impl;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.persistence.IComputerDAO;
-import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
 import fr.ebiz.cdb.persistence.utils.DAOHelper;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -20,64 +18,68 @@ import java.util.List;
 @Repository
 public class ComputerDAO implements IComputerDAO {
 
-    private static final String SQL_SELECT = "SELECT c1.id, c1.name, c1.introduced, c1.discontinued, c1.company_id, c2.name as company_name FROM computer c1 LEFT OUTER JOIN company c2 ON c1.company_id = c2.id";
-    private static final String COUNT_WITH_SEARCH = "SELECT count(*) AS total FROM computer c1 LEFT OUTER JOIN company c2 ON c1.company_id = c2.id";
-    private static final String SQL_COUNT = "SELECT count(*) AS total FROM computer";
-    private static final String LIKE = " WHERE c1.name LIKE ? OR c2.name LIKE ? ";
-    private static final String LIMIT_OFFSET = " LIMIT ? OFFSET ?";
-    private static final String WHERE_ID = " WHERE c1.id = ?";
-    private static final String SQL_INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id ) VALUES (?, ?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
-    private static final String SQL_DELETE = "DELETE FROM computer WHERE id = ?";
-    private static final String SQL_DELETE_BY_COMPANY_ID = "DELETE FROM computer WHERE company_id = ?";
+    public static final String HQL_FROM = " from computer as cptr ";
+    public static final String HQL_JOIN = " left outer join cptr.company as cpn ";
+    public static final String HQL_LIKE = " where cptr.name like :search or cpn.name like :search ";
+    public static final String HQL_DELETE = " delete from computer where id = :id ";
+    public static final String HQL_DELETE_BY_COMPANY_ID = " delete from computer as cptr where cptr.company.id = :id ";
+    private static final String HQL_COUNT = "SELECT count(cptr)";
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
-
-    private JdbcTemplate jdbcTemplate;
-
     @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
+    private SessionFactory sessionFactory;
 
     @Override
     public Computer fetchById(int id) {
-        return jdbcTemplate.queryForObject(SQL_SELECT + WHERE_ID, new Object[]{id}, new ComputerMapper());
+        return sessionFactory.getCurrentSession().get(Computer.class, id);
     }
 
     @Override
     public boolean add(Computer computer) {
-        return jdbcTemplate.update(SQL_INSERT, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId()) != 0;
+        return sessionFactory.getCurrentSession().save(computer) != null;
     }
 
     @Override
     public boolean update(Computer computer) {
-        return jdbcTemplate.update(SQL_UPDATE, computer.getName(), DAOHelper.convertToDatabaseColumn(computer.getIntroduced()), DAOHelper.convertToDatabaseColumn(computer.getDiscontinued()), computer.getCompany() == null ? null : computer.getCompany().getId(), computer.getId()) != 0;
+        sessionFactory.getCurrentSession().update(computer);
+        return true;
     }
 
     @Override
     public boolean delete(int computerId) {
-        return jdbcTemplate.update(SQL_DELETE, computerId) != 0;
+        return sessionFactory.getCurrentSession().createQuery(HQL_DELETE)
+                .setParameter("id", computerId)
+                .executeUpdate() == 1;
     }
 
     @Override
     public boolean deleteByCompanyId(Integer id) {
-        return jdbcTemplate.update(SQL_DELETE_BY_COMPANY_ID, id) != 0;
+        return sessionFactory.getCurrentSession().createQuery(HQL_DELETE_BY_COMPANY_ID)
+                .setParameter("id", id)
+                .executeUpdate() != 0;
     }
 
     @Override
     public List<Computer> fetchPage(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column) {
         String like = search == null ? "%" : "%" + search + "%";
         String orderByQuery = DAOHelper.buildOrderByQuery(order, column);
-        return jdbcTemplate.query(SQL_SELECT + LIKE + orderByQuery + LIMIT_OFFSET, new Object[]{like, like, limit, offset}, new ComputerMapper());
+
+        return sessionFactory.getCurrentSession().createQuery(HQL_FROM + HQL_JOIN + HQL_LIKE + orderByQuery)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .setParameter("search", like)
+                .list();
     }
 
     @Override
     public int count(String search) {
         if (search == null) {
-            return jdbcTemplate.queryForObject(SQL_COUNT, Integer.class);
+            Long nb = (Long) sessionFactory.getCurrentSession().createQuery(HQL_COUNT + HQL_FROM).list().get(0);
+            return nb.intValue();
         } else {
             String like = "%" + search + "%";
-            return jdbcTemplate.queryForObject(COUNT_WITH_SEARCH + LIKE, new Object[]{like, like}, Integer.class);
+            Long nb = (Long) sessionFactory.getCurrentSession().createQuery(HQL_COUNT + HQL_FROM + HQL_JOIN + HQL_LIKE)
+                    .setParameter("search", like).list().get(0);
+            return nb.intValue();
         }
     }
 

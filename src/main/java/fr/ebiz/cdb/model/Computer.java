@@ -1,17 +1,37 @@
 package fr.ebiz.cdb.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * Created by ebiz on 14/02/17.
  */
+@Entity(name = "computer")
 public class Computer implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
+
+    @Column
     private String name;
+
+    @Column
     private LocalDate introduced;
+
+    @Column
     private LocalDate discontinued;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
     private Company company;
 
     /**

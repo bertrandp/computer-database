@@ -36,7 +36,7 @@ public class CreateComputerPage {
      * @param newComputer computer to create
      * @return the input
      */
-    String writeName(ComputerDTO newComputer) {
+    String writeName(Computer newComputer) {
         System.out.println("* Name : ");
         return inputUtils.inputName(newComputer);
     }
@@ -47,7 +47,7 @@ public class CreateComputerPage {
      * @param newComputer computer to create
      * @return the input
      */
-    String writeIntroduced(ComputerDTO newComputer) {
+    String writeIntroduced(Computer newComputer) {
         System.out.println("* Introduced Date (" + DATE_FORMAT + ") : ");
         System.out.println("* (optional) ");
         return inputUtils.inputIntroducedDate(newComputer);
@@ -59,7 +59,7 @@ public class CreateComputerPage {
      * @param newComputer computer to create
      * @return the input
      */
-    String writeDiscontinued(ComputerDTO newComputer) {
+    String writeDiscontinued(Computer newComputer) {
         System.out.println("* Discontinued Date (" + DATE_FORMAT + ") : ");
         System.out.println("* (optional) ");
         return inputUtils.inputDiscontinuedDate(newComputer);
@@ -71,7 +71,7 @@ public class CreateComputerPage {
      * @param newComputer computer to create
      * @return the input
      */
-    String writeCompany(ComputerDTO newComputer) {
+    String writeCompany(Computer newComputer) {
         System.out.println("* Company : ");
         System.out.println("* (optional) ");
         return inputUtils.inputCompanyId(newComputer);
@@ -82,7 +82,7 @@ public class CreateComputerPage {
      */
     void display() {
 
-        ComputerDTO newComputer = new ComputerDTO();
+        Computer newComputer = new Computer();
         System.out.println("* Create a computer ");
         String name = writeName(newComputer);
         String introduced = writeIntroduced(newComputer);
@@ -94,7 +94,7 @@ public class CreateComputerPage {
                 .name(name)
                 .introduced(introduced)
                 .discontinued(discontinued)
-                .companyId(Integer.valueOf(companyId))
+                .companyId(companyId != null ? Integer.valueOf(companyId) : 0)
                 .build();
 
         ComputerValidator.validate(computerDTO);

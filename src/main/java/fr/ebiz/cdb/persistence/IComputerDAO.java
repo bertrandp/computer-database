@@ -61,7 +61,7 @@ public interface IComputerDAO {
      * @param column the column of the sort
      * @return the list of computerDTO
      */
-    List<Computer> fetchPage(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column);
+    List fetchPage(int limit, int offset, String search, ComputerPagerDTO.ORDER order, ComputerPagerDTO.COLUMN column);
 
     /**
      * Retrieve the number of computers.

@@ -2,7 +2,6 @@ package fr.ebiz.cdb.service.impl;
 
 import fr.ebiz.cdb.cli.validation.ComputerValidator;
 import fr.ebiz.cdb.model.Computer;
-import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import fr.ebiz.cdb.persistence.IComputerDAO;
 import fr.ebiz.cdb.persistence.mapper.ComputerMapper;
@@ -19,6 +18,7 @@ import java.util.List;
  * Created by ebiz on 14/02/17.
  */
 @Service
+@Transactional
 public class ComputerService implements IComputerService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerService.class);
@@ -27,8 +27,8 @@ public class ComputerService implements IComputerService {
     private IComputerDAO computerDAO;
 
     @Override
-    public ComputerDTO getDTO(Integer id) {
-        return ComputerMapper.mapToComputerDTO(computerDAO.fetchById(id));
+    public Computer get(Integer id) {
+        return computerDAO.fetchById(id);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ComputerService implements IComputerService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public ComputerPagerDTO fetchComputerList(ComputerPagerDTO page) {
 
         page.setCount(computerDAO.count(page.getSearch()));

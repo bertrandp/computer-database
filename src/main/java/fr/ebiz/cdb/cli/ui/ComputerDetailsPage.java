@@ -1,6 +1,6 @@
 package fr.ebiz.cdb.cli.ui;
 
-import fr.ebiz.cdb.model.dto.ComputerDTO;
+import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.service.IComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,16 +33,16 @@ public class ComputerDetailsPage {
         System.out.println("* Specify the computer's id :");
         String id = sc.nextLine();
 
-        ComputerDTO computer;
+        Computer computer;
 
-        computer = computerService.getDTO(Integer.valueOf(id));
+        computer = computerService.get(Integer.valueOf(id));
 
         System.out.println("---------------------------------------------------------------------------------");
         System.out.println("|\t****\t" + computer.getName() + "\t****");
         System.out.println("---------------------------------------------------------------------------------");
         System.out.println("|\t" + "Introduced Date" + "\t\tDiscontinued Date" + "\t\tCompany");
         System.out.println("---------------------------------------------------------------------------------");
-        System.out.println("|\t" + computer.getIntroduced() + "\t\t\t" + computer.getDiscontinued() + "\t\t\t\t" + computer.getCompanyName());
+        System.out.println("|\t" + computer.getIntroduced() + "\t\t\t" + computer.getDiscontinued() + "\t\t\t\t" + (computer.getCompany() != null ? computer.getCompany().getName() : "null"));
         System.out.println("---------------------------------------------------------------------------------");
 
 

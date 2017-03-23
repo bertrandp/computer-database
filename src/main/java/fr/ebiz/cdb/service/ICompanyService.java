@@ -18,14 +18,6 @@ public interface ICompanyService {
     List<Company> fetchAll();
 
     /**
-     * Retrieve the company for the given id.
-     *
-     * @param companyId the id of the computer
-     * @return the computer for the given id
-     */
-    Company fetchById(Integer companyId);
-
-    /**
      * Delete the company for the given id and delete the computers linked to this company.
      *
      * @param id the id of the company

@@ -3,11 +3,9 @@ package fr.ebiz.cdb.persistence.mapper;
 import fr.ebiz.cdb.model.Company;
 import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.model.dto.ComputerDTO;
-import org.springframework.jdbc.core.RowMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ import static fr.ebiz.cdb.cli.validation.ComputerValidator.DATE_FORMAT;
 /**
  * Created by bpestre on 23/02/17.
  */
-public class ComputerMapper implements RowMapper<Computer> {
+public class ComputerMapper {
 
     private static final String ID = "id";
     private static final String NAME = "name";
@@ -27,6 +25,7 @@ public class ComputerMapper implements RowMapper<Computer> {
     private static final String COMPANY_ID = "company_id";
     private static final String COMPANY_NAME = "company_name";
     private static final int DEFAULT_INT = 0;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComputerMapper.class);
 
     /**
      * Map the ComputerDTO to a Computer.
@@ -79,31 +78,16 @@ public class ComputerMapper implements RowMapper<Computer> {
      */
     public static List<ComputerDTO> mapToComputerDTOList(List<Computer> computers) {
         List<ComputerDTO> computerDTOS = new ArrayList<>();
-        for (Computer computer : computers) {
-            computerDTOS.add(mapToComputerDTO(computer));
-        }
-        return computerDTOS;
-    }
 
-    @Override
-    public Computer mapRow(ResultSet resultSet, int i) throws SQLException {
-        Computer computer = new Computer();
-        computer.setId(resultSet.getInt(ID));
-        computer.setName(resultSet.getString(NAME));
-        Date inputIntroduced = resultSet.getDate(INTRODUCED);
-        if (inputIntroduced != null) {
-            computer.setIntroduced(inputIntroduced.toLocalDate());
-        } else {
-            computer.setIntroduced(null);
+        for (int i = 0; i < computers.size(); i++) {
+            Object o = computers.get(i);
+            if (o.getClass().isArray()) {
+                Object[] array = (Object[]) o;
+                computerDTOS.add(mapToComputerDTO((Computer) array[0]));
+            }
         }
-        Date inputDiscontinued = resultSet.getDate(DISCONTINUED);
-        if (inputDiscontinued != null) {
-            computer.setDiscontinued(inputDiscontinued.toLocalDate());
-        } else {
-            computer.setDiscontinued(null);
-        }
-        computer.setCompany(new Company(resultSet.getInt(COMPANY_ID), resultSet.getString(COMPANY_NAME)));
-        return computer;
+
+        return computerDTOS;
     }
 
 }

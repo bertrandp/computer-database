@@ -17,7 +17,7 @@ public class ComputerDTO {
     private static final String REGEX = "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$";
 
     @Min(0)
-    private int id;
+    private Integer id;
 
     @NotNull
     @NotEmpty
@@ -31,7 +31,7 @@ public class ComputerDTO {
     private String discontinued;
 
     @Min(0)
-    private int companyId;
+    private Integer companyId;
 
     private String companyName;
 

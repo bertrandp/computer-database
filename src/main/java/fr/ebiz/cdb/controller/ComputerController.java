@@ -87,7 +87,7 @@ public class ComputerController {
     @GetMapping("edit")
     public String getEditComputer(ModelMap model, @RequestParam(ID) int id) {
 
-        model.addAttribute(COMPUTER, computerService.getDTO(id));
+        model.addAttribute(COMPUTER, ComputerMapper.mapToComputerDTO(computerService.get(id)));
         model.addAttribute(COMPANY_LIST, companyService.fetchAll());
         return "editComputer";
     }

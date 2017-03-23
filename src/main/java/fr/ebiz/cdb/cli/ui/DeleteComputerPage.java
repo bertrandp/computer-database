@@ -1,7 +1,7 @@
 package fr.ebiz.cdb.cli.ui;
 
 
-import fr.ebiz.cdb.model.dto.ComputerDTO;
+import fr.ebiz.cdb.model.Computer;
 import fr.ebiz.cdb.service.IComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +35,9 @@ public class DeleteComputerPage {
         String id = sc.nextLine();
 
         if (!id.trim().isEmpty()) {
-            ComputerDTO computer;
+            Computer computer;
 
-            computer = computerService.getDTO(Integer.valueOf(id));
+            computer = computerService.get(Integer.valueOf(id));
             System.out.println("* Do you really want to delete this computer : " + computer.getName());
             sc = new Scanner(System.in);
             System.out.println("* yes/no :");

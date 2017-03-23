@@ -17,6 +17,7 @@ import java.util.List;
  * Created by ebiz on 14/02/17.
  */
 @Service
+@Transactional
 public class CompanyService implements ICompanyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyService.class);
@@ -33,12 +34,7 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
-    public Company fetchById(Integer companyId) {
-        return companyDAO.fetch(companyId);
-    }
-
-    @Override
-    @Transactional
+    //@Transactional
     public boolean delete(Integer id) {
         computerDAO.deleteByCompanyId(id);
         companyDAO.delete(id);

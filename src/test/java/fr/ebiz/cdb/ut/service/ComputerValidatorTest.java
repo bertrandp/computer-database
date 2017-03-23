@@ -1,8 +1,6 @@
 package fr.ebiz.cdb.ut.service;
 
 import fr.ebiz.cdb.cli.validation.ComputerValidator;
-import fr.ebiz.cdb.cli.validation.InputValidationException;
-import fr.ebiz.cdb.model.dto.ComputerDTO;
 import fr.ebiz.cdb.model.dto.ComputerPagerDTO;
 import org.junit.Rule;
 import org.junit.Test;

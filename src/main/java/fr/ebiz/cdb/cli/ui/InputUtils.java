@@ -1,7 +1,7 @@
 package fr.ebiz.cdb.cli.ui;
 
 
-import fr.ebiz.cdb.model.dto.ComputerDTO;
+import fr.ebiz.cdb.model.Computer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +34,15 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    String inputCompanyId(ComputerDTO computer) {
+    String inputCompanyId(Computer computer) {
         listCompanyPage.display(false);
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {
             case "":
-                createComputerPage.writeCompany(computer);
                 break;
             default:
+                createComputerPage.writeCompany(computer);
                 return input;
         }
         return null;
@@ -54,7 +54,7 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    String inputDiscontinuedDate(ComputerDTO computer) {
+    String inputDiscontinuedDate(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {
@@ -85,7 +85,7 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    String inputIntroducedDate(ComputerDTO computer) {
+    String inputIntroducedDate(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
 
@@ -112,7 +112,7 @@ public class InputUtils {
      * @param computer the computer to update
      * @return the input
      */
-    String inputName(ComputerDTO computer) {
+    String inputName(Computer computer) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input.trim()) {

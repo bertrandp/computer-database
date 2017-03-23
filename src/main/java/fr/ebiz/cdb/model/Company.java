@@ -1,12 +1,30 @@
 package fr.ebiz.cdb.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * Created by bpestre on 14/02/17.
  */
+@Entity(name = "company")
 public class Company {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private int id;
+
+    @Column
     private String name;
+
+    /**
+     * Empty constructor.
+     */
+    public Company() {
+    }
 
     /**
      * Company constructor.
