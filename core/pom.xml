@@ -14,10 +14,12 @@
     <packaging>jar</packaging>
 
     <dependencies>
+
+        <!--Hibernate-->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate-core.version}</version>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>${hibernate-jpa-2.1-api.version}</version>
         </dependency>
     </dependencies>
 

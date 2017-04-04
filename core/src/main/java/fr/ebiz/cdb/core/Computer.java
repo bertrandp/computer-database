@@ -7,14 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * Created by ebiz on 14/02/17.
  */
 @Entity(name = "computer")
-public class Computer implements Serializable {
+public class Computer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

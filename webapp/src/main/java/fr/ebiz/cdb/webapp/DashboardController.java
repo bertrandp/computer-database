@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 /**
@@ -36,15 +38,19 @@ public class DashboardController {
      * @param model            model
      * @param computerPagerDTO computerPagerDTO
      * @param result           result
+     * @param error            error
      * @return the dashboard
      */
     @GetMapping
-    public String getDashboard(Model model, @Valid ComputerPagerDTO computerPagerDTO, BindingResult result) {
+    public String getDashboard(Model model, @Valid ComputerPagerDTO computerPagerDTO, BindingResult result,
+                               @RequestParam("error") Optional<String> error) {
 
         if (result.hasErrors()) {
             LOGGER.error(result.getAllErrors().toString());
             return "errorpages/500";
         }
+
+        model.addAttribute("error", error.orElse(null));
 
         LOGGER.debug("validate " + computerPagerDTO);
 

@@ -1,0 +1,44 @@
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http pattern="/static/**" security="none"/>
+
+    <http use-expressions="true">
+        <intercept-url pattern="/login*" access="isAnonymous()"/>
+        <intercept-url pattern="/computer/*" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/dashboard" access="hasRole('USER')"/>
+
+        <form-login login-page='/login'
+                    default-target-url='/dashboard'
+                    authentication-failure-url="/login?error=true"/>
+
+        <logout logout-success-url="/login"/>
+        <access-denied-handler error-page="/dashboard?error=403"/>
+
+        <!--<custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />-->
+        <csrf disabled="true"/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userService"/>
+    </authentication-manager>
+
+    <beans:bean id="digestFilter" class=
+            "org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
+        <beans:property name="userDetailsService" ref="userService"/>
+        <beans:property name="authenticationEntryPoint" ref="digestEntryPoint"/>
+    </beans:bean>
+
+    <beans:bean id="digestEntryPoint" class=
+            "org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">
+        <beans:property name="realmName" value="Contacts Realm via Digest Authentication"/>
+        <beans:property name="key" value="thisisthekey"/>
+        <beans:property name="nonceValiditySeconds" value="10"/>
+    </beans:bean>
+
+</beans:beans>

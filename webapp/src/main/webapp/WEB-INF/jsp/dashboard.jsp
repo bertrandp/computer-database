@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><spring:message code="label.computerDatabase" /></title>
+    <title><spring:message code="label.computerDatabase"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -19,8 +19,11 @@
 
 <section id="main">
     <div class="container">
+        <c:if test="${error == 403}">
+            <div id="messages" class="alert alert-danger"><spring:message code="label.403"/></div>
+        </c:if>
         <h1 id="homeTitle">
-            ${pager.count} <spring:message code="label.computersFound" />
+            ${pager.count} <spring:message code="label.computersFound"/>
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
@@ -28,14 +31,17 @@
                     <input type="hidden" value="${pager.limit}" id="limit" name="limit"/>
                     <spring:message code="label.filter" var="filter"/>
                     <spring:message code="label.search" var="search"/>
-                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="${search}" value="${pager.search}"/>
+                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="${search}"
+                           value="${pager.search}"/>
                     <input type="submit" id="searchsubmit" value="${filter}"
                            class="btn btn-primary"/>
                 </form>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" id="addComputer" href="${pageContext.request.contextPath}/computer/add"><spring:message code="label.addComputer" /></a>
-                <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="label.edit" /></a>
+                <a class="btn btn-success" id="addComputer"
+                   href="${pageContext.request.contextPath}/computer/add"><spring:message code="label.addComputer"/></a>
+                <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message
+                        code="label.edit"/></a>
             </div>
         </div>
     </div>
@@ -46,7 +52,8 @@
 
     <div class="container" style="margin-top: 10px;">
 
-        <tags:computerTable list="${pager.list}" limit="${pager.limit}" search="${pager.search}" order="${pager.order}" column="${pager.column}" />
+        <tags:computerTable list="${pager.list}" limit="${pager.limit}" search="${pager.search}" order="${pager.order}"
+                            column="${pager.column}"/>
 
     </div>
 </section>
@@ -55,7 +62,8 @@
     <div class="container text-center">
 
         <c:set var="lastPage" value="${pager.count / pager.limit + 1}"/>
-        <tags:pagination page="${pager.page}" limit="${pager.limit}" lastPage="${lastPage}" search="${pager.search}" order="${pager.order}" column="${pager.column}"/>
+        <tags:pagination page="${pager.page}" limit="${pager.limit}" lastPage="${lastPage}" search="${pager.search}"
+                         order="${pager.order}" column="${pager.column}"/>
 
     </div>
 </footer>

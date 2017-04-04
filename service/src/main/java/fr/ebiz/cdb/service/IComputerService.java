@@ -16,7 +16,6 @@ public interface IComputerService {
      *
      * @param id the id of the computer
      * @return the computer for the given id
-     * @throws DAOException exception raised when there is an error with DAO
      */
     Computer get(Integer id);
 
@@ -25,7 +24,6 @@ public interface IComputerService {
      *
      * @param computer the computer to add
      * @return true if the computer is added
-     * @throws DAOException exception raised if there is an error with DAO
      */
     boolean add(Computer computer);
 
@@ -34,7 +32,6 @@ public interface IComputerService {
      *
      * @param computer the computer to update
      * @return true if the computer is updated
-     * @throws DAOException exception raised if there is an error with DAO
      */
     boolean update(Computer computer);
 
@@ -43,7 +40,6 @@ public interface IComputerService {
      *
      * @param idList the list of computer to delete
      * @return true if the computers are deleted
-     * @throws DAOException exception raised if there is an error with DAO
      */
     boolean delete(List<Integer> idList);
 
@@ -52,7 +48,6 @@ public interface IComputerService {
      *
      * @param page the page index
      * @return the computerPagerDTO with the list of computer
-     * @throws DAOException exception raised if there is an error with DAO
      */
     ComputerPagerDTO fetchComputerList(ComputerPagerDTO page);
 

@@ -39,23 +39,15 @@ $(document).ready(function() {
                             var discMonth = disc.substring(5,7);
                             var discDay = disc.substring(8,10);
 
+                            var discontinuedDate = new Date(discYear,discMonth-1,discDay);
+
                             var introYear = intro.substring(0,4);
                             var introMonth = intro.substring(5,7);
                             var introDay = intro.substring(8,10);
 
-                            if(discYear > introYear) {
-                                return true;
-                            } else if (discYear == introYear) {
-                                if(discMonth > introMonth) {
-                                    return true;
-                                } else if (discMonth == introMonth) {
-                                    if(discDay > introDay) {
-                                        return true;
-                                    }
-                                }
-                            }
+                            var introducedDate = new Date(introYear,introMonth-1,introDay);
 
-                            return false;
+                            return introducedDate < discontinuedDate;
                         }
 
                     }
@@ -78,27 +70,19 @@ $(document).ready(function() {
                                 return true;
                             }
 
-                            var discDay = disc.substring(0,2);
-                            var discMonth = disc.substring(3,5);
-                            var discYear = disc.substring(6,10);
+                            var discYear = disc.substring(0,4);
+                            var discMonth = disc.substring(5,7);
+                            var discDay = disc.substring(8,10);
 
-                            var introDay = intro.substring(0,2);
-                            var introMonth = intro.substring(3,5);
-                            var introYear = intro.substring(6,10);
+                            var discontinuedDate = new Date(discYear,discMonth-1,discDay);
 
-                            if(discYear > introYear) {
-                                return true;
-                            } else if (discYear == introYear) {
-                                if(discMonth > introMonth) {
-                                    return true;
-                                } else if (discMonth == introMonth) {
-                                    if(discDay > introDay) {
-                                        return true;
-                                    }
-                                }
-                            }
+                            var introYear = intro.substring(0,4);
+                            var introMonth = intro.substring(5,7);
+                            var introDay = intro.substring(8,10);
 
-                            return false;
+                            var introducedDate = new Date(introYear,introMonth-1,introDay);
+
+                            return introducedDate < discontinuedDate;
                         }
 
                     }
