@@ -19,12 +19,6 @@ import static fr.ebiz.cdb.binding.utils.DatesValidator.DATE_FORMAT;
  */
 public class ComputerMapper {
 
-    private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String INTRODUCED = "introduced";
-    private static final String DISCONTINUED = "discontinued";
-    private static final String COMPANY_ID = "company_id";
-    private static final String COMPANY_NAME = "company_name";
     private static final int DEFAULT_INT = 0;
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerMapper.class);
 
@@ -36,7 +30,9 @@ public class ComputerMapper {
      */
     public static Computer mapToComputer(ComputerDTO computerDTO) {
         Computer computer = new Computer();
-        computer.setId(computerDTO.getId());
+        if (computerDTO.getId() != null) {
+            computer.setId(computerDTO.getId());
+        }
         computer.setName(computerDTO.getName());
         if (computerDTO.getIntroduced() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
@@ -48,7 +44,7 @@ public class ComputerMapper {
             LocalDate discontinuedLD = LocalDate.parse(computerDTO.getDiscontinued(), formatter);
             computer.setDiscontinued(discontinuedLD);
         }
-        if (computerDTO.getCompanyId() != DEFAULT_INT) {
+        if (computerDTO.getCompanyId() != null && computerDTO.getCompanyId() != DEFAULT_INT) {
             computer.setCompany(new Company(computerDTO.getCompanyId()));
         }
         return computer;

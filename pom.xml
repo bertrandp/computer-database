@@ -6,7 +6,7 @@
 
     <groupId>ebiz</groupId>
     <artifactId>computer-database</artifactId>
-    <version>0.7.0</version>
+    <version>0.8.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -166,6 +166,7 @@
         <hibernate-core.version>5.2.9.Final</hibernate-core.version>
         <hibernate-validator.version>5.4.1.Final</hibernate-validator.version>
         <versions-maven-plugin.version>2.3</versions-maven-plugin.version>
+        <jackson-databind.version>2.8.7</jackson-databind.version>
     </properties>
 
 </project>

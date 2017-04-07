@@ -59,7 +59,9 @@ public class ComputerService implements IComputerService {
     @Override
     public boolean delete(List<Integer> idList) {
         for (Integer id : idList) {
-            computerDAO.delete(id);
+            if (!computerDAO.delete(id)) {
+                return false;
+            }
         }
         return true;
     }

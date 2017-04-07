@@ -12,6 +12,7 @@
         <intercept-url pattern="/login*" access="isAnonymous()"/>
         <intercept-url pattern="/computer/*" access="hasRole('ADMIN')"/>
         <intercept-url pattern="/dashboard" access="hasRole('USER')"/>
+        <intercept-url pattern="/api*" access="isAnonymous()"/>
 
         <form-login login-page='/login'
                     default-target-url='/dashboard'

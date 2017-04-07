@@ -32,7 +32,9 @@ public class ComputerController {
     private static final String REDIRECT_DASHBOARD = "redirect:/dashboard";
     private static final String COMPUTER = "computer";
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerController.class);
-    private static final String ERROR_500 = "errorpages/500";
+    private static final String ERRORPAGES = "errorpages/500";
+    private static final String EDIT_COMPUTER = "editComputer";
+    private static final String ADD_COMPUTER = "addComputer";
 
     @Autowired
     private IComputerService computerService;
@@ -50,7 +52,7 @@ public class ComputerController {
     public String getAddComputer(ModelMap model) {
 
         model.addAttribute(COMPANY_LIST, companyService.fetchAll());
-        return "addComputer";
+        return ADD_COMPUTER;
     }
 
     /**
@@ -65,13 +67,13 @@ public class ComputerController {
 
         if (result.hasErrors()) {
             LOGGER.error(result.getAllErrors().toString());
-            return "errorpages/500";
+            return ERRORPAGES;
         }
 
         LOGGER.debug("addComputer parameters : " + computerDTO);
         Computer computer = ComputerMapper.mapToComputer(computerDTO);
         if (!computerService.add(computer)) {
-            return "errorpages/500";
+            return ERRORPAGES;
         }
 
         return REDIRECT_DASHBOARD;
@@ -89,7 +91,7 @@ public class ComputerController {
 
         model.addAttribute(COMPUTER, ComputerMapper.mapToComputerDTO(computerService.get(id)));
         model.addAttribute(COMPANY_LIST, companyService.fetchAll());
-        return "editComputer";
+        return EDIT_COMPUTER;
     }
 
     /**
@@ -104,13 +106,13 @@ public class ComputerController {
 
         if (result.hasErrors()) {
             LOGGER.error(result.getAllErrors().toString());
-            return "errorpages/500";
+            return ERRORPAGES;
         }
 
         LOGGER.debug("editComputer parameters : " + computerDTO);
         Computer computer = ComputerMapper.mapToComputer(computerDTO);
         if (!computerService.update(computer)) {
-            return "errorpages/500";
+            return ERRORPAGES;
         }
 
         return REDIRECT_DASHBOARD;
@@ -127,7 +129,7 @@ public class ComputerController {
 
         LOGGER.debug(" IDs of computers to delete : " + idList);
         if (!computerService.delete(idList)) {
-            return ERROR_500;
+            return ERRORPAGES;
         }
         return REDIRECT_DASHBOARD;
     }

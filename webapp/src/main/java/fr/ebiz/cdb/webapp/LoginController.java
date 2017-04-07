@@ -15,6 +15,8 @@ import java.util.Optional;
 @RequestMapping("login")
 public class LoginController {
 
+    public static final String LOGIN = "login";
+
     /**
      * Get login page.
      *
@@ -26,7 +28,7 @@ public class LoginController {
     public String getLogin(ModelMap model, @RequestParam("error") Optional<String> error) {
 
         model.addAttribute("error", error.orElse(null));
-        return "login";
+        return LOGIN;
     }
 
 }
